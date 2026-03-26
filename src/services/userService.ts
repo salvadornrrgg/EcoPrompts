@@ -1,15 +1,26 @@
 import { prisma } from '../lib/prisma.js';
+
+
 export const findAllUsers = async () => {
-return await prisma.user.findMany();
-};
-export const createUser = async (fullName: string, email: string) => {
-return await prisma.user.create({
-data: { fullName, email }
-});
+    return await prisma.user.findMany();
 };
 
 
-export const findFavAuthors = async (userId: number) => {
+enum UserType {
+  User = 0,
+  Mod = 1,
+  Admin = 2
+}
+
+export const createUser = async (username: string, email: string, password: string, userTypeInt: number ) => {
+    const userType = UserType[userTypeInt];
+    return await prisma.user.create({
+        data: {username, email, password, userType }
+    });
+};
+
+
+export const findUser = async (userId: number) => {
     const userExists = await prisma.user.findUnique({
         where: { id: userId }
     });
@@ -20,9 +31,6 @@ export const findFavAuthors = async (userId: number) => {
     return await prisma.user.findUnique({
         where: {
             id: userId  
-        },
-        select: {
-            favoriteAuthors: true
         }
     });
 };
