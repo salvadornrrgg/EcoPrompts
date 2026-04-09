@@ -18,9 +18,53 @@ email String @unique
 password String
 createdAt DateTime @default(now())
 userType String
+
+prompts Prompt[]
+comments Comment[]
+evals Eval[]
 }
 
 model Category {
 id Int @id @default(autoincrement())
-name String
+name String @unique
+
+prompts Prompt[]
 }
+
+model Prompt {
+id Int @id @default(autoincrement())
+title String
+description String
+prompt String
+AImodel String
+result String
+category Category @relation(fields:[categoryId], references: [id])
+categoryId Int
+user User @relation(fields: [userId], references: [id])
+userId Int
+createdAt DateTime @default(now())
+
+comments Comment[]
+evals Eval[]
+}
+
+model Comment {
+id Int @id @default(autoincrement())
+comment String
+user User @relation(fields: [userId], references: [id])
+userId Int
+prompt Prompt @relation(fields: [promptId], references: [id])
+promptId Int
+}
+
+model Eval {
+id Int @id @default(autoincrement())
+user User @relation(fields: [userId], references: [id])
+userId Int
+prompt Prompt @relation(fields: [promptId], references: [id])
+promptId Int
+}
+
+
+
+
