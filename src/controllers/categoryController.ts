@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as categoryService from '../services/categoryService.js';
+import * as categoryService from '../services/categoryService.ts';
 
 
 //  Obtém todas as categorias da base de dados.

@@ -2,6 +2,7 @@ import { prisma } from '../lib/prisma.js';
 
 
 
+
 // Obtem todas as categorias na base de dados
 
 export const findAllCategories = async () => {
@@ -38,7 +39,7 @@ export const createCategory = async (name: string) => {
 // Procura categoria por nome
 
 export const searchCategoryByName = async (chave: string) => {
-    return await prisma.category.findMany({
+    return await prisma.Category.findMany({
         where: {
             name: {
                 contains: chave,
@@ -54,7 +55,7 @@ export const searchCategoryByName = async (chave: string) => {
 // Categoria por Id
 
 export const findCategoryById = async (id: number) => {
-    return await prisma.category.findUnique({
+    return await prisma.Category.findUnique({
         where: { id },
         include: {
             prompts: true
