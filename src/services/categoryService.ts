@@ -1,51 +1,63 @@
 import { prisma } from '../lib/prisma.js';
 
-export const findAllBooks = async () => {
-    return await prisma.book.findMany({
-        include: {
-                author: true
+
+
+// Obtem todas as categorias na base de dados
+
+export const findAllCategories = async () => {
+    return await prisma.category.findMany({
+        orderBy: {
+            name: 'asc'
         }
     });
 };
 
-export const createBook = async (title: string, authorId: number) => {
-    const authorExists = await prisma.author.findUnique({
-        where: { id: authorId }
+
+
+// Cria categoria
+
+export const createCategory = async (name: string) => {
+    const existingCategory = await prisma.category.findUnique({
+        where: { name }
     });
 
-    if (!authorExists) {
-        throw new Error('AuthorID not found');
+    if (existingCategory) {
+        throw new Error('Category não existe');
     }
 
-    return await prisma.book.create({
+    return await prisma.category.create({
         data: {
-            title,
-            authorId
+            name
         }
     });
 };
 
-export const searchBookByName = async (chave: string) => {
-    return await prisma.book.findMany({
+
+
+
+// Procura categoria por nome
+
+export const searchCategoryByName = async (chave: string) => {
+    return await prisma.category.findMany({
         where: {
-            title: {
-                contains: chave
+            name: {
+                contains: chave,
+                mode: 'insensitive'
             }
-        },
-        include: {
-            author: true
         }
     });
 };
 
-export const findRecentBooks = async () => {
-    return await prisma.book.findMany({
-        orderBy: {
-            id: 'desc'
-        },
-        take: 3,
+
+
+
+// Categoria por Id
+
+export const findCategoryById = async (id: number) => {
+    return await prisma.category.findUnique({
+        where: { id },
         include: {
-                author: true
+            prompts: true
         }
     });
 };
