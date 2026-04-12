@@ -4,7 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -12,57 +12,80 @@ datasource db {
 }
 
 model User {
-id Int @id @default(autoincrement())
-username String
-email String @unique
-password String
-createdAt DateTime @default(now())
-userType String
+  id Int @id @default(autoincrement())
+  username String
+  email String @unique
+  password String
+  createdAt DateTime @default(now())
+  userType String
 
-prompts Prompt[]
-comments Comment[]
-evals Eval[]
+  prompts Prompt[]
+  comments Comment[]
+  evals Eval[]
+  versions Version[]        
 }
 
 model Category {
-id Int @id @default(autoincrement())
-name String @unique
+  id Int @id @default(autoincrement())
+  name String @unique
 
-prompts Prompt[]
+  prompts Prompt[]
 }
 
 model Prompt {
-id Int @id @default(autoincrement())
-title String
-description String
-prompt String
-AImodel String
-result String
-category Category @relation(fields:[categoryId], references: [id])
-categoryId Int
-user User @relation(fields: [userId], references: [id])
-userId Int
-createdAt DateTime @default(now())
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  prompt String
+  AImodel String
+  result String
+  category Category @relation(fields:[categoryId], references: [id])
+  categoryId Int
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  createdAt DateTime @default(now())
 
-comments Comment[]
-evals Eval[]
+  comments Comment[]
+  evals Eval[]
+  versions Version[]
+}
+
+model Version {
+  id Int @id @default(autoincrement())
+  versionNumber Int          // 1, 2, 3...
+  promptText String          // Texto do prompt modificado
+  improvements String?       // Descrição das melhorias feitas
+  createdAt DateTime @default(now())
+  
+  // Relação com o prompt original
+  promptId Int
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  
+  // Autor da versão (igual ao teu modelo User)
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  
+  // Avaliações específicas da versão (opcional)
+  rating Float @default(0)
+  
+  @@unique([promptId, versionNumber])
 }
 
 model Comment {
-id Int @id @default(autoincrement())
-comment String
-user User @relation(fields: [userId], references: [id])
-userId Int
-prompt Prompt @relation(fields: [promptId], references: [id])
-promptId Int
+  id Int @id @default(autoincrement())
+  comment String
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  prompt Prompt @relation(fields: [promptId], references: [id])
+  promptId Int
 }
 
 model Eval {
-id Int @id @default(autoincrement())
-user User @relation(fields: [userId], references: [id])
-userId Int
-prompt Prompt @relation(fields: [promptId], references: [id])
-promptId Int
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  prompt Prompt @relation(fields: [promptId], references: [id])
+  promptId Int
 }
 
 

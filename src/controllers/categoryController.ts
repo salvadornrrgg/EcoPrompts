@@ -1,68 +1,83 @@
 import { Request, Response } from 'express';
 import * as categoryService from '../services/categoryService.ts';
+import { createCategorySchema, categoryIdSchema, categorySearchSchema } from '../schemas/categorySchema.js';
 
-
-//  Obtém todas as categorias da base de dados.
-
- 
-
+// GET /categories - Devolve todas as categorias
 export const getAllCategories = async (req: Request, res: Response) => {
-    try {
-        const categories = await categoryService.findAllCategories();
-        res.json(categories);
-    } catch (error) {
-        res.status(500).json({ error: "Erro ao procurar categorias" });
-    }
+    const categories = await categoryService.findAllCategories();
+    res.json(categories);
 };
 
-
-
-// Cria categoria
-
+// POST /categories - Cria categoria
 export const createCategoryController = async (req: Request, res: Response) => {
-    const { name } = req.body;
+    // Validação com Zod
+    const result = createCategorySchema.safeParse(req.body);
 
-    // Validação de dados de entrada (Requisito de Engenharia [cite: 16, 65])
-    if (!name || name.trim() === '') {
-        return res.status(400).json({ error: "O nome da categoria é obrigatório" });
+    if (!result.success) {
+        return res.status(400).json({
+            error: "Dados inválidos",
+            errors: result.error.issues.map((issue) => ({
+                field: issue.path.join('.'),
+                message: issue.message
+            }))
+        });
     }
 
     try {
-        const newCategory = await categoryService.createCategory(name.trim());
+        const newCategory = await categoryService.createCategory(result.data.name);
         res.status(201).json(newCategory);
     } catch (error: any) {
-        // Tratamento consistente de erros, como categorias duplicadas [cite: 66]
+        console.error(error);
         res.status(400).json({ error: error.message || "Erro ao criar categoria" });
     }
 };
 
-
-
-// Procura categorias por nome
-
+// GET /categories/search?q= - Pesquisa categorias
 export const searchCategories = async (req: Request, res: Response) => {
-    const categoryName = String(req.query.q);
+    // Validar query parameter
+    const result = categorySearchSchema.safeParse({ q: req.query.q });
+
+    if (!result.success) {
+        return res.status(400).json({
+            error: "Parâmetro inválido",
+            errors: result.error.issues.map((issue) => ({
+                field: issue.path.join('.'),
+                message: issue.message
+            }))
+        });
+    }
+
     try {
-        const categories = await categoryService.searchCategoryByName(categoryName);
+        const categories = await categoryService.searchCategoryByName(result.data.q);
         res.json(categories);
-    } catch (error) {
+    } catch (error: any) {
+        console.error(error);
         res.status(500).json({ error: "Erro ao pesquisar categorias" });
     }
 };
 
-
-
-// Obtem categorias por Id
-
+// GET /categories/:id - Devolve categoria por ID
 export const getCategoryById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    // Validar ID com Zod
+    const result = categoryIdSchema.safeParse({ id: req.params.id });
+
+    if (!result.success) {
+        return res.status(400).json({
+            error: "ID inválido",
+            errors: result.error.issues.map((issue) => issue.message)
+        });
+    }
+
     try {
-        const category = await categoryService.findCategoryById(Number(id));
+        const category = await categoryService.findCategoryById(parseInt(result.data.id));
+        
         if (!category) {
             return res.status(404).json({ error: "Categoria não encontrada" });
         }
+        
         res.json(category);
-    } catch (error) {
+    } catch (error: any) {
+        console.error(error);
         res.status(500).json({ error: "Erro ao procurar a categoria" });
     }
 };

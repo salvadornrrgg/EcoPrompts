@@ -1,10 +1,6 @@
 import { prisma } from '../lib/prisma.js';
 
-
-
-
 // Obtem todas as categorias na base de dados
-
 export const findAllCategories = async () => {
     return await prisma.category.findMany({
         orderBy: {
@@ -13,17 +9,14 @@ export const findAllCategories = async () => {
     });
 };
 
-
-
 // Cria categoria
-
 export const createCategory = async (name: string) => {
     const existingCategory = await prisma.category.findUnique({
         where: { name }
     });
 
     if (existingCategory) {
-        throw new Error('Category não existe');
+        throw new Error('Category not found');
     }
 
     return await prisma.category.create({
@@ -33,13 +26,9 @@ export const createCategory = async (name: string) => {
     });
 };
 
-
-
-
 // Procura categoria por nome
-
 export const searchCategoryByName = async (chave: string) => {
-    return await prisma.Category.findMany({
+    return await prisma.category.findMany({
         where: {
             name: {
                 contains: chave,
@@ -49,13 +38,17 @@ export const searchCategoryByName = async (chave: string) => {
     });
 };
 
-
-
-
 // Categoria por Id
-
 export const findCategoryById = async (id: number) => {
-    return await prisma.Category.findUnique({
+    const categoryExists = await prisma.category.findUnique({
+        where: { id }
+    });
+
+    if (!categoryExists) {
+        throw new Error('Category not found');
+    }
+
+    return await prisma.category.findUnique({
         where: { id },
         include: {
             prompts: true
