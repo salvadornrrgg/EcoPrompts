@@ -17,38 +17,26 @@ export const createPromptSchema = z.object({
     categoryId: z.coerce.number()
         .int('categoryId deve ser um número inteiro')
         .positive('categoryId deve ser positivo'),
-    originalId: z.coerce.number()
+    userId: z.coerce.number()
         .int()
         .positive()
         .optional()
-        .nullable(),
-    versionNumber: z.coerce.number()
-        .int()
-        .positive()
-        .optional()
-        .default(1)
 });
 
 // Schema para atualizar prompt (todos opcionais)
 export const updatePromptSchema = createPromptSchema.partial();
 
-// Schema para ID
+// Schema para ID (apenas para parâmetros de rota)
 export const promptIdSchema = z.object({
     id: z.string().regex(/^\d+$/, 'ID deve ser um número inteiro positivo')
 });
 
-// Schema para search query
+// Schema para search query (NÃO valida id)
 export const promptSearchSchema = z.object({
     q: z.string()
         .min(1, 'Termo de pesquisa é obrigatório')
-        .trim(),
+        .trim()
+        .optional(),  // ← tornar opcional
     categoryId: z.coerce.number().int().positive().optional(),
     model: z.string().optional()
-});
-
-// Schema para versionNumber
-export const versionNumberSchema = z.object({
-    versionNumber: z.coerce.number()
-        .int()
-        .positive('Número da versão deve ser positivo')
 });

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as promptService from '../services/promptService.js';
 import * as versionService from '../services/versionService.js';
-import { createPromptSchema, promptIdSchema, updatePromptSchema, promptSearchSchema } from '../schemas/promptSchema.js';
+import { createPromptSchema, promptIdSchema, updatePromptSchema } from '../schemas/promptSchema.js';
 import { createVersionSchema } from '../schemas/versionSchema.js';
 
 // GET /prompts - Lista todos os prompts

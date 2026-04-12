@@ -39,10 +39,13 @@ model Prompt {
   prompt String
   AImodel String
   result String
+
   category Category @relation(fields:[categoryId], references: [id])
   categoryId Int
+
   user User @relation(fields: [userId], references: [id])
   userId Int
+  
   createdAt DateTime @default(now())
 
   comments Comment[]
