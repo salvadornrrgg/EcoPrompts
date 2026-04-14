@@ -1,0 +1,195 @@
+paths:
+  /prompts:
+    get:
+      tags:
+        - Prompts
+      summary: Retorna a lista de todos os prompts
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prompt'
+        500:
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags:
+        - Prompts
+      summary: Cria um novo prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePromptInput'
+      responses:
+        201:
+          description: Prompt criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prompt'
+        400:
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /prompts/{id}:
+    get:
+      tags:
+        - Prompts
+      summary: Retorna um prompt específico pelo ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt (número inteiro positivo)
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prompt'
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Prompt não encontrado
+
+    put:
+      tags:
+        - Prompts
+      summary: Atualiza um prompt existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePromptInput'
+      responses:
+        200:
+          description: Prompt atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prompt'
+        400:
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Prompt não encontrado
+
+    delete:
+      tags:
+        - Prompts
+      summary: Remove um prompt (e todas as suas versões)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      responses:
+        204:
+          description: Prompt removido com sucesso (sem conteúdo)
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Prompt não encontrado
+
+  /prompts/{id}/versions:
+    get:
+      tags:
+        - Prompts
+        - Versions
+      summary: Lista todas as versões de um prompt
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Version'
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags:
+        - Prompts
+        - Versions
+      summary: Cria uma nova versão para um prompt
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVersionInput'
+      responses:
+        201:
+          description: Versão criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Version'
+        400:
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

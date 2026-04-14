@@ -6,3 +6,5 @@ import {
 const router = Router();
 
 router.delete('/:id', adminDeleteRatingController);
+
+export default router;

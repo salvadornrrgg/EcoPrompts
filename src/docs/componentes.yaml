@@ -1,0 +1,425 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Dados inválidos"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "name"
+              message:
+                type: string
+                example: "O nome da categoria é obrigatório"
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "john_doe"
+        email:
+          type: string
+          example: "john@example.com"
+        userType:
+          type: integer
+          enum: [0, 1, 2]
+          example: 0
+          description: "0=User, 1=Mod, 2=Admin"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateUserInput:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 30
+          example: "john_doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        password:
+          type: string
+          minLength: 6
+          example: "123456"
+        userType:
+          type: integer
+          enum: [0, 1, 2]
+          default: 0
+          example: 0
+
+    UpdateUserInput:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 30
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+        userType:
+          type: integer
+          enum: [0, 1, 2]
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Tecnologia"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateCategoryInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: "Tecnologia"
+
+    CategoryWithPrompts:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        prompts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptBasic'
+
+    Prompt:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Prompt para ChatGPT"
+        description:
+          type: string
+          example: "Um prompt para gerar código TypeScript"
+        prompt:
+          type: string
+          example: "Gere uma função que calcule o fatorial"
+        AImodel:
+          type: string
+          example: "GPT-4"
+        result:
+          type: string
+          example: "function factorial(n) {...}"
+        categoryId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+        category:
+          $ref: '#/components/schemas/Category'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        evals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rating'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Version'
+
+    PromptBasic:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        AImodel:
+          type: string
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+        versions:
+          type: array
+          items:
+            type: object
+            properties:
+              versionNumber:
+                type: integer
+              promptText:
+                type: string
+
+    CreatePromptInput:
+      type: object
+      required:
+        - title
+        - description
+        - prompt
+        - AImodel
+        - result
+        - categoryId
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 100
+          example: "Prompt para ChatGPT"
+        description:
+          type: string
+          minLength: 10
+          maxLength: 500
+          example: "Um prompt para gerar código TypeScript"
+        prompt:
+          type: string
+          minLength: 5
+          example: "Gere uma função que calcule o fatorial"
+        AImodel:
+          type: string
+          example: "GPT-4"
+        result:
+          type: string
+          example: "function factorial(n) {...}"
+        categoryId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+
+    UpdatePromptInput:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 100
+        description:
+          type: string
+          minLength: 10
+          maxLength: 500
+        prompt:
+          type: string
+          minLength: 5
+        AImodel:
+          type: string
+        result:
+          type: string
+        categoryId:
+          type: integer
+
+    Version:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        versionNumber:
+          type: integer
+          example: 2
+        promptText:
+          type: string
+          example: "Gere uma função recursiva para fatorial"
+        improvements:
+          type: string
+          example: "Melhorada a eficiência"
+        rating:
+          type: integer
+          example: 5
+        promptId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+
+    CreateVersionInput:
+      type: object
+      required:
+        - promptText
+      properties:
+        promptText:
+          type: string
+          minLength: 5
+          example: "Gere uma função recursiva para fatorial"
+        improvements:
+          type: string
+          maxLength: 500
+          example: "Melhorada a eficiência"
+        rating:
+          type: integer
+          minimum: 0
+          maximum: 5
+          default: 0
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        comment:
+          type: string
+          example: "Ótimo prompt!"
+        promptId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+
+    CreateCommentInput:
+      type: object
+      required:
+        - comment
+        - userId
+      properties:
+        comment:
+          type: string
+          minLength: 1
+          example: "Ótimo prompt!"
+        userId:
+          type: integer
+          example: 1
+
+    Rating:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        score:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+        promptId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+
+    CreateRatingInput:
+      type: object
+      required:
+        - score
+        - userId
+      properties:
+        score:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+        userId:
+          type: integer
+          example: 1
+
+    UpdateRatingInput:
+      type: object
+      required:
+        - score
+        - userId
+      properties:
+        score:
+          type: integer
+          minimum: 1
+          maximum: 5
+        userId:
+          type: integer
