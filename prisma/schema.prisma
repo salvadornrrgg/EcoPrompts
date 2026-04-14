@@ -77,6 +77,8 @@ model Version {
 model Comment {
   id Int @id @default(autoincrement())
   comment String
+  createdAt DateTime @default(now()) //Acho que fica bacano adicionar data do comentário
+
   user User @relation(fields: [userId], references: [id])
   userId Int
   prompt Prompt @relation(fields: [promptId], references: [id])
@@ -85,10 +87,15 @@ model Comment {
 
 model Eval {
   id Int @id @default(autoincrement())
+  
+  score Int // acho que devia haver aqui uma cena de score para registar
+  createdAt DateTime @default(now()) // Aqui tbm Acho que fica bacano adicionar data do comentário
+
   user User @relation(fields: [userId], references: [id])
   userId Int
   prompt Prompt @relation(fields: [promptId], references: [id])
   promptId Int
+  @@unique([userId, promptId]) //adicionei isto pq assim um user so pode avaliar um mesmo prompt uma vez e nao ter varias avaliaçao no mesmo prompt
 }
 
 

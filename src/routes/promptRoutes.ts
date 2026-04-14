@@ -8,6 +8,15 @@ import {
     getVersionsByPromptController,
     createVersionController
 } from '../controllers/promptController.js';
+import { 
+    getCommentsByPromptController, 
+    createCommentsController 
+} from '../controllers/commentController.js';
+import { 
+    createRatingPromptController, 
+    updateRatingPromptController,
+    deleteRatingPromptController 
+} from '../controllers/ratingController.js';
 
 const router = Router();
 
@@ -22,4 +31,12 @@ router.delete('/:id', deletePromptController);
 router.get('/:id/versions', getVersionsByPromptController);
 router.post('/:id/versions', createVersionController);
 
+// Rotas aninhadas de comentários
+router.get('/:id/comments', getCommentsByPromptController);
+router.post('/:id/comments', createCommentsController);
+
+// Rotas aninhadas de avaliações
+router.post('/:id/rating', createRatingPromptController);
+router.put('/:id/rating', updateRatingPromptController);
+router.delete('/:id/rating', deleteRatingPromptController);
 export default router;

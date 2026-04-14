@@ -11,7 +11,7 @@ export const getPromptsController = async (req: Request, res: Response) => {
         res.json(prompts);
     } catch (error: any) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao buscar prompts" });
+        res.status(500).json({ error: error.message || "Erro ao buscar prompts" });
     }
 };
 
@@ -34,7 +34,7 @@ export const getPromptController = async (req: Request, res: Response) => {
         if (error.message === 'Prompt not found') {
             res.status(404).json({ error: "Prompt não encontrado" });
         } else {
-            res.status(500).json({ error: "Erro ao buscar prompt" });
+            res.status(500).json({ error: error.message || "Erro ao buscar prompt" });
         }
     }
 };
@@ -54,7 +54,6 @@ export const createPromptController = async (req: Request, res: Response) => {
     }
 
     try {
-        // TODO: Pegar userId do token de autenticação
         const userId = req.body.userId || 1;
         
         const newPrompt = await promptService.createPrompt({
@@ -140,7 +139,6 @@ export const getVersionsByPromptController = async (req: Request, res: Response)
 
 // POST /prompts/:id/versions - Cria nova versão
 export const createVersionController = async (req: Request, res: Response) => {
-    // Validar ID do prompt
     const idResult = promptIdSchema.safeParse({ id: req.params.id });
     if (!idResult.success) {
         return res.status(400).json({
@@ -149,7 +147,6 @@ export const createVersionController = async (req: Request, res: Response) => {
         });
     }
 
-    // Validar dados da versão
     const dataResult = createVersionSchema.safeParse(req.body);
     if (!dataResult.success) {
         return res.status(400).json({
@@ -162,8 +159,7 @@ export const createVersionController = async (req: Request, res: Response) => {
     }
 
     try {
-        // TODO: Pegar userId do token de autenticação
-        const userId = req.body.userId || 1;
+        const userId = req.body.userId || 1; //substituir
         
         const newVersion = await versionService.createVersion(
             parseInt(idResult.data.id),

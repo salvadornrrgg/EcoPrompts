@@ -16,7 +16,7 @@ export const createCategory = async (name: string) => {
     });
 
     if (existingCategory) {
-        throw new Error('Category not found');
+        throw new Error('Category already exists');
     }
 
     return await prisma.category.create({
@@ -38,20 +38,40 @@ export const searchCategoryByName = async (chave: string) => {
     });
 };
 
-// Categoria por Id
+// Procura Categoria por Id
 export const findCategoryById = async (id: number) => {
+    const category = await prisma.category.findUnique({
+        where: { id },
+        include: { prompts: true }
+    });
+
+    if (!category) {
+        throw new Error('Category not found');
+    }
+
+    return category;
+};
+
+// Lista prompts pertencentes a uma determinada categoria
+export const getPromptsByCategoryId = async (categoryId: number) => {
     const categoryExists = await prisma.category.findUnique({
-        where: { id }
+        where: { id: categoryId }
     });
 
     if (!categoryExists) {
         throw new Error('Category not found');
     }
 
-    return await prisma.category.findUnique({
-        where: { id },
+    return await prisma.prompt.findMany({
+        where: { categoryId: categoryId },
         include: {
-            prompts: true
+            user: {
+                select: { id: true, username: true } 
+            },
+            versions: {
+                take: 1,
+                orderBy: { createdAt: 'desc' } 
+            }
         }
     });
 };

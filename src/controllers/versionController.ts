@@ -21,7 +21,7 @@ export const getVersionController = async (req: Request, res: Response) => {
         if (error.message === 'Version not found') {
             res.status(404).json({ error: "Versão não encontrada" });
         } else {
-            res.status(500).json({ error: "Erro ao buscar versão" });
+            res.status(500).json({ error: error.message || "Erro ao buscar versão" });
         }
     }
 };

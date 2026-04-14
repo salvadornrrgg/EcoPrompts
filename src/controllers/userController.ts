@@ -12,7 +12,6 @@ export const getUsersController = async (req: Request, res: Response) => {
 
 // POST /users - Cria utilizador
 export const createUserController = async (req: Request, res: Response) => {
-    // Validação com Zod
     const result = createUserSchema.safeParse(req.body);
 
     if (!result.success) {
@@ -41,7 +40,6 @@ export const createUserController = async (req: Request, res: Response) => {
 
 // GET /users/:id - Devolve utilizador
 export const getUserController = async (req: Request, res: Response) => {
-    // Validar ID com Zod
     const result = userIdSchema.safeParse({ id: req.params.id });
 
     if (!result.success) {
@@ -61,7 +59,6 @@ export const getUserController = async (req: Request, res: Response) => {
 
 // PUT /users/:id - Atualizar utilizador
 export const updateUserController = async (req: Request, res: Response) => {
-    // Validar ID
     const idResult = userIdSchema.safeParse({ id: req.params.id });
     if (!idResult.success) {
         return res.status(400).json({
@@ -70,7 +67,6 @@ export const updateUserController = async (req: Request, res: Response) => {
         });
     }
 
-    // Validar dados de atualização
     const dataResult = updateUserSchema.safeParse(req.body);
 
     if (!dataResult.success) {
@@ -93,7 +89,6 @@ export const updateUserController = async (req: Request, res: Response) => {
 
 // DELETE /users/:id - Remover utilizador
 export const deleteUserController = async (req: Request, res: Response) => {
-    // Validar ID
     const result = userIdSchema.safeParse({ id: req.params.id });
 
     if (!result.success) {

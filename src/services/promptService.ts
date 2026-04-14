@@ -25,37 +25,22 @@ export const findAllPrompts = async () => {
 
 // GET prompt by ID
 export const findPromptById = async (id: number) => {
-    const promptExists = await prisma.prompt.findUnique({
-        where: { id }
+    const prompt = await prisma.prompt.findUnique({
+        where: { id },
+        include: {
+            user: { select: { id: true, username: true } },
+            category: true,
+            comments: { include: { user: { select: { id: true, username: true } } } },
+            evals: true,
+            versions: { orderBy: { versionNumber: 'asc' }, include: { user: { select: { id: true, username: true } } } }
+        }
     });
 
-    if (!promptExists) {
+    if (!prompt) {
         throw new Error('Prompt not found');
     }
 
-    return await prisma.prompt.findUnique({
-        where: { id },
-        include: {
-            user: {
-                select: { id: true, username: true }
-            },
-            category: true,
-            comments: {
-                include: {
-                    user: { select: { id: true, username: true } }
-                }
-            },
-            evals: true,
-            versions: {
-                orderBy: { versionNumber: 'asc' },
-                include: {
-                    user: {
-                        select: { id: true, username: true }
-                    }
-                }
-            }
-        }
-    });
+    return prompt;
 };
 
 // CREATE prompt

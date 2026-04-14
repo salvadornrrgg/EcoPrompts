@@ -10,7 +10,6 @@ export const getAllCategories = async (req: Request, res: Response) => {
 
 // POST /categories - Cria categoria
 export const createCategoryController = async (req: Request, res: Response) => {
-    // Validação com Zod
     const result = createCategorySchema.safeParse(req.body);
 
     if (!result.success) {
@@ -34,7 +33,6 @@ export const createCategoryController = async (req: Request, res: Response) => {
 
 // GET /categories/search?q= - Pesquisa categorias
 export const searchCategories = async (req: Request, res: Response) => {
-    // Validar query parameter
     const result = categorySearchSchema.safeParse({ q: req.query.q });
 
     if (!result.success) {
@@ -52,13 +50,12 @@ export const searchCategories = async (req: Request, res: Response) => {
         res.json(categories);
     } catch (error: any) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao pesquisar categorias" });
+        res.status(500).json({ error: error.message || "Erro ao pesquisar categorias" });
     }
 };
 
 // GET /categories/:id - Devolve categoria por ID
 export const getCategoryById = async (req: Request, res: Response) => {
-    // Validar ID com Zod
     const result = categoryIdSchema.safeParse({ id: req.params.id });
 
     if (!result.success) {
@@ -78,6 +75,28 @@ export const getCategoryById = async (req: Request, res: Response) => {
         res.json(category);
     } catch (error: any) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao procurar a categoria" });
+        res.status(500).json({ error: error.message || "Erro ao procurar a categoria" });
+    }
+};
+
+// GET /categories/:id/prompts - Devolve lista de prompts pertencentes a uma determinada categoria
+export const getPromptsByCategoryId = async (req: Request, res: Response) => {
+    const result = categoryIdSchema.safeParse({ id: req.params.id });
+
+    if (!result.success) {
+        return res.status(400).json({
+            error: "ID inválido",
+            errors: result.error.issues.map((issue) => issue.message)
+        });
+    }
+
+    try {
+        const categoryId = parseInt(result.data.id);
+        const prompts = await categoryService.getPromptsByCategoryId(categoryId);
+        res.json(prompts);
+    } catch (error: any) {
+        console.error(error);
+        const status = error.message === 'Category not found' ? 404 : 500;
+        res.status(status).json({ error: error.message || "Erro ao procurar prompts da categoria" });
     }
 };
