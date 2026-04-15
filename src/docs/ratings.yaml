@@ -1,9 +1,9 @@
-paths:
-  /prompts/{id}/rating:
-    post:
+  /prompts/{id}/versions:
+    get:
       tags:
-        - Ratings
-      summary: Cria uma nova avaliação para um prompt
+        - Prompts
+        - Versions
+      summary: Lista todas as versões de um prompt
       parameters:
         - in: path
           name: id
@@ -12,64 +12,33 @@ paths:
             type: integer
             minimum: 1
           description: ID do prompt
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateRatingInput'
-      responses:
-        201:
-          description: Avaliação criada com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Rating'
-        400:
-          description: Dados inválidos
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-
-    put:
-      tags:
-        - Ratings
-      summary: Atualiza uma avaliação existente
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-          description: ID do prompt
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateRatingInput'
       responses:
         200:
-          description: Avaliação atualizada com sucesso
+          description: Sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rating'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Version'
         400:
-          description: Dados inválidos
+          description: ID inválido
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         404:
-          description: Avaliação não encontrada
+          description: Prompt não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
-    delete:
+    post:
       tags:
-        - Ratings
-      summary: Remove a avaliação do utilizador para um prompt
+        - Prompts
+        - Versions
+      summary: Cria uma nova versão para um prompt
       parameters:
         - in: path
           name: id
@@ -83,44 +52,23 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                userId:
-                  type: integer
-                  example: 1
+              $ref: '#/components/schemas/CreateVersionInput'
       responses:
-        204:
-          description: Avaliação removida com sucesso (sem conteúdo)
+        201:
+          description: Versão criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Version'
         400:
-          description: ID inválido
+          description: Dados inválidos
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         404:
-          description: Avaliação não encontrada
-
-  /ratings/{id}:
-    delete:
-      tags:
-        - Ratings
-      summary: Remove uma avaliação como administrador
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-          description: ID da avaliação
-      responses:
-        204:
-          description: Avaliação removida com sucesso (sem conteúdo)
-        400:
-          description: ID inválido
+          description: Prompt não encontrado
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        404:
-          description: Avaliação não encontrada

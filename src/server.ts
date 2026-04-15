@@ -5,6 +5,8 @@ import promptRoutes from './routes/promptRoutes.ts';
 import versionRoutes from './routes/versionRoutes.ts';
 import commentRoutes from './routes/commentRoutes.ts';
 import ratingRoutes from './routes/ratingRoutes.ts'
+import authRoutes from './routes/authRoutes.ts';
+
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './lib/swagger.js';
 
@@ -18,6 +20,7 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/prompts', promptRoutes);
 app.use('/api/versions', versionRoutes);
 app.use('/api/ratings', ratingRoutes);
+app.use('/api/auth', authRoutes);
 
 //swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

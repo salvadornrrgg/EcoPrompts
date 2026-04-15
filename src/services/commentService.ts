@@ -1,15 +1,15 @@
 import { prisma } from '../lib/prisma.js';
 
-//Obtém um comentário específico
+// Obtém um comentário específico
 export const findCommentById = async (commentId: number) => {
     const commentExists = await prisma.comment.findUnique({
         where: { id: commentId },
         include: {
             user: {
-                select: { id: true, username: true } // Traz o nome de quem comentou
+                select: { id: true, username: true }
             },
             prompt: {
-                select: { id: true, title: true } // Traz o título do prompt onde foi feito
+                select: { id: true, title: true }
             }
         }
     });
@@ -18,9 +18,8 @@ export const findCommentById = async (commentId: number) => {
         throw new Error('Comment not found');
     }
 
-    return commentExists
+    return commentExists;
 };
-
 
 // Remover um comentário
 export const deleteComment = async (commentId: number) => {
@@ -29,11 +28,11 @@ export const deleteComment = async (commentId: number) => {
     });
 
     if (!commentExists) {
-        throw new Error('comment not found');
+        throw new Error('Comment not found');
     }
 
     return await prisma.comment.delete({
-        where: { id:commentId }
+        where: { id: commentId }
     });
 };
 
@@ -51,23 +50,33 @@ export const getCommentsByPromptId = async (id: number) => {
         where: { promptId: id },
         include: {
             user: {
-                select: { id: true, username: true } 
+                select: { id: true, username: true }
             }
         },
         orderBy: {
-            createdAt: 'desc' 
+            createdAt: 'desc'
         }
     });
 };
 
-// Adiciona comentário a um prompt
+// Adiciona comentário a um prompt - COM VALIDAÇÃO PRÉVIA
 export const createComment = async (promptId: number, userId: number, comment: string) => {
+    // Validar se o prompt existe
     const promptExists = await prisma.prompt.findUnique({
         where: { id: promptId }
     });
 
     if (!promptExists) {
         throw new Error('Prompt not found');
+    }
+    
+    // Validar se o utilizador existe
+    const userExists = await prisma.user.findUnique({
+        where: { id: userId }
+    });
+    
+    if (!userExists) {
+        throw new Error('User not found');
     }
 
     return await prisma.comment.create({
@@ -78,7 +87,7 @@ export const createComment = async (promptId: number, userId: number, comment: s
         },
         include: {
             user: {
-                select: { id: true, username: true } 
+                select: { id: true, username: true }
             }
         }
     });

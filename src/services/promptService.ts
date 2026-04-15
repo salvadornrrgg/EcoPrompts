@@ -43,7 +43,7 @@ export const findPromptById = async (id: number) => {
     return prompt;
 };
 
-// CREATE prompt
+// CREATE prompt - com validação prévia
 export const createPrompt = async (data: {
     title: string;
     description: string;
@@ -53,6 +53,24 @@ export const createPrompt = async (data: {
     categoryId: number;
     userId: number;
 }) => {
+    // Validar se a categoria existe
+    const categoryExists = await prisma.category.findUnique({
+        where: { id: data.categoryId }
+    });
+    
+    if (!categoryExists) {
+        throw new Error('Category not found');
+    }
+    
+    // Validar se o utilizador existe
+    const userExists = await prisma.user.findUnique({
+        where: { id: data.userId }
+    });
+    
+    if (!userExists) {
+        throw new Error('User not found');
+    }
+
     return await prisma.prompt.create({
         data: {
             title: data.title,
@@ -88,6 +106,17 @@ export const updatePrompt = async (id: number, data: {
     if (!promptExists) {
         throw new Error('Prompt not found');
     }
+    
+    // Se for atualizar a categoria, validar se existe
+    if (data.categoryId) {
+        const categoryExists = await prisma.category.findUnique({
+            where: { id: data.categoryId }
+        });
+        
+        if (!categoryExists) {
+            throw new Error('Category not found');
+        }
+    }
 
     return await prisma.prompt.update({
         where: { id },
@@ -101,7 +130,7 @@ export const updatePrompt = async (id: number, data: {
     });
 };
 
-// DELETE prompt (e todas as suas versões - onDelete: Cascade)
+// DELETE prompt
 export const deletePrompt = async (id: number) => {
     const promptExists = await prisma.prompt.findUnique({
         where: { id }

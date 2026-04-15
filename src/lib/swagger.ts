@@ -4,12 +4,12 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'PromptHub API',
+      title: 'EcoPrompt API',
       version: '1.0.0',
-      description: 'API para gerenciamento de prompts, categorias, comentários, avaliações e versões',
+      description: 'API para gerenciamento de prompts, categorias, comentários, avaliações, utilizadores e versões',
       contact: {
         name: 'API Support',
-        email: 'support@prompthub.com'
+        email: 'support@ecoprompt.com'
       }
     },
     servers: [

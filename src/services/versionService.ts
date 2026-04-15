@@ -52,19 +52,28 @@ export const findVersionById = async (id: number) => {
     });
 };
 
-// CREATE version
+// CREATE version - COM VALIDAÇÃO PRÉVIA
 export const createVersion = async (promptId: number, userId: number, data: {
     promptText: string;
     improvements?: string;
     rating?: number;
 }) => {
-    // Verificar se o prompt original existe
+    // Validar se o prompt original existe
     const promptExists = await prisma.prompt.findUnique({
         where: { id: promptId }
     });
 
     if (!promptExists) {
         throw new Error('Prompt not found');
+    }
+    
+    // Validar se o utilizador existe
+    const userExists = await prisma.user.findUnique({
+        where: { id: userId }
+    });
+    
+    if (!userExists) {
+        throw new Error('User not found');
     }
 
     // Calcular próximo número de versão

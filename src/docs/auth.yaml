@@ -1,0 +1,71 @@
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Autentica um utilizador e retorna um token
+      description: Endpoint provisório para autenticação. Nesta fase, retorna um token falso e os dados do utilizador sem a password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "joao@example.com"
+                  description: Email do utilizador
+                password:
+                  type: string
+                  minLength: 6
+                  example: "123456"
+                  description: Password do utilizador
+      responses:
+        200:
+          description: Login bem-sucedido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      username:
+                        type: string
+                        example: "joao"
+                      email:
+                        type: string
+                        example: "joao@example.com"
+                      userType:
+                        type: integer
+                        enum: [0, 1, 2]
+                        example: 0
+                  token:
+                    type: string
+                    example: "fake-token-1-1734567890123"
+                    description: Token de autenticação (falso nesta fase)
+        400:
+          description: Dados inválidos (email ou password em falta/formato errado)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Credenciais inválidas (email ou password incorretos)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Credenciais inválidas"
