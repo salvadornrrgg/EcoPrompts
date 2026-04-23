@@ -2,15 +2,36 @@ import { type Request, type Response } from 'express';
 import * as userService from '../services/userService.ts';
 import { createUserSchema, userIdSchema, updateUserSchema } from '../schemas/userSchema.js';
 
+/**
+ * Controlador para operações relacionadas a utilizadores
+ * Gerencia todas as operações CRUD para utilizadores
+ */
 
-// GET /users - Devolve utilizadores
+
+/**
+ * GET /users - Devolve todos os utilizadores
+ * Endpoint: GET /api/users
+ *
+ * @param req Objeto Request do Express
+ * @param res Objeto Response do Express
+ * @returns Lista de todos os utilizadores em formato JSON
+ */
 export const getUsersController = async (req: Request, res: Response) => {
     const users = await userService.findAllUsers();
     res.json(users);
 };
 
 
-// POST /users - Cria utilizador
+/**
+ * POST /users - Cria um novo utilizador
+ * Endpoint: POST /api/users
+ *
+ * Valida os dados de entrada usando Zod schema e cria um novo utilizador no sistema
+ *
+ * @param req Objeto Request do Express contendo body com dados do utilizador
+ * @param res Objeto Response do Express
+ * @returns Utilizador criado com status 201 ou erro de validação com status 400
+ */
 export const createUserController = async (req: Request, res: Response) => {
     const result = createUserSchema.safeParse(req.body);
 
@@ -38,7 +59,16 @@ export const createUserController = async (req: Request, res: Response) => {
     }
 };
 
-// GET /users/:id - Devolve utilizador
+/**
+ * GET /users/:id - Obtém um utilizador específico pelo ID
+ * Endpoint: GET /api/users/:id
+ *
+ * Valida o parâmetro ID e busca o utilizador correspondente no sistema
+ *
+ * @param req Objeto Request do Express com parâmetro ID na URL
+ * @param res Objeto Response do Express
+ * @returns Utilizador encontrado com status 200, erro 400 para ID inválido, ou 404 se não encontrado
+ */
 export const getUserController = async (req: Request, res: Response) => {
     const result = userIdSchema.safeParse({ id: req.params.id });
 
@@ -57,7 +87,17 @@ export const getUserController = async (req: Request, res: Response) => {
     }
 };
 
-// PUT /users/:id - Atualizar utilizador
+/**
+ * PUT /users/:id - Atualiza informações de um utilizador existente
+ * Endpoint: PUT /api/users/:id
+ *
+ * Valida tanto o ID do parâmetro como os dados do corpo da requisição
+ * Permite atualização parcial dos campos do utilizador
+ *
+ * @param req Objeto Request do Express com ID na URL e dados no body
+ * @param res Objeto Response do Express
+ * @returns Utilizador atualizado com status 200 ou erros apropriados
+ */
 export const updateUserController = async (req: Request, res: Response) => {
     const idResult = userIdSchema.safeParse({ id: req.params.id });
     if (!idResult.success) {
@@ -87,7 +127,17 @@ export const updateUserController = async (req: Request, res: Response) => {
     }
 };
 
-// DELETE /users/:id - Remover utilizador
+/**
+ * DELETE /users/:id - Remove um utilizador do sistema
+ * Endpoint: DELETE /api/users/:id
+ *
+ * Valida o ID do parâmetro e remove o utilizador correspondente
+ * Retorna status 204 (No Content) em caso de sucesso
+ *
+ * @param req Objeto Request do Express com ID na URL
+ * @param res Objeto Response do Express
+ * @returns Status 204 em caso de sucesso ou erros apropriados
+ */
 export const deleteUserController = async (req: Request, res: Response) => {
     const result = userIdSchema.safeParse({ id: req.params.id });
 
