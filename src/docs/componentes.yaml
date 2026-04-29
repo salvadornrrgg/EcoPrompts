@@ -37,14 +37,14 @@ components:
           type: string
           example: "john@example.com"
         userType:
-          type: integer
-          enum: [0, 1, 2]
-          example: 0
-          description: "0=User, 1=Mod, 2=Admin"
-        createdAt:
           type: string
-          format: date-time
-        updatedAt:
+          enum:
+            - User
+            - Mod
+            - Admin
+          example: "User"
+          description: "Tipo de utilizador: User, Mod ou Admin"
+        createdAt:
           type: string
           format: date-time
 
@@ -69,10 +69,11 @@ components:
           minLength: 6
           example: "123456"
         userType:
-          type: integer
-          enum: [0, 1, 2]
-          default: 0
-          example: 0
+          type: string
+          enum: [User, Mod, Admin]
+          default: User
+          example: "User"
+          description: "Opcional. Padrão = User"
 
     UpdateUserInput:
       type: object
@@ -88,8 +89,9 @@ components:
           type: string
           minLength: 6
         userType:
-          type: integer
-          enum: [0, 1, 2]
+          type: string
+          enum: [User, Mod, Admin]
+          description: "Opcional. Pode promover ou despromover utilizadores (apenas admin)"
 
     Category:
       type: object

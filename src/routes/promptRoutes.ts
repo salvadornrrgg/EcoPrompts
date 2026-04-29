@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { authGuard } from '../middlewares/authGuard';
+
 import {
     getPromptsController,
     getPromptController,
@@ -8,10 +10,12 @@ import {
     getVersionsByPromptController,
     createVersionController
 } from '../controllers/promptController';
+
 import { 
     getCommentsByPromptController, 
     createCommentsController 
 } from '../controllers/commentController';
+
 import { 
     createRatingPromptController, 
     updateRatingPromptController,
@@ -20,23 +24,24 @@ import {
 
 const router = Router();
 
-// Rotas de prompts
+// Rotas de prompts (públicas: GET; protegidas: POST, PUT, DELETE)
 router.get('/', getPromptsController);
 router.get('/:id', getPromptController);
-router.post('/', createPromptController);
-router.put('/:id', updatePromptController);
-router.delete('/:id', deletePromptController);
+router.post('/', authGuard, createPromptController);
+router.put('/:id', authGuard, updatePromptController);
+router.delete('/:id', authGuard, deletePromptController);
 
-// Rotas aninhadas de versões
+// Rotas aninhadas de versões (GET público; POST protegido)
 router.get('/:id/versions', getVersionsByPromptController);
-router.post('/:id/versions', createVersionController);
+router.post('/:id/versions', authGuard, createVersionController);
 
-// Rotas aninhadas de comentários
+// Rotas aninhadas de comentários (GET público; POST protegido)
 router.get('/:id/comments', getCommentsByPromptController);
-router.post('/:id/comments', createCommentsController);
+router.post('/:id/comments', authGuard, createCommentsController);
 
-// Rotas aninhadas de avaliações
-router.post('/:id/rating', createRatingPromptController);
-router.put('/:id/rating', updateRatingPromptController);
-router.delete('/:id/rating', deleteRatingPromptController);
+// Rotas aninhadas de avaliações (todas protegidas)
+router.post('/:id/rating', authGuard, createRatingPromptController);
+router.put('/:id/rating', authGuard, updateRatingPromptController);
+router.delete('/:id/rating', authGuard, deleteRatingPromptController);
+
 export default router;

@@ -31,7 +31,9 @@ paths:
     delete:
       tags:
         - Versions
-      summary: Remove uma versão
+      summary: Remove uma versão (apenas autor ou moderador/admin)
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: versionId
@@ -49,6 +51,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        403:
+          description: Sem permissão para apagar esta versão
         404:
           description: Versão não encontrada
 
@@ -92,7 +98,9 @@ paths:
       tags:
         - Prompts
         - Versions
-      summary: Cria uma nova versão para um prompt
+      summary: Cria uma nova versão para um prompt (requer autenticação)
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -120,6 +128,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
         404:
           description: Prompt não encontrado
           content:

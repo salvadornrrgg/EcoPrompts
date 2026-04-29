@@ -3,9 +3,14 @@
  * Configura servidor Express, rotas de API e documentação Swagger
  */
 
+import 'dotenv/config';
+
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './lib/swagger';
+import helmet from 'helmet';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 
 // Importação de rotas
 import userRoutes from './routes/userRoutes';
@@ -19,10 +24,28 @@ import authRoutes from './routes/authRoutes';
 // Criação da aplicação Express
 const app = express();
 
+// ========== MIDDLEWARES DE SEGURANÇA GLOBAL ==========
+// 1. Helmet - oculta headers e mitiga XSS
+app.use(helmet());
+
+// 2. CORS - permite apenas origens específicas (ajusta a porta do teu frontend)
+app.use(cors({
+  origin: ['http://localhost:5173'],  // React/Vite (altera se necessário)
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
+
+// 3. Rate limiting - previne força bruta e DDoS
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100,                 // máximo 100 pedidos por IP
+  message: { error: "Demasiados pedidos a partir deste IP. Tente novamente mais tarde." }
+});
+app.use(limiter);
+
 // Middleware para processar JSON no corpo das requisições
 app.use(express.json());
 
-// Configuração das rotas da API
+// ========== ROTAS DA API ==========
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/comments', commentRoutes);

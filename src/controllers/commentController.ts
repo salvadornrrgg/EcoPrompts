@@ -1,18 +1,16 @@
 import { Request, Response } from 'express';
 import * as commentService from '../services/commentService';
 import { commentIdSchema, createCommentBodySchema, promptIdParamSchema } from '../schemas/commentSchema';
-
+import { AuthenticatedRequest } from '../middlewares/authGuard';
 
 export const getCommentController = async (req: Request, res: Response) => {
     const result = commentIdSchema.safeParse({ commentId: req.params.commentId });
-    
-        if (!result.success) {
-            return res.status(400).json({
-                error: "commentID inválido",
-                errors: result.error.issues.map((issue) => issue.message)
-            });
-        }
-    
+    if (!result.success) {
+        return res.status(400).json({
+            error: "commentID inválido",
+            errors: result.error.issues.map((issue) => issue.message)
+        });
+    }
     try {
         const comment = await commentService.findCommentById(parseInt(result.data.commentId));
         res.json(comment);
@@ -24,35 +22,42 @@ export const getCommentController = async (req: Request, res: Response) => {
 
 export const deleteCommentController = async (req: Request, res: Response) => {
     const result = commentIdSchema.safeParse({ commentId: req.params.commentId });
-    
-        if (!result.success) {
-            return res.status(400).json({
-                error: "commentID inválido",
-                errors: result.error.issues.map((issue) => issue.message)
-            });
+    if (!result.success) {
+        return res.status(400).json({
+            error: "commentID inválido",
+            errors: result.error.issues.map((issue) => issue.message)
+        });
+    }
+
+    try {
+        const commentId = parseInt(result.data.commentId);
+        const comment = await commentService.findCommentById(commentId);
+        if (!comment) return res.status(404).json({ error: "Comentário não encontrado" });
+
+        const currentUser = (req as AuthenticatedRequest).user;
+        if (!currentUser) return res.status(401).json({ error: "Não autenticado" });
+
+        // Apenas o próprio dono pode apagar (Mod/Admin também permitidos via middleware na rota)
+        if (comment.userId !== currentUser.id) {
+            return res.status(403).json({ error: "Não pode apagar comentário de outro utilizador" });
         }
-    
-        try {
-            await commentService.deleteComment(parseInt(result.data.commentId));
-            res.status(204).send();
-        } catch (error: any) {
-            console.error(error);
-            res.status(400).json({ error: error.message || "Erro ao remover comentário" });
-        }
+
+        await commentService.deleteComment(commentId);
+        res.status(204).send();
+    } catch (error: any) {
+        console.error(error);
+        res.status(400).json({ error: error.message || "Erro ao remover comentário" });
+    }
 };
 
-
-// GET /prompts/:id/comments - Lista comentarios de um prompt
 export const getCommentsByPromptController = async (req: Request, res: Response) => {
     const result = promptIdParamSchema.safeParse({ promptId: req.params.id });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID de prompt inválido",
             errors: result.error.issues.map((issue) => issue.message)
         });
     }
-
     try {
         const comments = await commentService.getCommentsByPromptId(parseInt(result.data.promptId));
         res.json(comments);
@@ -62,7 +67,6 @@ export const getCommentsByPromptController = async (req: Request, res: Response)
     }
 };
 
-// POST /prompts/:id/comments - Adicionar comentario a um prompt
 export const createCommentsController = async (req: Request, res: Response) => {
     const result = promptIdParamSchema.safeParse({ promptId: req.params.id });
     if (!result.success) {
@@ -83,13 +87,12 @@ export const createCommentsController = async (req: Request, res: Response) => {
         });
     }
 
-   try {
+    try {
         const promptId = parseInt(result.data.promptId);
-        const { comment, userId } = dataResult.data;
-
+        const { comment } = dataResult.data;
+        const userId = (req as AuthenticatedRequest).user!.id;
         const newComment = await commentService.createComment(promptId, userId, comment);
-        
-        res.status(201).json(newComment); 
+        res.status(201).json(newComment);
     } catch (error: any) {
         console.error(error);
         res.status(400).json({ error: error.message || "Erro ao adicionar comentário" });

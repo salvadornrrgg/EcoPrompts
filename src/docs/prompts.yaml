@@ -24,6 +24,8 @@ paths:
       tags:
         - Prompts
       summary: Cria um novo prompt
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -43,6 +45,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
 
   /prompts/{id}:
     get:
@@ -76,7 +80,9 @@ paths:
     put:
       tags:
         - Prompts
-      summary: Atualiza um prompt existente
+      summary: Atualiza um prompt existente (apenas autor ou admin)
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -104,13 +110,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        403:
+          description: Apenas o autor ou admin podem editar
         404:
           description: Prompt não encontrado
 
     delete:
       tags:
         - Prompts
-      summary: Remove um prompt (e todas as suas versões)
+      summary: Remove um prompt (e todas as suas versões) – autor ou moderador/admin
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -128,6 +140,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        403:
+          description: Sem permissão para apagar este prompt
         404:
           description: Prompt não encontrado
-

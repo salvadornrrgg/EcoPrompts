@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authGuard } from '../middlewares/authGuard';
 import {
     getVersionController,
     deleteVersionController
@@ -6,8 +7,7 @@ import {
 
 const router = Router();
 
-// Rotas diretas de versões
 router.get('/:versionId', getVersionController);
-router.delete('/:versionId', deleteVersionController);
+router.delete('/:versionId', authGuard, deleteVersionController);
 
 export default router;

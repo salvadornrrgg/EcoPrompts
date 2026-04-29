@@ -1,13 +1,25 @@
 import { Router } from 'express';
-import { getUsersController, createUserController, getUserController, updateUserController, deleteUserController } from '../controllers/userController';
+import { authGuard } from '../middlewares/authGuard';
+import { requireUserType } from '../middlewares/roleGuard';
+import {
+    getUsersController,
+    createUserController,
+    getUserController,
+    updateUserController,
+    deleteUserController
+} from '../controllers/userController';
 
 const router = Router();
-router.get('/', getUsersController);
-router.get('/:id', getUserController);
 
-router.post('/', createUserController);//subs
+// Públicas
+router.post('/', createUserController);      // registo (criação de conta)
+router.get('/:id', getUserController);       // perfil público (controller esconde email/password se não for dono ou admin)
 
-router.put('/:id', updateUserController);
-router.delete('/:id', deleteUserController);
+// Protegidas com autenticação
+router.put('/:id', authGuard, updateUserController);   // dentro do controller verifica se é dono ou admin
+router.delete('/:id', authGuard, deleteUserController); // dentro verifica se é dono ou admin
+
+// Apenas administradores podem listar todos os utilizadores
+router.get('/', authGuard, requireUserType(['Admin']), getUsersController);
 
 export default router;

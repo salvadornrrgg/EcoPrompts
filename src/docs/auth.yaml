@@ -1,10 +1,10 @@
 paths:
   /auth/login:
     post:
+      summary: Autenticação de utilizador
+      description: Efetua login com email e password, retornando um token JWT e os dados do utilizador (sem a password).
       tags:
-        - Auth
-      summary: Autentica um utilizador e retorna um token
-      description: Endpoint provisório para autenticação. Nesta fase, retorna um token falso e os dados do utilizador sem a password.
+        - Autenticação
       requestBody:
         required: true
         content:
@@ -18,13 +18,12 @@ paths:
                 email:
                   type: string
                   format: email
-                  example: "joao@example.com"
-                  description: Email do utilizador
+                  example: "joao@exemplo.com"
                 password:
                   type: string
+                  format: password
                   minLength: 6
                   example: "123456"
-                  description: Password do utilizador
       responses:
         200:
           description: Login bem-sucedido
@@ -33,6 +32,10 @@ paths:
               schema:
                 type: object
                 properties:
+                  token:
+                    type: string
+                    description: Token JWT para usar no header Authorization
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                   user:
                     type: object
                     properties:
@@ -41,26 +44,24 @@ paths:
                         example: 1
                       username:
                         type: string
-                        example: "joao"
-                      email:
-                        type: string
-                        example: "joao@example.com"
+                        example: "joaosilva"
                       userType:
-                        type: integer
-                        enum: [0, 1, 2]
-                        example: 0
-                  token:
-                    type: string
-                    example: "fake-token-1-1734567890123"
-                    description: Token de autenticação (falso nesta fase)
+                        type: string
+                        enum: ["User", "Mod", "Admin"]
+                        example: "User"
         400:
-          description: Dados inválidos (email ou password em falta/formato errado)
+          description: Dados inválidos (validação Zod)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
         401:
-          description: Credenciais inválidas (email ou password incorretos)
+          description: Credenciais inválidas
           content:
             application/json:
               schema:
@@ -69,3 +70,10 @@ paths:
                   error:
                     type: string
                     example: "Credenciais inválidas"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

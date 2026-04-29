@@ -34,6 +34,8 @@ paths:
       tags:
         - Comments
       summary: Adiciona um comentário a um prompt
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -61,6 +63,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
         404:
           description: Prompt não encontrado
 
@@ -96,7 +100,9 @@ paths:
     delete:
       tags:
         - Comments
-      summary: Remove um comentário
+      summary: Remove um comentário (apenas autor ou moderador/admin)
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: commentId
@@ -114,5 +120,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        403:
+          description: Sem permissão para apagar este comentário
         404:
           description: Comentário não encontrado

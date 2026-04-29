@@ -1,26 +1,23 @@
-import { prisma } from '../lib/prisma';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import * as userService from './userService';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'chave_temporaria';
 
 export const login = async (email: string, password: string) => {
-    // Procura o utilizador pelo email
-    const user = await prisma.user.findUnique({
-        where: { email }
-    });
+  // Usar o userService para encontrar o user
+  const user = await userService.findUserByEmail(email);
+  if (!user) throw new Error('User não encontrado');
 
-    // Se não existir, erro
-    if (!user) {
-        throw new Error('Credenciais inválidas');
-    }
+  const valid = await bcrypt.compare(password, user.password);
+  if (!valid) throw new Error('Credenciais inválidas');
 
-    // Comparação simples de password (sem hash, é aldrabado)
-    if (user.password !== password) {
-        throw new Error('Credenciais inválidas');
-    }
+  const token = jwt.sign(
+    { id: user.id, userType: user.userType },
+    JWT_SECRET,
+    { expiresIn: '2h' }
+  );
 
-    // Devolve o user sem a password e um token falso
-    const { password: _, ...userWithoutPassword } = user;
-    
-    return {
-        user: userWithoutPassword,
-        token: `fake-token-${user.id}-${Date.now()}`
-    };
+  const { password: _, ...userWithoutPassword } = user;
+  return { user: userWithoutPassword, token };
 };

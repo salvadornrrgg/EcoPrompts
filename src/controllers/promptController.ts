@@ -3,8 +3,8 @@ import * as promptService from '../services/promptService';
 import * as versionService from '../services/versionService';
 import { createPromptSchema, promptIdSchema, updatePromptSchema } from '../schemas/promptSchema';
 import { createVersionSchema } from '../schemas/versionSchema';
+import { AuthenticatedRequest } from '../middlewares/authGuard';
 
-// GET /prompts - Lista todos os prompts
 export const getPromptsController = async (req: Request, res: Response) => {
     try {
         const prompts = await promptService.findAllPrompts();
@@ -15,17 +15,14 @@ export const getPromptsController = async (req: Request, res: Response) => {
     }
 };
 
-// GET /prompts/:id - Obtém prompt específico
 export const getPromptController = async (req: Request, res: Response) => {
     const result = promptIdSchema.safeParse({ id: req.params.id });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID inválido",
             errors: result.error.issues.map((issue) => issue.message)
         });
     }
-
     try {
         const prompt = await promptService.findPromptById(parseInt(result.data.id));
         res.json(prompt);
@@ -39,10 +36,8 @@ export const getPromptController = async (req: Request, res: Response) => {
     }
 };
 
-// POST /prompts - Cria novo prompt
 export const createPromptController = async (req: Request, res: Response) => {
     const result = createPromptSchema.safeParse(req.body);
-
     if (!result.success) {
         return res.status(400).json({
             error: "Dados inválidos",
@@ -54,8 +49,7 @@ export const createPromptController = async (req: Request, res: Response) => {
     }
 
     try {
-        const userId = req.body.userId || 1;
-        
+        const userId = (req as AuthenticatedRequest).user!.id;
         const newPrompt = await promptService.createPrompt({
             ...result.data,
             userId
@@ -67,7 +61,6 @@ export const createPromptController = async (req: Request, res: Response) => {
     }
 };
 
-// PUT /prompts/:id - Edita prompt existente
 export const updatePromptController = async (req: Request, res: Response) => {
     const idResult = promptIdSchema.safeParse({ id: req.params.id });
     if (!idResult.success) {
@@ -89,7 +82,19 @@ export const updatePromptController = async (req: Request, res: Response) => {
     }
 
     try {
-        const updatedPrompt = await promptService.updatePrompt(parseInt(idResult.data.id), dataResult.data);
+        const promptId = parseInt(idResult.data.id);
+        const prompt = await promptService.findPromptById(promptId);
+        if (!prompt) return res.status(404).json({ error: "Prompt não encontrado" });
+
+        const currentUser = (req as AuthenticatedRequest).user!;
+        const isOwner = prompt.userId === currentUser.id;
+        const isAdmin = currentUser.userType === 'Admin';
+
+        if (!isOwner && !isAdmin) {
+            return res.status(403).json({ error: "Apenas o autor ou Admin podem editar este prompt" });
+        }
+
+        const updatedPrompt = await promptService.updatePrompt(promptId, dataResult.data);
         res.status(200).json(updatedPrompt);
     } catch (error: any) {
         console.error(error);
@@ -97,10 +102,8 @@ export const updatePromptController = async (req: Request, res: Response) => {
     }
 };
 
-// DELETE /prompts/:id - Remove prompt (e as suas versões)
 export const deletePromptController = async (req: Request, res: Response) => {
     const result = promptIdSchema.safeParse({ id: req.params.id });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID inválido",
@@ -109,7 +112,16 @@ export const deletePromptController = async (req: Request, res: Response) => {
     }
 
     try {
-        await promptService.deletePrompt(parseInt(result.data.id));
+        const promptId = parseInt(result.data.id);
+        const prompt = await promptService.findPromptById(promptId);
+        if (!prompt) return res.status(404).json({ error: "Prompt não encontrado" });
+
+        const currentUser = (req as AuthenticatedRequest).user!;
+        if (prompt.userId !== currentUser.id) {
+            return res.status(403).json({ error: "Apenas o autor pode apagar este prompt" });
+        }
+
+        await promptService.deletePrompt(promptId);
         res.status(204).send();
     } catch (error: any) {
         console.error(error);
@@ -117,17 +129,14 @@ export const deletePromptController = async (req: Request, res: Response) => {
     }
 };
 
-// GET /prompts/:id/versions - Lista versões de um prompt
 export const getVersionsByPromptController = async (req: Request, res: Response) => {
     const result = promptIdSchema.safeParse({ id: req.params.id });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID inválido",
             errors: result.error.issues.map((issue) => issue.message)
         });
     }
-
     try {
         const versions = await versionService.findVersionsByPromptId(parseInt(result.data.id));
         res.json(versions);
@@ -137,7 +146,6 @@ export const getVersionsByPromptController = async (req: Request, res: Response)
     }
 };
 
-// POST /prompts/:id/versions - Cria nova versão
 export const createVersionController = async (req: Request, res: Response) => {
     const idResult = promptIdSchema.safeParse({ id: req.params.id });
     if (!idResult.success) {
@@ -159,8 +167,7 @@ export const createVersionController = async (req: Request, res: Response) => {
     }
 
     try {
-        const userId = req.body.userId || 1; //substituir
-        
+        const userId = (req as AuthenticatedRequest).user!.id;
         const newVersion = await versionService.createVersion(
             parseInt(idResult.data.id),
             userId,

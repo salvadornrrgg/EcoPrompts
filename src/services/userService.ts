@@ -1,22 +1,24 @@
 import { prisma } from '../lib/prisma';
-
+import bcrypt from 'bcryptjs';
 
 export const findAllUsers = async () => {
     return await prisma.user.findMany();
 };
 
+export const createUser = async (username: string, email: string, password: string, userType: string = "User") => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  return await prisma.user.create({
+    data: {
+      username,
+      email,
+      password: hashedPassword,
+      userType: userType
+    }
+  });
+};
 
-enum UserType {
-  User = 0,
-  Mod = 1,
-  Admin = 2
-}
-
-export const createUser = async (username: string, email: string, password: string, userTypeInt: number ) => {
-    const userType = UserType[userTypeInt];
-    return await prisma.user.create({
-        data: {username, email, password, userType }
-    });
+export const findUserByEmail = async (email: string) => {
+  return await prisma.user.findUnique({ where: { email } });
 };
 
 export const findUser = async (userId: number) => {
@@ -34,7 +36,7 @@ export const findUser = async (userId: number) => {
     });
 };
 
-export const updateUser = async (userId: number, data: { username?: string; email?: string; password?: string; userType?: number }) => {
+export const updateUser = async (userId: number, data: { username?: string; email?: string; password?: string; userType?: string }) => {
     const userExists = await prisma.user.findUnique({
         where: { id: userId }
     });
@@ -43,14 +45,9 @@ export const updateUser = async (userId: number, data: { username?: string; emai
         throw new Error('User not found');
     }
 
-    const updateData: any = { ...data };
-    if (data.userType !== undefined) {
-        updateData.userType = UserType[data.userType];
-    }
-
     return await prisma.user.update({
         where: { id: userId },
-        data: updateData
+        data
     });
 };
 

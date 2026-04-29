@@ -17,7 +17,9 @@ paths:
     post:
       tags:
         - Categories
-      summary: Cria uma nova categoria
+      summary: Cria uma nova categoria (apenas admin)
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -37,6 +39,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        403:
+          description: Permissão negada (não é admin)
 
   /categories/search:
     get:

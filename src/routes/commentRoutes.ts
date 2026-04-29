@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authGuard } from '../middlewares/authGuard';
 import {
     getCommentController,
     deleteCommentController
@@ -6,10 +7,10 @@ import {
 
 const router = Router();
 
-// Rotas de comentários
-
+// Pública – qualquer pessoa pode ver um comentário específico
 router.get('/:commentId', getCommentController);
-router.delete('/:commentId', deleteCommentController);
 
+// Protegida – apenas o autor do comentário ou moderador/admin podem apagar
+router.delete('/:commentId', authGuard, deleteCommentController);
 
 export default router;

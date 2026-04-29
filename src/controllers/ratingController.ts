@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
 import * as ratingService from '../services/ratingService'
 import { ratingBodySchema, ratingIdParamSchema } from '../schemas/ratingSchema';
+import { AuthenticatedRequest } from '../middlewares/authGuard';
 
-// POST /prompts/:id/rating - Cria nova avaliaçao a um prompt
 export const createRatingPromptController = async (req: Request, res: Response) => {
     const idResult = ratingIdParamSchema.safeParse({id: req.params.id});
-
     if (!idResult.success) {
         return res.status(400).json({
             error: "Dados inválidos",
@@ -17,7 +16,6 @@ export const createRatingPromptController = async (req: Request, res: Response) 
     }
 
     const dataResult = ratingBodySchema.safeParse(req.body);
-
     if (!dataResult.success) {
         return res.status(400).json({
             error: "Dados inválidos",
@@ -28,14 +26,11 @@ export const createRatingPromptController = async (req: Request, res: Response) 
         });
     }
     try {
-     
-        const userId = req.body.userId || 1; //mudar isto quando tivermos a autenticaão
-        
+        const userId = (req as AuthenticatedRequest).user!.id;
         const newRating = await ratingService.createRating({
             score: dataResult.data.score,
             userId,
             promptId: parseInt(idResult.data.id)
-            
         });
         res.status(201).json(newRating);
     } catch (error: any) {
@@ -44,10 +39,8 @@ export const createRatingPromptController = async (req: Request, res: Response) 
     }
 };
 
-// PUT /prompts/:id/rating - Edita rating existente
 export const updateRatingPromptController = async (req: Request, res: Response) => {
-   const idResult = ratingIdParamSchema.safeParse({id: req.params.id});
-
+    const idResult = ratingIdParamSchema.safeParse({id: req.params.id});
     if (!idResult.success) {
         return res.status(400).json({
             error: "Dados inválidos",
@@ -59,7 +52,6 @@ export const updateRatingPromptController = async (req: Request, res: Response) 
     }
 
     const dataResult = ratingBodySchema.safeParse(req.body);
-
     if (!dataResult.success) {
         return res.status(400).json({
             error: "Dados inválidos",
@@ -72,8 +64,8 @@ export const updateRatingPromptController = async (req: Request, res: Response) 
 
     try {
         const promptId = parseInt(idResult.data.id);
-        const { score, userId } = dataResult.data;
-        
+        const userId = (req as AuthenticatedRequest).user!.id;
+        const { score } = dataResult.data;
         const updatedRating = await ratingService.updateRating(promptId, userId, score);
         res.status(200).json(updatedRating);
     } catch (error: any) {
@@ -82,10 +74,8 @@ export const updateRatingPromptController = async (req: Request, res: Response) 
     }
 };
 
-// DELETE /prompts/:id/rating - Remove rating de prompt especifica
 export const deleteRatingPromptController = async (req: Request, res: Response) => {
     const result = ratingIdParamSchema.safeParse({ id: req.params.id });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID inválido",
@@ -95,20 +85,17 @@ export const deleteRatingPromptController = async (req: Request, res: Response) 
 
     try {
         const promptId = parseInt(result.data.id);
-        const userId = req.body.userId || 1; // Temporário
-
+        const userId = (req as AuthenticatedRequest).user!.id;
         await ratingService.deleteRating(promptId, userId);
         res.status(204).send();
     } catch (error: any) {
         console.error(error);
-        res.status(400).json({ error: error.message || "Erro ao remover prompt" });
+        res.status(400).json({ error: error.message || "Erro ao remover avaliação" });
     }
 };
 
-// DELETE /ratings/:ratingId - Remove rating de prompt especifica
 export const adminDeleteRatingController = async (req: Request, res: Response) => {
     const result = ratingIdParamSchema.safeParse({ id: req.params.id });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID inválido",
@@ -125,9 +112,3 @@ export const adminDeleteRatingController = async (req: Request, res: Response) =
         res.status(400).json({ error: error.message || "Erro ao remover avaliação como admin" });
     }
 };
-
-
-
-
-
-

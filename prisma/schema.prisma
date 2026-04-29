@@ -17,7 +17,7 @@ model User {
   email String @unique
   password String
   createdAt DateTime @default(now())
-  userType String
+  userType String 
 
   prompts Prompt[]
   comments Comment[]

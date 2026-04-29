@@ -1,18 +1,16 @@
 import { Request, Response } from 'express';
 import * as versionService from '../services/versionService';
 import { versionIdSchema } from '../schemas/versionSchema';
+import { AuthenticatedRequest } from '../middlewares/authGuard';
 
-// GET /versions/:versionId - Obtém versão específica
 export const getVersionController = async (req: Request, res: Response) => {
     const result = versionIdSchema.safeParse({ versionId: req.params.versionId });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID inválido",
             errors: result.error.issues.map((issue) => issue.message)
         });
     }
-
     try {
         const version = await versionService.findVersionById(parseInt(result.data.versionId));
         res.json(version);
@@ -26,10 +24,8 @@ export const getVersionController = async (req: Request, res: Response) => {
     }
 };
 
-// DELETE /versions/:versionId - Remove versão
 export const deleteVersionController = async (req: Request, res: Response) => {
     const result = versionIdSchema.safeParse({ versionId: req.params.versionId });
-
     if (!result.success) {
         return res.status(400).json({
             error: "ID inválido",
@@ -38,7 +34,18 @@ export const deleteVersionController = async (req: Request, res: Response) => {
     }
 
     try {
-        await versionService.deleteVersion(parseInt(result.data.versionId));
+        const versionId = parseInt(result.data.versionId);
+        const version = await versionService.findVersionById(versionId);
+        if (!version) return res.status(404).json({ error: "Versão não encontrada" });
+
+        const currentUser = (req as AuthenticatedRequest).user;
+        if (!currentUser) return res.status(401).json({ error: "Não autenticado" });
+
+        if (version.userId !== currentUser.id) {
+            return res.status(403).json({ error: "Apenas o autor pode apagar esta versão" });
+        }
+
+        await versionService.deleteVersion(versionId);
         res.status(204).send();
     } catch (error: any) {
         console.error(error);
