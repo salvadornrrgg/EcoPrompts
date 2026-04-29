@@ -130,3 +130,4 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         404:
           description: Prompt não encontrado
+
