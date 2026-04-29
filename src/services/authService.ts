@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../lib/prisma';
 
 export const login = async (email: string, password: string) => {
     // Procura o utilizador pelo email

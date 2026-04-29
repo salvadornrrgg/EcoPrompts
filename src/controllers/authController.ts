@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import * as authService from '../services/authService.js';
-import { loginSchema } from '../schemas/authSchema.js';
+import * as authService from '../services/authService';
+import { loginSchema } from '../schemas/authSchema';
 
 export const loginController = async (req: Request, res: Response) => {
     const result = loginSchema.safeParse(req.body);

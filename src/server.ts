@@ -5,16 +5,16 @@
 
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './lib/swagger.js';
+import { specs } from './lib/swagger';
 
 // Importação de rotas
-import userRoutes from './routes/userRoutes.ts';
-import categoryRoutes from './routes/categoryRoutes.ts';
-import promptRoutes from './routes/promptRoutes.ts';
-import versionRoutes from './routes/versionRoutes.ts';
-import commentRoutes from './routes/commentRoutes.ts';
-import ratingRoutes from './routes/ratingRoutes.ts';
-import authRoutes from './routes/authRoutes.ts';
+import userRoutes from './routes/userRoutes';
+import categoryRoutes from './routes/categoryRoutes';
+import promptRoutes from './routes/promptRoutes';
+import versionRoutes from './routes/versionRoutes';
+import commentRoutes from './routes/commentRoutes';
+import ratingRoutes from './routes/ratingRoutes';
+import authRoutes from './routes/authRoutes';
 
 // Criação da aplicação Express
 const app = express();

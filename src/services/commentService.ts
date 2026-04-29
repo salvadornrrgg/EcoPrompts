@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../lib/prisma';
 
 // Obtém um comentário específico
 export const findCommentById = async (commentId: number) => {

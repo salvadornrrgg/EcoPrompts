@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { 
     adminDeleteRatingController
-} from '../controllers/ratingController.js';
+} from '../controllers/ratingController';
 
 const router = Router();
 

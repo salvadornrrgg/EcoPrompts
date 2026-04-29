@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
     getVersionController,
     deleteVersionController
-} from '../controllers/versionController.js';
+} from '../controllers/versionController';
 
 const router = Router();
 

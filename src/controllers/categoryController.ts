@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import * as categoryService from '../services/categoryService.ts';
-import { createCategorySchema, categoryIdSchema, categorySearchSchema } from '../schemas/categorySchema.js';
+import * as categoryService from '../services/categoryService';
+import { createCategorySchema, categoryIdSchema, categorySearchSchema } from '../schemas/categorySchema';
 
 // GET /categories - Devolve todas as categorias
 export const getAllCategories = async (req: Request, res: Response) => {

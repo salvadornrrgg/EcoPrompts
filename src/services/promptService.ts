@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../lib/prisma';
 
 // GET ALL prompts
 export const findAllPrompts = async () => {

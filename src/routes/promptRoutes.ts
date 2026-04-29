@@ -7,16 +7,16 @@ import {
     deletePromptController,
     getVersionsByPromptController,
     createVersionController
-} from '../controllers/promptController.js';
+} from '../controllers/promptController';
 import { 
     getCommentsByPromptController, 
     createCommentsController 
-} from '../controllers/commentController.js';
+} from '../controllers/commentController';
 import { 
     createRatingPromptController, 
     updateRatingPromptController,
     deleteRatingPromptController 
-} from '../controllers/ratingController.js';
+} from '../controllers/ratingController';
 
 const router = Router();
 

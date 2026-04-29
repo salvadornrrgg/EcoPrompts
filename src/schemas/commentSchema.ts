@@ -6,7 +6,7 @@ export const commentIdSchema = z.object({
 
 export const createCommentBodySchema = z.object({
     comment: z.string().min(1, "O comentário não pode estar vazio"),
-    userId: z.number({ required_error: "O ID do utilizador é obrigatório" }) 
+    userId: z.number({ message: "O ID do utilizador é obrigatório" }) 
 });
 
 export const promptIdParamSchema = z.object({

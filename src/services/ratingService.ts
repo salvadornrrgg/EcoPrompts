@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../lib/prisma';
 
 // CREATE rating - COM VALIDAÇÃO PRÉVIA
 export const createRating = async (data: {

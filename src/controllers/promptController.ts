@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import * as promptService from '../services/promptService.js';
-import * as versionService from '../services/versionService.js';
-import { createPromptSchema, promptIdSchema, updatePromptSchema } from '../schemas/promptSchema.js';
-import { createVersionSchema } from '../schemas/versionSchema.js';
+import * as promptService from '../services/promptService';
+import * as versionService from '../services/versionService';
+import { createPromptSchema, promptIdSchema, updatePromptSchema } from '../schemas/promptSchema';
+import { createVersionSchema } from '../schemas/versionSchema';
 
 // GET /prompts - Lista todos os prompts
 export const getPromptsController = async (req: Request, res: Response) => {

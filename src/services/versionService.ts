@@ -1,4 +1,4 @@
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../lib/prisma';
 
 // GET versions by prompt ID
 export const findVersionsByPromptId = async (promptId: number) => {

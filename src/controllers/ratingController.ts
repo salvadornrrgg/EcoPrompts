@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import * as ratingService from '../services/ratingService.js'
-import { ratingBodySchema, ratingIdParamSchema } from '../schemas/ratingSchema.js';
+import * as ratingService from '../services/ratingService'
+import { ratingBodySchema, ratingIdParamSchema } from '../schemas/ratingSchema';
 
 // POST /prompts/:id/rating - Cria nova avaliaçao a um prompt
 export const createRatingPromptController = async (req: Request, res: Response) => {

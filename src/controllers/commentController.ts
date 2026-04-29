@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import * as commentService from '../services/commentService.js';
-import { commentIdSchema, createCommentBodySchema, promptIdParamSchema } from '../schemas/commentSchema.js';
+import * as commentService from '../services/commentService';
+import { commentIdSchema, createCommentBodySchema, promptIdParamSchema } from '../schemas/commentSchema';
 
 
 export const getCommentController = async (req: Request, res: Response) => {

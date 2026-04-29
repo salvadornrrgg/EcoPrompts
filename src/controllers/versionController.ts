@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import * as versionService from '../services/versionService.js';
-import { versionIdSchema } from '../schemas/versionSchema.js';
+import * as versionService from '../services/versionService';
+import { versionIdSchema } from '../schemas/versionSchema';
 
 // GET /versions/:versionId - Obtém versão específica
 export const getVersionController = async (req: Request, res: Response) => {

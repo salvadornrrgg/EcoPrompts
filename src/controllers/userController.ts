@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
-import * as userService from '../services/userService.ts';
-import { createUserSchema, userIdSchema, updateUserSchema } from '../schemas/userSchema.js';
+import * as userService from '../services/userService';
+import { createUserSchema, userIdSchema, updateUserSchema } from '../schemas/userSchema';
 
 /**
  * Controlador para operações relacionadas a utilizadores
