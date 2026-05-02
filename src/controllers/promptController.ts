@@ -1,9 +1,28 @@
 import { Request, Response } from 'express';
 import * as promptService from '../services/promptService';
 import * as versionService from '../services/versionService';
-import { createPromptSchema, promptIdSchema, updatePromptSchema } from '../schemas/promptSchema';
+import { createPromptSchema, promptIdSchema, updatePromptSchema, promptSearchSchema } from '../schemas/promptSchema';
 import { createVersionSchema } from '../schemas/versionSchema';
 import { AuthenticatedRequest } from '../middlewares/authGuard';
+
+
+export const searchPromptsController = async (req: Request, res: Response) => {
+    const result = promptSearchSchema.safeParse(req.query);
+    if (!result.success) {
+        return res.status(400).json({
+            error: "Pesquisa inválido",
+            errors: result.error.issues.map((issue) => issue.message)
+        });
+    };
+
+    try {
+        const prompts = await promptService.searchPrompts(result.data.q);
+        res.json(prompts);
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ error: error.message || "Erro ao pesquisar prompts" });
+    };
+};
 
 export const getPromptsController = async (req: Request, res: Response) => {
     try {

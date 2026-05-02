@@ -32,11 +32,15 @@ export const promptIdSchema = z.object({
 });
 
 // Schema para search query (NÃO valida id)
-export const promptSearchSchema = z.object({
+export const _promptSearchSchema = z.object({
     q: z.string()
         .min(1, 'Termo de pesquisa é obrigatório')
         .trim()
         .optional(),  // ← tornar opcional
     categoryId: z.coerce.number().int().positive().optional(),
     model: z.string().optional()
+});
+
+export const promptSearchSchema = z.object({
+    q: z.string().min(1, 'Termo de pesquisa é obrigatório')
 });

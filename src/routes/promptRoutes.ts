@@ -8,7 +8,8 @@ import {
     updatePromptController,
     deletePromptController,
     getVersionsByPromptController,
-    createVersionController
+    createVersionController,
+    searchPromptsController
 } from '../controllers/promptController';
 
 import { 
@@ -26,6 +27,7 @@ const router = Router();
 
 // Rotas de prompts (públicas: GET; protegidas: POST, PUT, DELETE)
 router.get('/', getPromptsController);
+router.get('/search', searchPromptsController);
 router.get('/:id', getPromptController);
 router.post('/', authGuard, createPromptController);
 router.put('/:id', authGuard, updatePromptController);

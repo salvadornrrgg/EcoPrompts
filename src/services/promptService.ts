@@ -1,4 +1,19 @@
 import { prisma } from '../lib/prisma';
+import { indexPrompt, searchEmbeddedPrompts } from "./embeddingService";
+
+// GET searched prompts by string
+export const searchPrompts = async (search: string) => {
+    const promptIds = await searchEmbeddedPrompts(search);
+
+    const prompts = await prisma.prompt.findMany({
+        where: {
+            id: { in: promptIds }
+        }
+    });
+    
+    return prompts;
+};
+
 
 // GET ALL prompts
 export const findAllPrompts = async () => {
@@ -71,7 +86,7 @@ export const createPrompt = async (data: {
         throw new Error('User not found');
     }
 
-    return await prisma.prompt.create({
+    const prompt = await prisma.prompt.create({
         data: {
             title: data.title,
             description: data.description,
@@ -88,6 +103,10 @@ export const createPrompt = async (data: {
             category: true
         }
     });
+
+    await indexPrompt(data.title+" "+data.description, prompt.id);
+
+    return prompt;
 };
 
 // UPDATE prompt
