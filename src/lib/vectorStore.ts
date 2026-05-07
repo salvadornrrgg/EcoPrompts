@@ -8,6 +8,7 @@ const embeddings = new OllamaEmbeddings({
 
 
 //foi preciso optar por esta abordagem pois se for chamado o "await PGVectorStore.initialize(..." dá erro de top-lever await
+//--> Singleton
 let vectorStoreInstance: PGVectorStore;
 
 export const getVectorStore = async () => {

@@ -5,7 +5,10 @@ import { AuthenticatedRequest } from '../middlewares/authGuard';
 
 export const getUsersController = async (req: Request, res: Response) => {
     const users = await userService.findAllUsers();
-    const safeUsers = users.map(({ password, ...rest }) => rest);
+    const safeUsers = users.map((user: any) => {
+        const { password, ...rest } = user;
+        return rest;
+    });
     res.json(safeUsers);
 };
 
