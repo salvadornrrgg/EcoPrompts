@@ -1,0 +1,58 @@
+paths:
+  /translate:
+    post:
+      tags:
+        - Tradução
+      summary: Traduz um texto via MyMemory
+      description: Traduz texto de uma língua de origem para uma língua destino utilizando a API pública MyMemory. Não requer autenticação.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+                - target
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+                  maxLength: 5000
+                  example: "Olá, como estás?"
+                source:
+                  type: string
+                  default: "auto"
+                  example: "auto"
+                  description: "Língua de origem. Usa 'auto' para deteção automática (assume pt)."
+                target:
+                  type: string
+                  example: "en"
+                  description: "Língua destino. Exemplos: en, es, fr, de"
+      responses:
+        200:
+          description: Tradução bem-sucedida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  translatedText:
+                    type: string
+                    example: "Hello, how are you?"
+        400:
+          description: Dados inválidos (validação Zod)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        502:
+          description: Erro ao comunicar com a API MyMemory
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "MyMemory respondeu com 429"
