@@ -6,6 +6,9 @@ export const findAllUsers = async () => {
 };
 
 export const createUser = async (username: string, email: string, password: string, userType: string = "User") => {
+  const existing = await prisma.user.findUnique({ where: { email } });
+  if (existing) throw new Error('Email já está em uso');
+
   const hashedPassword = await bcrypt.hash(password, 10);
   return await prisma.user.create({
     data: {
