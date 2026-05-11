@@ -1,4 +1,6 @@
 {
+  "name": "ecoprompts-backend",
+  "version": "1.0.0",
   "scripts": {
     "dev": "npx tsx watch src/server.ts"
   },
@@ -31,6 +33,11 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^6.0.2"
+  },
+  "overrides": {
+    "@browserbasehq/stagehand": {
+      "zod": "$zod"
+    }
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
