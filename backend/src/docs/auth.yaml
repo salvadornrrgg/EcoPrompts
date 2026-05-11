@@ -1,0 +1,79 @@
+paths:
+  /auth/login:
+    post:
+      summary: Autenticação de utilizador
+      description: Efetua login com email e password, retornando um token JWT e os dados do utilizador (sem a password).
+      tags:
+        - Autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "joao@exemplo.com"
+                password:
+                  type: string
+                  format: password
+                  minLength: 6
+                  example: "123456"
+      responses:
+        200:
+          description: Login bem-sucedido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Token JWT para usar no header Authorization
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      username:
+                        type: string
+                        example: "joaosilva"
+                      userType:
+                        type: string
+                        enum: ["User", "Mod", "Admin"]
+                        example: "User"
+        400:
+          description: Dados inválidos (validação Zod)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        401:
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Credenciais inválidas"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

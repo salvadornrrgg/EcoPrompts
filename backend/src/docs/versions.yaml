@@ -1,0 +1,138 @@
+paths:
+  /versions/{versionId}:
+    get:
+      tags:
+        - Versions
+      summary: Retorna uma versão específica pelo ID
+      parameters:
+        - in: path
+          name: versionId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID da versão (número inteiro positivo)
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Version'
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Versão não encontrada
+
+    delete:
+      tags:
+        - Versions
+      summary: Remove uma versão (apenas autor ou moderador/admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: versionId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID da versão
+      responses:
+        204:
+          description: Versão removida com sucesso (sem conteúdo)
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        403:
+          description: Sem permissão para apagar esta versão
+        404:
+          description: Versão não encontrada
+
+  /prompts/{id}/versions:
+    get:
+      tags:
+        - Prompts
+        - Versions
+      summary: Lista todas as versões de um prompt
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Version'
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Prompt não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags:
+        - Prompts
+        - Versions
+      summary: Cria uma nova versão para um prompt (requer autenticação)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVersionInput'
+      responses:
+        201:
+          description: Versão criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Version'
+        400:
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        404:
+          description: Prompt não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

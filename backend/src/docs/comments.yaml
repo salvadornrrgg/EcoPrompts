@@ -1,0 +1,128 @@
+paths:
+  /prompts/{id}/comments:
+    get:
+      tags:
+        - Comments
+      summary: Lista todos os comentários de um prompt
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Prompt não encontrado
+
+    post:
+      tags:
+        - Comments
+      summary: Adiciona um comentário a um prompt
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentInput'
+      responses:
+        201:
+          description: Comentário criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        400:
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        404:
+          description: Prompt não encontrado
+
+  /comments/{commentId}:
+    get:
+      tags:
+        - Comments
+      summary: Retorna um comentário específico pelo ID
+      parameters:
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do comentário
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Comentário não encontrado
+
+    delete:
+      tags:
+        - Comments
+      summary: Remove um comentário (apenas autor ou moderador/admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: ID do comentário
+      responses:
+        204:
+          description: Comentário removido com sucesso (sem conteúdo)
+        400:
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Token não fornecido ou inválido
+        403:
+          description: Sem permissão para apagar este comentário
+        404:
+          description: Comentário não encontrado
