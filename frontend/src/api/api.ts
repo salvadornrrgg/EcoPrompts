@@ -53,6 +53,10 @@ export const getComments = (promptId: number) => fetch(`${BASE_URL}/prompts/${pr
 export const addComment = (promptId: number, data: object) => fetch(`${BASE_URL}/prompts/${promptId}/comments`, { method: 'POST', headers: headers(true), body: JSON.stringify(data) }).then(handle);
 export const deleteComment = (commentId: number) => fetch(`${BASE_URL}/comments/${commentId}`, { method: 'DELETE', headers: headers(true) }).then(handle);
 
+// TRANSLATE
+export const translate = (text: string, source: string, target: string) =>
+  fetch(`${BASE_URL}/translate`, { method: 'POST', headers: headers(), body: JSON.stringify({ text, source, target }) }).then(handle);
+
 // RATINGS
 export const ratePrompt = (promptId: number, data: object) => fetch(`${BASE_URL}/prompts/${promptId}/rating`, { method: 'POST', headers: headers(true), body: JSON.stringify(data) }).then(handle);
 export const updateRating = (promptId: number, data: object) => fetch(`${BASE_URL}/prompts/${promptId}/rating`, { method: 'PUT', headers: headers(true), body: JSON.stringify(data) }).then(handle);

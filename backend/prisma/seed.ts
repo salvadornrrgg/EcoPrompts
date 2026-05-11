@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
+import { indexPrompt } from '../src/services/embeddingService';
 
 dotenv.config();
 
@@ -13,7 +15,6 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
     console.log('🌱 A iniciar seed da base de dados...');
 
-    // Limpar dados existentes
     console.log('🗑️ A limpar dados existentes...');
     await prisma.eval.deleteMany();
     await prisma.comment.deleteMany();
@@ -22,44 +23,23 @@ async function main() {
     await prisma.category.deleteMany();
     await prisma.user.deleteMany();
 
-    // Criar utilizadores
+    const hashedPassword = await bcrypt.hash('123456', 10);
+
     console.log('👤 A criar utilizadores...');
     await prisma.user.createMany({
         data: [
-            {
-                username: 'admin',
-                email: 'admin@ecoprompts.com',
-                password: '123456',
-                userType: 'Admin'
-            },
-            {
-                username: 'joao',
-                email: 'joao@email.com',
-                password: '123456',
-                userType: 'User'
-            },
-            {
-                username: 'maria',
-                email: 'maria@email.com',
-                password: '123456',
-                userType: 'User'
-            },
-            {
-                username: 'pedro',
-                email: 'pedro@email.com',
-                password: '123456',
-                userType: 'Mod'
-            }
+            { username: 'admin', email: 'admin@ecoprompts.com', password: hashedPassword, userType: 'Admin' },
+            { username: 'joao', email: 'joao@email.com', password: hashedPassword, userType: 'User' },
+            { username: 'maria', email: 'maria@email.com', password: hashedPassword, userType: 'User' },
+            { username: 'pedro', email: 'pedro@email.com', password: hashedPassword, userType: 'Mod' }
         ]
     });
 
-    // Buscar os utilizadores criados
     const admin = await prisma.user.findUnique({ where: { email: 'admin@ecoprompts.com' } });
     const joao = await prisma.user.findUnique({ where: { email: 'joao@email.com' } });
     const maria = await prisma.user.findUnique({ where: { email: 'maria@email.com' } });
     const pedro = await prisma.user.findUnique({ where: { email: 'pedro@email.com' } });
 
-    // Criar categorias
     console.log('📂 A criar categorias...');
     await prisma.category.createMany({
         data: [
@@ -74,7 +54,6 @@ async function main() {
         ]
     });
 
-    // Buscar categorias
     const programacao = await prisma.category.findUnique({ where: { name: 'Programação' } });
     const escrita = await prisma.category.findUnique({ where: { name: 'Escrita Criativa' } });
     const tecnologia = await prisma.category.findUnique({ where: { name: 'Tecnologia' } });
@@ -82,9 +61,8 @@ async function main() {
     const estudo = await prisma.category.findUnique({ where: { name: 'Estudo' } });
     const produtividade = await prisma.category.findUnique({ where: { name: 'Produtividade' } });
 
-    // Criar prompts
     console.log('📝 A criar prompts...');
-    
+
     const prompt1 = await prisma.prompt.create({
         data: {
             title: 'Gerar função fatorial',
@@ -96,8 +74,10 @@ async function main() {
             userId: joao!.id
         }
     });
+    await indexPrompt(`${prompt1.title} ${prompt1.description}`, prompt1.id);
+    console.log(`✅ Prompt 1 indexado`);
 
-    await prisma.prompt.create({
+    const prompt2 = await prisma.prompt.create({
         data: {
             title: 'Escrever artigo sobre IA',
             description: 'Prompt para gerar um artigo sobre inteligência artificial',
@@ -108,8 +88,10 @@ async function main() {
             userId: maria!.id
         }
     });
+    await indexPrompt(`${prompt2.title} ${prompt2.description}`, prompt2.id);
+    console.log(`✅ Prompt 2 indexado`);
 
-    await prisma.prompt.create({
+    const prompt3 = await prisma.prompt.create({
         data: {
             title: 'Análise de sentimentos',
             description: 'Prompt para analisar sentimentos de um texto',
@@ -120,8 +102,10 @@ async function main() {
             userId: admin!.id
         }
     });
+    await indexPrompt(`${prompt3.title} ${prompt3.description}`, prompt3.id);
+    console.log(`✅ Prompt 3 indexado`);
 
-    await prisma.prompt.create({
+    const prompt4 = await prisma.prompt.create({
         data: {
             title: 'Plano de marketing digital',
             description: 'Prompt para criar plano de marketing',
@@ -132,8 +116,10 @@ async function main() {
             userId: pedro!.id
         }
     });
+    await indexPrompt(`${prompt4.title} ${prompt4.description}`, prompt4.id);
+    console.log(`✅ Prompt 4 indexado`);
 
-    await prisma.prompt.create({
+    const prompt5 = await prisma.prompt.create({
         data: {
             title: 'Resumir texto académico',
             description: 'Prompt para resumir artigos científicos',
@@ -144,8 +130,10 @@ async function main() {
             userId: joao!.id
         }
     });
+    await indexPrompt(`${prompt5.title} ${prompt5.description}`, prompt5.id);
+    console.log(`✅ Prompt 5 indexado`);
 
-    await prisma.prompt.create({
+    const prompt6 = await prisma.prompt.create({
         data: {
             title: 'Organizar tarefas diárias',
             description: 'Prompt para criar lista de tarefas prioritárias',
@@ -156,10 +144,10 @@ async function main() {
             userId: maria!.id
         }
     });
+    await indexPrompt(`${prompt6.title} ${prompt6.description}`, prompt6.id);
+    console.log(`✅ Prompt 6 indexado`);
 
-    // Criar versões para o prompt1
     console.log('🔄 A criar versões...');
-    
     await prisma.version.create({
         data: {
             versionNumber: 1,
@@ -182,9 +170,7 @@ async function main() {
         }
     });
 
-    // Criar comentários
     console.log('💬 A criar comentários...');
-    
     await prisma.comment.createMany({
         data: [
             { comment: 'Excelente prompt! Muito útil para iniciantes.', userId: maria!.id, promptId: prompt1.id },
@@ -193,9 +179,7 @@ async function main() {
         ]
     });
 
-    // Criar avaliações
     console.log('⭐ A criar avaliações...');
-    
     await prisma.eval.createMany({
         data: [
             { score: 5, userId: maria!.id, promptId: prompt1.id },

@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { TranslateModal } from './TranslateModal';
 
 type View = 'home' | 'prompts' | 'categories' | 'profile' | 'admin';
 
@@ -11,6 +13,7 @@ interface NavbarProps {
 
 export const Navbar = ({ view, setView, setShowLogin, setShowRegister }: NavbarProps) => {
   const { user, logout, isAdmin } = useAuth();
+  const [showTranslator, setShowTranslator] = useState(false);
 
   const navItems: { id: View; label: string }[] = [
     { id: 'home', label: 'Início' },
@@ -21,6 +24,8 @@ export const Navbar = ({ view, setView, setShowLogin, setShowRegister }: NavbarP
   ];
 
   return (
+    <>
+    {showTranslator && <TranslateModal onClose={() => setShowTranslator(false)} />}
     <nav className="navbar">
       <div className="navbar-brand" onClick={() => setView('home')}>
         <span className="brand-icon">🌿</span>
@@ -37,6 +42,9 @@ export const Navbar = ({ view, setView, setShowLogin, setShowRegister }: NavbarP
             {label}
           </button>
         ))}
+        <button className="nav-link" onClick={() => setShowTranslator(true)}>
+          Tradutor
+        </button>
       </div>
 
       <div className="navbar-auth">
@@ -53,5 +61,6 @@ export const Navbar = ({ view, setView, setShowLogin, setShowRegister }: NavbarP
         )}
       </div>
     </nav>
+    </>
   );
 };

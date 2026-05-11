@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import * as api from '../api/api';
+import { TranslateModal } from './TranslateModal';
 
 interface PromptDetailProps {
   promptId: number;
@@ -21,6 +22,7 @@ export const PromptDetail = ({ promptId, onBack }: PromptDetailProps) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editData, setEditData] = useState<any>({});
   const [activeTab, setActiveTab] = useState<'info' | 'comments' | 'versions'>('info');
+  const [showTranslate, setShowTranslate] = useState(false);
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
@@ -112,6 +114,9 @@ export const PromptDetail = ({ promptId, onBack }: PromptDetailProps) => {
 
   return (
     <div className="view">
+      {showTranslate && (
+        <TranslateModal initialText={prompt.prompt} onClose={() => setShowTranslate(false)} />
+      )}
       <button className="btn-back" onClick={onBack}>← Voltar</button>
 
       <div className="prompt-detail-header">
@@ -177,7 +182,12 @@ export const PromptDetail = ({ promptId, onBack }: PromptDetailProps) => {
             <p>{prompt.description}</p>
           </div>
           <div className="prompt-section">
-            <h3>Prompt</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <h3 style={{ margin: 0 }}>Prompt</h3>
+              <button className="btn-outline" style={{ fontSize: '0.8rem', padding: '0.25rem 0.75rem' }} onClick={() => setShowTranslate(true)}>
+                Traduzir prompt
+              </button>
+            </div>
             <pre className="code-block">{prompt.prompt}</pre>
           </div>
           <div className="prompt-section">

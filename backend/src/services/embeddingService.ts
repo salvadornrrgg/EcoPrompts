@@ -25,7 +25,7 @@ export const searchEmbeddedPrompts = async (conteudo: string) => {
         console.log(score, doc.pageContent);
     });
 
-    const filtrados = resultados.filter(([doc, score]: [Document, number]) => score < 0.4);
+    const filtrados = resultados.filter(([doc, score]: [Document, number]) => score < 0.5); //score pode ser afinado para melhor precisao
     
     const promptIds = filtrados.map(([doc, score]: [Document, number]) => doc.metadata.promptId);
     
