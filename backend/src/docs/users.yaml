@@ -3,12 +3,12 @@ paths:
     get:
       tags:
         - Users
-      summary: Retorna a lista de todos os utilizadores (apenas admin)
+      summary: Lista todos os utilizadores (apenas admin)
       security:
         - bearerAuth: []
       responses:
         200:
-          description: Sucesso
+          description: Sucesso — devolve array com todos os utilizadores (sem password)
           content:
             application/json:
               schema:
@@ -16,15 +16,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         401:
-          description: Token não fornecido ou inválido
+          description: Token não fornecido
         403:
           description: Permissão negada (não é admin)
-        500:
-          description: Erro interno do servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
 
     post:
       tags:
@@ -38,23 +32,42 @@ paths:
               $ref: '#/components/schemas/CreateUserInput'
       responses:
         201:
-          description: Utilizador criado com sucesso
+          description: Utilizador criado — devolve o utilizador sem password
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         400:
-          description: Dados inválidos
+          description: Dados inválidos ou email já em uso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                validacao:
+                  summary: Erro de validação Zod
+                  value:
+                    error: "Dados inválidos"
+                    errors:
+                      - field: "email"
+                        message: "Email inválido"
+                emailEmUso:
+                  summary: Email já registado
+                  value:
+                    error: "Email já está em uso"
 
   /users/{id}:
     get:
       tags:
         - Users
-      summary: Retorna um utilizador específico pelo ID (público, mas email apenas para próprio ou admin)
+      summary: Retorna um utilizador pelo ID
+      description: |
+        Rota pública. O campo `email` só é incluído na resposta se o pedido
+        incluir um token Bearer válido do próprio utilizador ou de um admin.
+        Sem token (ou token de outro utilizador), a resposta omite o email.
+      security:
+        - {}
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -62,14 +75,32 @@ paths:
           schema:
             type: integer
             minimum: 1
-          description: ID do utilizador (número inteiro positivo)
+          description: ID do utilizador
       responses:
         200:
           description: Sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                oneOf:
+                  - $ref: '#/components/schemas/UserPublic'
+                  - $ref: '#/components/schemas/User'
+              examples:
+                publico:
+                  summary: Sem autenticação (sem email)
+                  value:
+                    id: 1
+                    username: "john_doe"
+                    userType: "User"
+                    createdAt: "2025-01-15T10:30:00.000Z"
+                autenticado:
+                  summary: Próprio utilizador ou admin (com email)
+                  value:
+                    id: 1
+                    username: "john_doe"
+                    email: "john@example.com"
+                    userType: "User"
+                    createdAt: "2025-01-15T10:30:00.000Z"
         400:
           description: ID inválido
           content:
@@ -86,7 +117,7 @@ paths:
     put:
       tags:
         - Users
-      summary: Atualiza um utilizador existente (apenas próprio ou admin)
+      summary: Atualiza um utilizador (apenas próprio ou admin)
       security:
         - bearerAuth: []
       parameters:
@@ -105,7 +136,7 @@ paths:
               $ref: '#/components/schemas/UpdateUserInput'
       responses:
         200:
-          description: Utilizador atualizado com sucesso
+          description: Utilizador atualizado — devolve o utilizador sem password
           content:
             application/json:
               schema:
@@ -117,9 +148,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         401:
-          description: Token não fornecido ou inválido
+          description: Token não fornecido
         403:
-          description: Acesso negado a este perfil
+          description: Acesso negado (não é o próprio nem admin)
         404:
           description: Utilizador não encontrado
 
@@ -147,8 +178,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         401:
-          description: Token não fornecido ou inválido
+          description: Token não fornecido
         403:
-          description: Acesso negado
+          description: Acesso negado (não é o próprio nem admin)
         404:
           description: Utilizador não encontrado

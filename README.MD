@@ -8,11 +8,12 @@ API RESTful para gerenciamento de prompts, categorias, comentários, avaliaçõe
 
 ## Tecnologias
 
- - Node.js + Express + TypeScript
- - Prisma + PostgreSQL
- - Zod (validação)
- - Swagger (documentação)
- - dotenv (variáveis de ambiente)
+- Node.js + Express + TypeScript
+- Prisma + PostgreSQL
+- Zod (validação)
+- Swagger (documentação)
+- dotenv (variáveis de ambiente)
+- LangChain + Ollama + pgvector (pesquisa semântica)
 
 ---
 
@@ -20,7 +21,7 @@ API RESTful para gerenciamento de prompts, categorias, comentários, avaliaçõe
 
 ```bash
 git clone <url>
-cd EcoPrompts
+cd EcoPrompts/backend
 npm install
 ```
 
@@ -30,9 +31,9 @@ npm install
 Não é necessário correr, uma vez que na instalação as dependências já foram instaladas (definidas no package.json)
 
 ```bash
-npm install express @prisma/client zod swagger-ui-express swagger-jsdoc dotenv
+npm install express @prisma/client zod swagger-ui-express swagger-jsdoc dotenv bcryptjs jsonwebtoken cors helmet express-rate-limit @langchain/ollama @langchain/community @langchain/core pg
 
-npm install -D typescript @types/express @types/node tsx prisma @types/swagger-ui-express @types/swagger-jsdoc
+npm install -D typescript @types/express @types/node tsx prisma @types/swagger-ui-express @types/swagger-jsdoc @types/bcryptjs @types/jsonwebtoken @types/cors
 ```
 
 ---
@@ -43,9 +44,26 @@ Criar ficheiro .env na raiz do projeto:
 
 ```bash
 DATABASE_URL="postgresql://usuario:senha@localhost:5432/ecoprompts"
+JWT_SECRET="o-teu-secret"
+OLLAMA_BASE_URL="http://localhost:11434"
 ```
 
---- 
+---
+
+## Pré-requisitos adicionais
+
+**Ollama** — necessário para a pesquisa semântica:
+```bash
+# Instalar o Ollama e fazer pull do modelo de embeddings
+ollama pull mxbai-embed-large
+```
+
+**pgvector** — extensão do PostgreSQL necessária para os embeddings:
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+```
+
+---
 
 ## Base de Dados
 
@@ -54,7 +72,13 @@ npx prisma migrate dev
 npx prisma generate
 ```
 
---- 
+### Popular a base de dados (seed)
+
+```bash
+npx tsx prisma/seed.ts
+```
+
+---
 
 ## Executar
 
@@ -64,122 +88,133 @@ npx tsx watch src/server.ts
 
 Servidor em http://localhost:3000
 
---- 
+---
 
 ## Documentação
 
 Swagger: http://localhost:3000/api-docs
 
-## Endpoints da API
-
 ---
+
+## Endpoints da API
 
 ### Autenticação
 
-- `POST /api/auth/login`  
+- `POST /api/auth/login`
   Login
 
 ---
 
 ### Utilizadores
 
-- `GET /api/users`  
-  Listar utilizadores  
+- `GET /api/users`
+  Listar utilizadores
 
-- `POST /api/users`  
-  Criar utilizador  
+- `POST /api/users`
+  Criar utilizador
 
-- `GET /api/users/:id`  
-  Obter utilizador por ID  
+- `GET /api/users/:id`
+  Obter utilizador por ID
 
-- `PUT /api/users/:id`  
-  Atualizar utilizador  
+- `PUT /api/users/:id`
+  Atualizar utilizador
 
-- `DELETE /api/users/:id`  
-  Remover utilizador  
+- `DELETE /api/users/:id`
+  Remover utilizador
 
 ---
 
 ### Categorias
 
-- `GET /api/categories`  
-  Listar categorias  
+- `GET /api/categories`
+  Listar categorias
 
-- `POST /api/categories`  
-  Criar categoria  
+- `POST /api/categories`
+  Criar categoria
 
-- `GET /api/categories/search`  
-  Pesquisar categorias  
+- `GET /api/categories/search`
+  Pesquisar categorias
 
-- `GET /api/categories/:id`  
-  Obter categoria por ID  
+- `GET /api/categories/:id`
+  Obter categoria por ID
 
-- `GET /api/categories/:id/prompts`  
-  Listar prompts de uma categoria  
+- `GET /api/categories/:id/prompts`
+  Listar prompts de uma categoria
 
 ---
 
 ### Prompts
 
-- `GET /api/prompts`  
-  Listar prompts  
+- `GET /api/prompts`
+  Listar prompts
 
-- `POST /api/prompts`  
-  Criar prompt  
+- `POST /api/prompts`
+  Criar prompt
 
-- `GET /api/prompts/:id`  
-  Obter prompt por ID  
+- `GET /api/prompts/search?q=`
+  Pesquisa semântica de prompts (RAG)
 
-- `PUT /api/prompts/:id`  
-  Atualizar prompt  
+- `GET /api/prompts/:id`
+  Obter prompt por ID
 
-- `DELETE /api/prompts/:id`  
-  Remover prompt  
+- `PUT /api/prompts/:id`
+  Atualizar prompt
+
+- `DELETE /api/prompts/:id`
+  Remover prompt
 
 ---
 
 ### Versões
 
-- `GET /api/prompts/:id/versions`  
-  Listar versões de um prompt  
+- `GET /api/prompts/:id/versions`
+  Listar versões de um prompt
 
-- `POST /api/prompts/:id/versions`  
-  Criar versão  
+- `POST /api/prompts/:id/versions`
+  Criar versão
 
-- `GET /api/versions/:versionId`  
-  Obter versão  
+- `GET /api/versions/:versionId`
+  Obter versão
 
-- `DELETE /api/versions/:versionId`  
-  Remover versão  
+- `DELETE /api/versions/:versionId`
+  Remover versão
 
 ---
 
 ### Comentários
 
-- `GET /api/prompts/:id/comments`  
-  Listar comentários de um prompt  
+- `GET /api/prompts/:id/comments`
+  Listar comentários de um prompt
 
-- `POST /api/prompts/:id/comments`  
-  Adicionar comentário  
+- `POST /api/prompts/:id/comments`
+  Adicionar comentário
 
-- `GET /api/comments/:commentId`  
-  Obter comentário  
+- `GET /api/comments/:commentId`
+  Obter comentário
 
-- `DELETE /api/comments/:commentId`  
-  Remover comentário  
+- `DELETE /api/comments/:commentId`
+  Remover comentário
 
 ---
 
 ### Avaliações
 
-- `POST /api/prompts/:id/rating`  
-  Avaliar prompt  
+- `POST /api/prompts/:id/rating`
+  Avaliar prompt
 
-- `PUT /api/prompts/:id/rating`  
-  Atualizar avaliação  
+- `PUT /api/prompts/:id/rating`
+  Atualizar avaliação
 
-- `DELETE /api/prompts/:id/rating`  
-  Remover avaliação  
+- `DELETE /api/prompts/:id/rating`
+  Remover avaliação
 
-- `DELETE /api/ratings/:id`  
-  Remover avaliação (admin)  
+- `DELETE /api/ratings/:id`
+  Remover avaliação (admin)
+
+---
+
+### Tradução
+
+- `POST /api/translate`
+  Traduzir texto usando a MyMemory API (serviço externo gratuito)
+  Body: `{ text: string, source: string, target: string }`

@@ -7,6 +7,19 @@ export interface AuthenticatedRequest extends Request {
 
 const JWT_SECRET = process.env.JWT_SECRET || "mudar_em_producao";
 
+export const optionalAuthGuard = (req: AuthenticatedRequest, _res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader?.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
+    try {
+      req.user = jwt.verify(token, JWT_SECRET) as { id: number; userType: string };
+    } catch {
+      // token inválido — continua sem utilizador autenticado
+    }
+  }
+  next();
+};
+
 export const authGuard = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {

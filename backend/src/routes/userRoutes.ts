@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authGuard } from '../middlewares/authGuard';
+import { authGuard, optionalAuthGuard } from '../middlewares/authGuard';
 import { requireUserType } from '../middlewares/roleGuard';
 import {
     getUsersController,
@@ -13,7 +13,7 @@ const router = Router();
 
 // Públicas
 router.post('/', createUserController);      // registo (criação de conta)
-router.get('/:id', getUserController);       // perfil público (controller esconde email/password se não for dono ou admin)
+router.get('/:id', optionalAuthGuard, getUserController);  // perfil público, mas devolve email se for o próprio ou admin
 
 // Protegidas com autenticação
 router.put('/:id', authGuard, updateUserController);   // dentro do controller verifica se é dono ou admin

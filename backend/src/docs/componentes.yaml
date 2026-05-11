@@ -24,8 +24,30 @@ components:
                 type: string
                 example: "O nome da categoria é obrigatório"
 
+    UserPublic:
+      type: object
+      description: "Perfil público — sem email (utilizador não autenticado ou a ver perfil alheio)"
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "john_doe"
+        userType:
+          type: string
+          enum:
+            - User
+            - Mod
+            - Admin
+          example: "User"
+        createdAt:
+          type: string
+          format: date-time
+
     User:
       type: object
+      description: "Perfil completo — inclui email (próprio utilizador ou admin)"
       properties:
         id:
           type: integer
