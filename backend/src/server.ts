@@ -21,6 +21,7 @@ import commentRoutes from './routes/commentRoutes';
 import ratingRoutes from './routes/ratingRoutes';
 import authRoutes from './routes/authRoutes';
 import translateRoutes from './routes/translateRoutes';
+import ecoRoutes from './routes/ecoRoutes';
 
 // Criação da aplicação Express
 const app = express();
@@ -55,6 +56,7 @@ app.use('/api/versions', versionRoutes);
 app.use('/api/ratings', ratingRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/translate', translateRoutes);
+app.use('/api', ecoRoutes);
 
 // Documentação da API com Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
