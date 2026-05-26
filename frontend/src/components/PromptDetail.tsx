@@ -16,7 +16,7 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
   const [comments, setComments] = useState<any[]>([]);
   const [versions, setVersions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'info' | 'comments' | 'versions'>('info');
+  const [activeTab, setActiveTab] = useState<'info' | 'comments' | 'versions' | 'eco'>('info');
   const [commentText, setCommentText] = useState('');
   const [userScore, setUserScore] = useState<number>(0);
   const [newVersionText, setNewVersionText] = useState('');
@@ -25,6 +25,9 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
   const [showEditForm, setShowEditForm] = useState(false);
   const [editData, setEditData] = useState<any>({});
   const [showTranslate, setShowTranslate] = useState(false);
+  const [ecoStats, setEcoStats] = useState<any>(null);
+  const [ecoLoading, setEcoLoading] = useState(false);
+  const [ecoError, setEcoError] = useState<string | null>(null);
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
@@ -218,7 +221,7 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
 
       {/* Tabs */}
       <div className="eco-tabs flex border-b border-gray-200 mb-6">
-        {(['info', 'comments', 'versions'] as const).map(tab => (
+        {(['info', 'comments', 'versions', 'eco'] as const).map(tab => (
           <button
             key={tab}
             className={`eco-tab px-5 py-3 text-sm font-medium border-b-2 transition-all
@@ -226,9 +229,26 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
                 ? 'border-green-700 text-green-700'
                 : 'border-transparent text-gray-500 hover:text-gray-800'
               }`}
-            onClick={() => setActiveTab(tab)}
+            onClick={async () => {
+              setActiveTab(tab);
+              if (tab === 'eco' && !ecoStats && !ecoLoading) {
+                setEcoLoading(true);
+                setEcoError(null);
+                try {
+                  const data = await api.getEcoStats(promptId);
+                  setEcoStats(data);
+                } catch (err: any) {
+                  setEcoError(err.message);
+                } finally {
+                  setEcoLoading(false);
+                }
+              }
+            }}
           >
-            {tab === 'info' ? 'Informação' : tab === 'comments' ? `Comentários (${comments.length})` : `Versões (${versions.length})`}
+            {tab === 'info' ? 'Informação'
+              : tab === 'comments' ? `Comentários (${comments.length})`
+              : tab === 'versions' ? `Versões (${versions.length})`
+              : '🌱 Eco'}
           </button>
         ))}
       </div>
@@ -333,6 +353,109 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
               ))
             )}
           </div>
+        </div>
+      )}
+
+      {activeTab === 'eco' && (
+        <div className="flex flex-col gap-5">
+          {ecoLoading && <p className="text-center py-10 text-gray-400 text-sm">A calcular impacto ecológico...</p>}
+          {ecoError && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{ecoError}</div>}
+          {ecoStats && (
+            <>
+              {/* Métricas principais */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { label: 'CO₂', value: `${ecoStats.environmental.co2.grams} g`, icon: '💨' },
+                  { label: 'Água', value: `${ecoStats.environmental.water.milliliters} ml`, icon: '💧' },
+                  { label: 'Energia', value: `${ecoStats.environmental.energy.wattHours} Wh`, icon: '⚡' },
+                  { label: 'Custo', value: `$${ecoStats.cost.estimatedUSD}`, icon: '💰' },
+                ].map(({ label, value, icon }) => (
+                  <div key={label} className="eco-stat-card bg-white border border-gray-200 rounded-xl p-4 text-center">
+                    <div className="text-2xl mb-1">{icon}</div>
+                    <div className="text-lg font-bold text-gray-800">{value}</div>
+                    <div className="text-xs text-gray-400 mt-0.5">{label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Tokens */}
+              <div>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Tokens estimados</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-gray-50 rounded-lg p-3 text-sm text-center">
+                    <div className="font-semibold text-gray-700">{ecoStats.tokens.promptTokens}</div>
+                    <div className="text-gray-400 text-xs">Prompt</div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-3 text-sm text-center">
+                    <div className="font-semibold text-gray-700">{ecoStats.tokens.resultTokens}</div>
+                    <div className="text-gray-400 text-xs">Resultado</div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-3 text-sm text-center">
+                    <div className="font-semibold text-gray-700">{ecoStats.tokens.totalTokens}</div>
+                    <div className="text-gray-400 text-xs">Total</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Equivalências */}
+              <div>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Equivalências</h3>
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                    <span className="text-gray-500">🚗 km de carro</span>
+                    <span className="font-medium text-gray-700">{ecoStats.equivalences.co2.kmDeCarro}</span>
+                  </div>
+                  <div className="flex justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                    <span className="text-gray-500">📺 min. de streaming</span>
+                    <span className="font-medium text-gray-700">{ecoStats.equivalences.co2.minutosDeStreaming}</span>
+                  </div>
+                  <div className="flex justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                    <span className="text-gray-500">📧 emails equivalentes</span>
+                    <span className="font-medium text-gray-700">{ecoStats.equivalences.co2.emailsEquivalentes}</span>
+                  </div>
+                  <div className="flex justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                    <span className="text-gray-500">🥤 copos de água</span>
+                    <span className="font-medium text-gray-700">{ecoStats.equivalences.water.coposDeAgua}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Métricas do prompt */}
+              <div>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Métricas do prompt</h3>
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                    <span className="text-gray-500">Palavras</span>
+                    <span className="font-medium text-gray-700">{ecoStats.promptMetrics.words}</span>
+                  </div>
+                  <div className="flex justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                    <span className="text-gray-500">Caracteres</span>
+                    <span className="font-medium text-gray-700">{ecoStats.promptMetrics.characters}</span>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* Disclaimer */}
+              <p className="text-xs text-gray-400 italic">Valores estimados. Não representam medições reais.</p>
+
+              {/* Impacto acumulado */}
+              <div>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Impacto acumulado ({ecoStats.versions.count} versões)</h3>
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex justify-between text-sm bg-green-50 rounded-lg px-3 py-2">
+                    <span className="text-green-700">Total de tokens</span>
+                    <span className="font-semibold text-green-800">{ecoStats.versions.totalTokensAcrossVersions}</span>
+                  </div>
+                  <div className="flex justify-between text-sm bg-green-50 rounded-lg px-3 py-2">
+                    <span className="text-green-700">CO₂ total</span>
+                    <span className="font-semibold text-green-800">{ecoStats.versions.totalCo2WithVersionsGrams} g</span>
+                  </div>
+                </div>
+              </div>
+
+            </>
+          )}
         </div>
       )}
 

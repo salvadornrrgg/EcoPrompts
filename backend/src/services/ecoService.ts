@@ -51,9 +51,6 @@ export const getEcoStats = async (promptId: number) => {
   const wordsCount = prompt.prompt.trim().split(/\s+/).length;
   const densityScore = parseFloat((wordsCount / promptLength * 100).toFixed(2));
 
-  // Eficiência — ratio entre resultado e prompt (quanto output por unidade de input)
-  const efficiencyRatio = parseFloat((resultTokens / promptTokens).toFixed(2));
-
   // Impacto acumulado das versões
   const versionsCount = prompt.versions.length;
   const totalVersionTokens = prompt.versions.reduce((acc, v) => acc + estimateTokens(v.promptText), 0);
@@ -109,18 +106,11 @@ export const getEcoStats = async (promptId: number) => {
       characters: promptLength,
       words: wordsCount,
       densityScore,
-      efficiencyRatio,
-      note: efficiencyRatio > 2
-        ? 'Prompt eficiente — gera muito output por unidade de input'
-        : efficiencyRatio > 1
-        ? 'Prompt moderadamente eficiente'
-        : 'Prompt pouco eficiente — considera simplificar',
     },
     versions: {
       count: versionsCount,
       totalTokensAcrossVersions: totalVersionTokens,
       totalCo2WithVersionsGrams: parseFloat(totalCo2WithVersions.toFixed(4)),
     },
-    disclaimer: 'Valores estimados com base em literatura científica e dados públicos dos fornecedores. Não representam medições reais.',
   };
 };

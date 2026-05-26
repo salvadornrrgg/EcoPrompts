@@ -518,6 +518,20 @@ button[class*="border-gray-3"]:hover {
 }
 
 /* ============================================================
+   ECO STAT CARDS
+   ============================================================ */
+.eco-stat-card {
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.eco-stat-card:hover {
+  border-color: rgba(22, 163, 74, 0.30) !important;
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(22, 163, 74, 0.10) !important;
+  transform: translateY(-2px);
+}
+
+/* ============================================================
    TABELA ADMIN
    ============================================================ */
 .eco-table {
