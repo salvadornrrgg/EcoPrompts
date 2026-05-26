@@ -217,11 +217,11 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
       )}
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-200 mb-6">
+      <div className="eco-tabs flex border-b border-gray-200 mb-6">
         {(['info', 'comments', 'versions'] as const).map(tab => (
           <button
             key={tab}
-            className={`px-5 py-3 text-sm font-medium border-b-2 transition-all
+            className={`eco-tab px-5 py-3 text-sm font-medium border-b-2 transition-all
               ${activeTab === tab
                 ? 'border-green-700 text-green-700'
                 : 'border-transparent text-gray-500 hover:text-gray-800'
@@ -249,13 +249,13 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
                 Traduzir prompt
               </button>
             </div>
-            <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm whitespace-pre-wrap break-words">
+            <pre className="eco-code bg-gray-900 text-gray-100 p-4 rounded-lg text-sm whitespace-pre-wrap break-words">
               {prompt.prompt}
             </pre>
           </div>
           <div>
             <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Resultado obtido</h3>
-            <pre className="bg-gray-50 border border-gray-200 text-gray-600 p-4 rounded-lg text-sm whitespace-pre-wrap break-words">
+            <pre className="eco-code-result bg-gray-50 border border-gray-200 text-gray-600 p-4 rounded-lg text-sm whitespace-pre-wrap break-words">
               {prompt.result}
             </pre>
           </div>
@@ -397,7 +397,7 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
               versions.map((v: any) => (
                 <div key={v.id} className="bg-white border border-gray-200 rounded-xl p-5">
                   <div className="flex items-center gap-3 mb-3 flex-wrap">
-                    <span className="bg-green-700 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
+                    <span className="eco-version-badge bg-green-700 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
                       v{v.versionNumber}
                     </span>
                     <span className="text-sm font-medium text-gray-700">@{v.user?.username}</span>
@@ -414,7 +414,7 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
                   {v.improvements && (
                     <p className="text-sm text-gray-500 mb-3"><strong>Melhorias:</strong> {v.improvements}</p>
                   )}
-                  <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm whitespace-pre-wrap break-words">
+                  <pre className="eco-code bg-gray-900 text-gray-100 p-4 rounded-lg text-sm whitespace-pre-wrap break-words">
                     {v.promptText}
                   </pre>
                   {v.rating > 0 && (

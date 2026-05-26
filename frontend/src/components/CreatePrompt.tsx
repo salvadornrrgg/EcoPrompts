@@ -43,8 +43,8 @@ export const CreatePrompt = ({ user, onClose, onSuccess }: CreatePromptProps) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg max-h-screen overflow-y-auto" onClick={e => e.stopPropagation()}>
+    <div className="eco-overlay fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="eco-modal bg-white rounded-xl shadow-lg p-8 w-full max-w-lg max-h-screen overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Novo Prompt</h2>
           <button className="text-gray-400 hover:text-gray-600 text-xl" onClick={onClose}>✕</button>

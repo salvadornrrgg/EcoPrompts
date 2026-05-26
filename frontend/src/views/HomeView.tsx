@@ -12,10 +12,10 @@ export const HomeView = ({ setView, user, onShowLogin }: HomeViewProps) => {
   return (
     <div>
       <div className="text-center py-20">
-        <div className="inline-block bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-medium mb-6">
+        <div className="eco-hero-badge inline-block bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-medium mb-6">
           🌿 Prompt Engineering Colaborativo
         </div>
-        <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+        <h1 className="eco-hero-title text-5xl font-extrabold text-gray-900 leading-tight mb-4">
           Partilha prompts.<br />
           <span className="text-green-700">Poupa energia.</span>
         </h1>
@@ -42,22 +42,22 @@ export const HomeView = ({ setView, user, onShowLogin }: HomeViewProps) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mt-4">
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
+        <div className="eco-feature-card bg-white border border-gray-200 rounded-xl p-6">
           <div className="text-3xl mb-3">🔍</div>
           <h3 className="font-semibold text-gray-800 mb-1">Pesquisa Semântica</h3>
           <p className="text-sm text-gray-500">Encontra prompts por significado, não apenas por palavras-chave.</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
+        <div className="eco-feature-card bg-white border border-gray-200 rounded-xl p-6">
           <div className="text-3xl mb-3">🔄</div>
           <h3 className="font-semibold text-gray-800 mb-1">Versionamento</h3>
           <p className="text-sm text-gray-500">Melhora prompts existentes e mantém um histórico de evoluções.</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
+        <div className="eco-feature-card bg-white border border-gray-200 rounded-xl p-6">
           <div className="text-3xl mb-3">⭐</div>
           <h3 className="font-semibold text-gray-800 mb-1">Avaliações</h3>
           <p className="text-sm text-gray-500">A comunidade avalia e destaca os prompts mais eficazes.</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
+        <div className="eco-feature-card bg-white border border-gray-200 rounded-xl p-6">
           <div className="text-3xl mb-3">💬</div>
           <h3 className="font-semibold text-gray-800 mb-1">Discussão</h3>
           <p className="text-sm text-gray-500">Comenta e discute técnicas de prompt engineering.</p>

@@ -1,3 +1,580 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================================
+   VARIÁVEIS GLOBAIS
+   ============================================================ */
+:root {
+  --green:        #16a34a;
+  --green-mid:    #15803d;
+  --green-dark:   #14532d;
+  --green-light:  #22c55e;
+  --green-pale:   #dcfce7;
+  --glow-green:   rgba(22, 163, 74, 0.22);
+  --glow-green2:  rgba(22, 163, 74, 0.40);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.06);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,.16), 0 8px 24px rgba(0,0,0,.09);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+/* ============================================================
+   ANIMAÇÕES
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+@keyframes slideInScale {
+  from { opacity: 0; transform: scale(0.90) translateY(-20px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);     }
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.65); }
+  60%  {             transform: scale(1.10); }
+  100% { opacity: 1; transform: scale(1);   }
+}
+
+@keyframes gradientFlow {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-7px); }
+}
+
+@keyframes shimmerSlide {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0   rgba(22, 163, 74, 0.35); }
+  70%  { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0.00); }
+  100% { box-shadow: 0 0 0 0   rgba(22, 163, 74, 0.00); }
+}
+
+@keyframes tabSlide {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ============================================================
+   BASE / GLOBAL
+   ============================================================ */
+* { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  background:
+    radial-gradient(ellipse at 85% 5%,  rgba(22, 163, 74, 0.09) 0%, transparent 42%),
+    radial-gradient(ellipse at 10% 95%, rgba(99, 102, 241, 0.07) 0%, transparent 42%),
+    linear-gradient(150deg, #f0fdf4 0%, #f8fafc 55%, #eff6ff 100%) fixed !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.012em;
+}
+
+::selection {
+  background: rgba(22, 163, 74, 0.20);
+  color: #14532d;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar             { width: 5px; height: 5px; }
+::-webkit-scrollbar-track       { background: transparent; }
+::-webkit-scrollbar-thumb       { background: linear-gradient(180deg, #86efac, #22c55e); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #16a34a; }
+
+/* Entradas e textareas — base */
+input, textarea, select {
+  transition: border-color 0.2s ease, box-shadow 0.22s ease, transform 0.18s ease !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 3px var(--glow-green), var(--shadow-sm) !important;
+  border-color: var(--green) !important;
+  outline: none !important;
+  transform: translateY(-1px);
+}
+
+input:hover:not(:focus),
+textarea:hover:not(:focus),
+select:hover:not(:focus) {
+  border-color: #9ca3af !important;
+}
+
+/* Todos os botões — base micro-interação */
+button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.25) 0%, transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+button:active:not(:disabled)::after { opacity: 1; }
+button:active:not(:disabled)        { transform: scale(0.965) translateY(1px) !important; }
+
+/* Entrada da página principal */
+main {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+nav {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.55) !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 4px 20px rgba(0,0,0,.04) !important;
+  animation: fadeInDown 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Nome "EcoPrompts" — gradiente animado */
+nav span.text-lg {
+  background: linear-gradient(120deg, #16a34a 0%, #059669 35%, #0d9488 65%, #16a34a 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientFlow 5s ease infinite;
+  font-weight: 800 !important;
+}
+
+/* Botões de navegação */
+nav button {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+nav button:hover {
+  background: rgba(22, 163, 74, 0.08) !important;
+  color: #16a34a !important;
+}
+
+/* Botão de nav ativo */
+nav button[class*="bg-green-100"] {
+  background: linear-gradient(135deg, rgba(22,163,74,0.14), rgba(5,150,105,0.20)) !important;
+  box-shadow: 0 0 0 1.5px rgba(22, 163, 74, 0.28), var(--shadow-xs) !important;
+  color: #16a34a !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   BOTÕES — PRIMÁRIO (verde)
+   ============================================================ */
+button[class*="bg-green-7"] {
+  background-image: linear-gradient(135deg, #22c55e 0%, #16a34a 55%, #15803d 100%) !important;
+  background-color: transparent !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.005em;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.30), 0 1px 3px rgba(22, 163, 74, 0.18) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.10);
+  border: none !important;
+}
+
+button[class*="bg-green-7"]:hover:not(:disabled) {
+  background-image: linear-gradient(135deg, #16a34a 0%, #15803d 55%, #14532d 100%) !important;
+  box-shadow: 0 4px 18px rgba(22, 163, 74, 0.44), 0 2px 8px rgba(22, 163, 74, 0.22) !important;
+  transform: translateY(-1px) !important;
+}
+
+button[class*="bg-green-7"]:disabled {
+  background-image: linear-gradient(135deg, #86efac, #4ade80) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   BOTÕES — PERIGO (vermelho)
+   ============================================================ */
+button[class*="bg-red-6"] {
+  background-image: linear-gradient(135deg, #f87171 0%, #dc2626 55%, #b91c1c 100%) !important;
+  background-color: transparent !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.24), 0 1px 3px rgba(220, 38, 38, 0.14) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.12);
+  border: none !important;
+}
+
+button[class*="bg-red-6"]:hover:not(:disabled) {
+  background-image: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  box-shadow: 0 4px 18px rgba(220, 38, 38, 0.38), 0 2px 8px rgba(220, 38, 38, 0.20) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ============================================================
+   BOTÕES — OUTLINE / SECUNDÁRIO
+   ============================================================ */
+button[class*="border-gray-3"] {
+  background: rgba(255, 255, 255, 0.90) !important;
+  backdrop-filter: blur(4px);
+  font-weight: 500 !important;
+  border: 1.5px solid rgba(209, 213, 219, 0.9) !important;
+  color: #374151 !important;
+  transition: all 0.2s ease !important;
+}
+
+button[class*="border-gray-3"]:hover {
+  background: #ffffff !important;
+  border-color: #9ca3af !important;
+  box-shadow: var(--shadow-sm) !important;
+  color: #111827 !important;
+}
+
+/* ============================================================
+   CARDS DE PROMPTS
+   ============================================================ */
+.eco-prompt-card {
+  background: #ffffff;
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  animation: fadeInUp 0.42s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.eco-prompt-card:hover {
+  border-color: rgba(22, 163, 74, 0.30) !important;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(22, 163, 74, 0.12) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Stagger — cada card entra ligeiramente depois do anterior */
+.eco-prompt-card:nth-child(2)    { animation-delay: 0.06s; }
+.eco-prompt-card:nth-child(3)    { animation-delay: 0.12s; }
+.eco-prompt-card:nth-child(4)    { animation-delay: 0.18s; }
+.eco-prompt-card:nth-child(5)    { animation-delay: 0.24s; }
+.eco-prompt-card:nth-child(6)    { animation-delay: 0.30s; }
+.eco-prompt-card:nth-child(7)    { animation-delay: 0.36s; }
+.eco-prompt-card:nth-child(8)    { animation-delay: 0.40s; }
+.eco-prompt-card:nth-child(n+9)  { animation-delay: 0.44s; }
+
+/* ============================================================
+   HOME — HERO
+   ============================================================ */
+/* Badge "🌿 Prompt Engineering Colaborativo" */
+.eco-hero-badge {
+  background: linear-gradient(135deg, rgba(22,163,74,0.14), rgba(5,150,105,0.20)) !important;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  box-shadow: 0 0 16px rgba(22, 163, 74, 0.14), var(--shadow-xs);
+  font-weight: 600 !important;
+  animation: fadeInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.01em;
+}
+
+/* Título "Partilha prompts. / Poupa energia." */
+.eco-hero-title {
+  letter-spacing: -0.04em !important;
+  line-height: 1.08 !important;
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+
+/* Gradiente no "Poupa energia." */
+.eco-hero-title span {
+  background: linear-gradient(120deg, #16a34a 0%, #059669 50%, #0d9488 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   HOME — FEATURE CARDS
+   ============================================================ */
+.eco-feature-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f7fffe 100%) !important;
+  border: 1px solid rgba(22, 163, 74, 0.14) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.eco-feature-card:hover {
+  background: linear-gradient(145deg, #f0fdf4 0%, #ecfdf5 100%) !important;
+  border-color: rgba(22, 163, 74, 0.28) !important;
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(22, 163, 74, 0.12) !important;
+  transform: translateY(-5px);
+}
+
+.eco-feature-card:nth-child(1) { animation-delay: 0.10s; }
+.eco-feature-card:nth-child(2) { animation-delay: 0.18s; }
+.eco-feature-card:nth-child(3) { animation-delay: 0.26s; }
+.eco-feature-card:nth-child(4) { animation-delay: 0.34s; }
+
+/* Ícones flutuantes nos feature cards */
+.eco-feature-card div[class*="text-3xl"] {
+  display: inline-block;
+  animation: float 3.5s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+.eco-feature-card:nth-child(2) div[class*="text-3xl"] { animation-delay: 0.7s; }
+.eco-feature-card:nth-child(3) div[class*="text-3xl"] { animation-delay: 1.4s; }
+.eco-feature-card:nth-child(4) div[class*="text-3xl"] { animation-delay: 2.1s; }
+
+/* ============================================================
+   MODAIS
+   ============================================================ */
+.eco-overlay {
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.45) !important;
+}
+
+.eco-modal {
+  animation: slideInScale 0.32s cubic-bezier(0.34, 1.5, 0.64, 1);
+  box-shadow: var(--shadow-xl) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-xl) !important;
+}
+
+/* Título do modal */
+.eco-modal h2 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #111827;
+}
+
+/* ============================================================
+   BLOCOS DE CÓDIGO
+   ============================================================ */
+.eco-code {
+  background: linear-gradient(145deg, #0f172a 0%, #1a2540 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-md) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), var(--shadow-md);
+  font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace !important;
+  font-size: 0.80rem !important;
+  line-height: 1.78 !important;
+  color: #e2e8f0 !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.eco-code:hover {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), var(--shadow-lg) !important;
+}
+
+.eco-code-result {
+  background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%) !important;
+  border: 1px solid rgba(0, 0, 0, 0.07) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), var(--shadow-xs);
+  font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', ui-monospace, monospace !important;
+  font-size: 0.80rem !important;
+  line-height: 1.78 !important;
+  color: #334155 !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.eco-code-result:hover {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), var(--shadow-sm) !important;
+}
+
+/* ============================================================
+   TABS (Informação / Comentários / Versões)
+   ============================================================ */
+.eco-tabs {
+  gap: 0;
+  padding-bottom: 0;
+}
+
+.eco-tab {
+  position: relative;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 0.7rem 1.4rem !important;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.eco-tab:hover {
+  color: #374151 !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+.eco-tab[class*="border-green-7"] {
+  color: var(--green) !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   BADGE DE VERSÃO (v1, v2, ...)
+   ============================================================ */
+.eco-version-badge {
+  background: linear-gradient(135deg, #22c55e, #16a34a, #15803d) !important;
+  box-shadow: 0 1px 6px rgba(22, 163, 74, 0.38), 0 0 0 1px rgba(22, 163, 74, 0.20);
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  padding: 0.18rem 0.6rem !important;
+}
+
+/* ============================================================
+   CATEGORIES — ITEM DE LISTA
+   ============================================================ */
+.eco-category-item {
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 0.9rem;
+}
+
+.eco-category-item:hover {
+  background: rgba(22, 163, 74, 0.06) !important;
+  padding-left: 1.4rem !important;
+}
+
+/* Item ativo */
+.eco-category-item[class*="bg-green-50"] {
+  background: linear-gradient(90deg, rgba(22,163,74,0.12), rgba(5,150,105,0.08)) !important;
+  border-left: 3px solid var(--green);
+  font-weight: 600 !important;
+  color: var(--green) !important;
+  padding-left: calc(1rem + 3px) !important;
+}
+
+/* ============================================================
+   PROFILE — CARTÃO E AVATAR
+   ============================================================ */
+.eco-profile-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%) !important;
+  border: 1px solid rgba(22, 163, 74, 0.16) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-md) !important;
+  animation: fadeInUp 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.eco-avatar {
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.18), var(--shadow-md);
+  animation: popIn 0.55s cubic-bezier(0.34, 1.5, 0.64, 1);
+  background: linear-gradient(135deg, #22c55e, #16a34a, #15803d) !important;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.eco-avatar:hover {
+  box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.24), var(--shadow-lg);
+  transform: scale(1.06);
+}
+
+/* ============================================================
+   TABELA ADMIN
+   ============================================================ */
+.eco-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.eco-table thead tr {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%) !important;
+}
+
+.eco-table th {
+  color: var(--green-mid) !important;
+  font-weight: 700 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  background: transparent !important;
+}
+
+.eco-table tbody tr {
+  transition: background 0.15s ease !important;
+}
+
+.eco-table tbody tr:hover td {
+  background: rgba(22, 163, 74, 0.04) !important;
+}
+
+/* ============================================================
+   ALERTAS
+   ============================================================ */
+div[class*="bg-red-50"][class*="text-red"] {
+  background: linear-gradient(135deg, #fef2f2, #fff5f5) !important;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: var(--radius-sm);
+  animation: slideInRight 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-xs);
+}
+
+div[class*="bg-green-50"][class*="text-green"] {
+  background: linear-gradient(135deg, #f0fdf4, #f7fffe) !important;
+  border: 1px solid rgba(22, 163, 74, 0.22);
+  border-radius: var(--radius-sm);
+  animation: slideInRight 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-xs);
+}
+
+/* ============================================================
+   TÍTULOS DE VISTA (h1 "Prompts", "Categorias", ...)
+   ============================================================ */
+h1[class*="text-2xl"][class*="font-bold"] {
+  letter-spacing: -0.03em !important;
+  font-weight: 800 !important;
+}
+
+/* ============================================================
+   ESTADOS DE LOADING / VAZIO
+   ============================================================ */
+div[class*="text-center"][class*="py-12"] {
+  animation: fadeIn 0.4s ease;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   BADGES DE CATEGORIA E MODELO (nos prompt cards)
+   ============================================================ */
+span[class*="bg-green-100"][class*="text-green-7"] {
+  background: linear-gradient(135deg, rgba(22,163,74,0.16), rgba(5,150,105,0.22)) !important;
+  border: 1px solid rgba(22, 163, 74, 0.22);
+  font-weight: 600 !important;
+}
+
+span[class*="bg-gray-100"][class*="text-gray-5"] {
+  background: rgba(243, 244, 246, 0.85) !important;
+  border: 1px solid rgba(209, 213, 219, 0.6);
+}

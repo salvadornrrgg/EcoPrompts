@@ -67,8 +67,8 @@ export const ProfileView = ({ user, onLogout }: ProfileViewProps) => {
       {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
       {success && <div className="bg-green-50 text-green-700 p-3 rounded-lg mb-4 text-sm">{success}</div>}
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6 flex items-center gap-5 mb-6">
-        <div className="w-16 h-16 bg-green-700 text-white rounded-full flex items-center justify-center text-2xl font-bold flex-shrink-0">
+      <div className="eco-profile-card bg-white border border-gray-200 rounded-xl p-6 flex items-center gap-5 mb-6">
+        <div className="eco-avatar w-16 h-16 bg-green-700 text-white rounded-full flex items-center justify-center text-2xl font-bold flex-shrink-0">
           {profile?.username?.[0]?.toUpperCase()}
         </div>
         <div>

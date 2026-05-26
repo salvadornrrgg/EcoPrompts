@@ -53,7 +53,7 @@ export const AdminView = ({ isAdmin }: AdminViewProps) => {
       ) : (
         <>
           <div className="overflow-x-auto">
-            <table className="w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <table className="eco-table w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
                   <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>

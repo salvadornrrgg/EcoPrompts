@@ -131,7 +131,7 @@ export const CategoriesView = ({ isAdmin }: CategoriesViewProps) => {
             {categories.map((cat: any) => (
               <div
                 key={cat.id}
-                className={`flex items-center justify-between px-4 py-3 cursor-pointer border-b border-gray-100 last:border-b-0 transition-all
+                className={`eco-category-item flex items-center justify-between px-4 py-3 cursor-pointer border-b border-gray-100 last:border-b-0 transition-all
                   ${selectedCategory?.id === cat.id ? 'bg-green-50 text-green-700 font-semibold' : 'hover:bg-gray-50'}`}
                 onClick={() => handleSelectCategory(cat)}
               >

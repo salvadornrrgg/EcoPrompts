@@ -29,8 +29,8 @@ export const Login = ({ onSuccess, onClose, onSwitchToRegister }: LoginProps) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-sm" onClick={e => e.stopPropagation()}>
+    <div className="eco-overlay fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="eco-modal bg-white rounded-xl shadow-lg p-8 w-full max-w-sm" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Entrar</h2>
           <button className="text-gray-400 hover:text-gray-600 text-xl" onClick={onClose}>✕</button>

@@ -132,7 +132,7 @@ export const PromptsView = ({ token, user, isAdmin }: PromptsViewProps) => {
             {prompts.map(p => (
               <div
                 key={p.id}
-                className="bg-white border border-gray-200 rounded-xl p-5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+                className="eco-prompt-card bg-white border border-gray-200 rounded-xl p-5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
                 onClick={() => setSelectedPromptId(p.id)}
               >
                 <div className="flex gap-2 mb-3">
