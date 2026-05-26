@@ -1,5 +1,14 @@
 # EcoPrompts API
 
+## Contribuição
+
+ - 25% - ​Daniel Santos nº 64168 
+ - 25% - ​Miguel Sousa nº 64150 
+ - 25% - ​Salvador Gonçalves nº 64162 
+ - 25% - Tomás Farinha nº6425 
+
+---
+
 ## Contextualização
 
 API RESTful para gerenciamento de prompts, categorias, comentários, avaliações e versões para modelos de IA.

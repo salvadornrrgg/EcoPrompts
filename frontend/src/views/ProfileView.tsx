@@ -1,9 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext';
 import * as api from '../api/api';
+import type { User } from '../App';
 
-export const ProfileView = () => {
-  const { user, logout } = useAuth();
+interface ProfileViewProps {
+  token: string | null;
+  user: User | null;
+  onLogout: () => void;
+}
+
+export const ProfileView = ({ user, onLogout }: ProfileViewProps) => {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -42,60 +47,93 @@ export const ProfileView = () => {
   const handleDelete = async () => {
     if (!confirm('Tens a certeza que queres apagar a tua conta? Esta ação é irreversível.')) return;
     await api.deleteUser(user!.id);
-    logout();
+    onLogout();
   };
 
-  if (!user) return <div className="alert-error">Tens de estar autenticado.</div>;
-  if (loading) return <div className="loading">A carregar perfil...</div>;
+  if (!user) return (
+    <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">Tens de estar autenticado.</div>
+  );
+
+  if (loading) return (
+    <div className="text-center py-12 text-gray-500">A carregar perfil...</div>
+  );
 
   return (
-    <div className="view">
-      <div className="view-header">
-        <h1>O meu perfil</h1>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">O meu perfil</h1>
       </div>
 
-      {error && <div className="alert-error">{error}</div>}
-      {success && <div className="alert-success">{success}</div>}
+      {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
+      {success && <div className="bg-green-50 text-green-700 p-3 rounded-lg mb-4 text-sm">{success}</div>}
 
-      <div className="profile-card">
-        <div className="profile-avatar">
+      <div className="bg-white border border-gray-200 rounded-xl p-6 flex items-center gap-5 mb-6">
+        <div className="w-16 h-16 bg-green-700 text-white rounded-full flex items-center justify-center text-2xl font-bold flex-shrink-0">
           {profile?.username?.[0]?.toUpperCase()}
         </div>
-        <div className="profile-info">
-          <h2>{profile?.username}</h2>
-          <p>{profile?.email}</p>
-          <span className="user-type-badge">{profile?.userType}</span>
-          <p className="profile-date">Membro desde {new Date(profile?.createdAt).toLocaleDateString('pt-PT')}</p>
+        <div>
+          <h2 className="text-lg font-bold text-gray-900">{profile?.username}</h2>
+          <p className="text-sm text-gray-500">{profile?.email}</p>
+          <span className="inline-block bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-medium mt-1">
+            {profile?.userType}
+          </span>
+          <p className="text-xs text-gray-400 mt-1">
+            Membro desde {new Date(profile?.createdAt).toLocaleDateString('pt-PT')}
+          </p>
         </div>
       </div>
 
       {editing ? (
-        <div className="edit-form">
-          <h3>Editar perfil</h3>
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              value={editData.username}
-              onChange={e => setEditData(d => ({ ...d, username: e.target.value }))}
-            />
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              value={editData.email}
-              onChange={e => setEditData(d => ({ ...d, email: e.target.value }))}
-            />
-          </div>
-          <div className="form-row">
-            <button className="btn-primary" onClick={handleUpdate}>Guardar</button>
-            <button className="btn-outline" onClick={() => setEditing(false)}>Cancelar</button>
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-4">
+          <h3 className="font-semibold text-gray-800 mb-4">Editar perfil</h3>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-700">Username</label>
+              <input
+                value={editData.username}
+                onChange={e => setEditData(d => ({ ...d, username: e.target.value }))}
+                className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-600"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                value={editData.email}
+                onChange={e => setEditData(d => ({ ...d, email: e.target.value }))}
+                className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-600"
+              />
+            </div>
+            <div className="flex gap-3">
+              <button
+                className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800"
+                onClick={handleUpdate}
+              >
+                Guardar
+              </button>
+              <button
+                className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-50"
+                onClick={() => setEditing(false)}
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
       ) : (
-        <div className="form-row">
-          <button className="btn-outline" onClick={() => setEditing(true)}>Editar perfil</button>
-          <button className="btn-danger" onClick={handleDelete}>Apagar conta</button>
+        <div className="flex gap-3">
+          <button
+            className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-50"
+            onClick={() => setEditing(true)}
+          >
+            Editar perfil
+          </button>
+          <button
+            className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700"
+            onClick={handleDelete}
+          >
+            Apagar conta
+          </button>
         </div>
       )}
     </div>
