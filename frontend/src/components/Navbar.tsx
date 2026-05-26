@@ -30,8 +30,8 @@ export const Navbar = ({ currentView, setView, user, isAdmin, onLogout, onShowLo
       {showTranslator && <TranslateModal onClose={() => setShowTranslator(false)} />}
       <nav className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => setView('home')}>
-          <span className="text-xl">🌿</span>
-          <span className="text-lg font-bold text-green-700">EcoPrompts</span>
+          <img src="/src/assets/logo.png" alt="EcoPrompts" className="h-10 w-auto" />
+          <span className="text-xl font-extrabold"><span className="eco-brand-eco">Eco</span><span className="eco-brand-prompts">Prompts</span></span>
         </div>
 
         <div className="flex gap-1">

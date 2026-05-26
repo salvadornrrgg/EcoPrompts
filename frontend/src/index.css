@@ -173,15 +173,29 @@ nav {
   animation: fadeInDown 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Nome "EcoPrompts" — gradiente animado */
-nav span.text-lg {
-  background: linear-gradient(120deg, #16a34a 0%, #059669 35%, #0d9488 65%, #16a34a 100%);
-  background-size: 250% auto;
+/* Logo na navbar */
+nav img {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+nav img:hover {
+  transform: scale(1.05);
+  opacity: 0.88;
+}
+
+/* "Eco" — gradiente verde animado */
+.eco-brand-eco {
+  background: linear-gradient(120deg, #16a34a 0%, #059669 50%, #0d9488 100%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradientFlow 5s ease infinite;
-  font-weight: 800 !important;
+}
+
+/* "Prompts" — verde escuro sólido */
+.eco-brand-prompts {
+  color: #14532d;
 }
 
 /* Botões de navegação */
@@ -304,6 +318,11 @@ button[class*="border-gray-3"]:hover {
   font-weight: 600 !important;
   animation: fadeInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.01em;
+}
+
+/* Full logo na home */
+.eco-full-logo {
+  animation: fadeInDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Título "Partilha prompts. / Poupa energia." */

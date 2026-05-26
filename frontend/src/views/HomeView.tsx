@@ -12,9 +12,7 @@ export const HomeView = ({ setView, user, onShowLogin }: HomeViewProps) => {
   return (
     <div>
       <div className="text-center py-20">
-        <div className="eco-hero-badge inline-block bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-medium mb-6">
-          🌿 Prompt Engineering Colaborativo
-        </div>
+        <img src="/src/assets/logo.png" alt="EcoPrompts" className="eco-full-logo h-56 w-auto mx-auto mb-4" />
         <h1 className="eco-hero-title text-5xl font-extrabold text-gray-900 leading-tight mb-4">
           Partilha prompts.<br />
           <span className="text-green-700">Poupa energia.</span>
