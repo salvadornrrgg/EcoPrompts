@@ -1,28 +1,30 @@
-import { type Request, type Response } from 'express';
+import { type Request, type Response, type NextFunction } from 'express';
 import * as userService from '../services/userService';
 import { createUserSchema, userIdSchema, updateUserSchema } from '../schemas/userSchema';
 import { AuthenticatedRequest } from '../middlewares/authGuard';
 
-export const getUsersController = async (req: Request, res: Response) => {
-    const users = await userService.findAllUsers();
-    const safeUsers = users.map((user: any) => {
-        const { password, ...rest } = user;
-        return rest;
-    });
-    res.json(safeUsers);
+export const getUsersController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const users = await userService.findAllUsers();
+        const safeUsers = users.map((user: any) => {
+            const { password, ...rest } = user;
+            return rest;
+        });
+        res.json(safeUsers);
+    } catch (error: any) {
+        next(error);
+    }
 };
 
-export const createUserController = async (req: Request, res: Response) => {
+export const createUserController = async (req: Request, res: Response, next: NextFunction) => {
     const result = createUserSchema.safeParse(req.body);
     if (!result.success) {
-        return res.status(400).json({
-            error: "Dados inválidos",
-            errors: result.error.issues.map((issue) => ({
-                field: issue.path.join('.'),
-                message: issue.message
-            }))
-        });
+        const err: any = new Error('Dados inválidos');
+        err.status = 400;
+        err.zodErrors = result.error.issues;
+        return next(err);
     }
+
     try {
         const newUser = await userService.createUser(
             result.data.username,
@@ -33,62 +35,52 @@ export const createUserController = async (req: Request, res: Response) => {
         const { password, ...safeUser } = newUser;
         res.status(201).json(safeUser);
     } catch (error: any) {
-        console.error(error);
-        res.status(400).json({ error: error.message || "Error" });
+        error.status = 400;
+        next(error);
     }
 };
 
-export const getUserController = async (req: Request, res: Response) => {
+export const getUserController = async (req: Request, res: Response, next: NextFunction) => {
     const result = userIdSchema.safeParse({ id: req.params.id });
     if (!result.success) {
-        return res.status(400).json({
-            error: "ID inválido",
-            errors: result.error.issues.map((issue) => issue.message)
-        });
+        const err: any = new Error('ID inválido');
+        err.status = 400;
+        err.zodErrors = result.error.issues;
+        return next(err);
     }
 
     try {
         const user = await userService.findUser(parseInt(result.data.id));
         if (!user) return res.status(404).json({ error: "User not found" });
 
-        // Verifica se há utilizador autenticado
         const currentUser = (req as AuthenticatedRequest).user;
-        
-        // Só mostra email se:
-        // 1. Está autenticado E é o próprio utilizador OU é admin
-        // 2. Caso contrário, mostra o user sem email
         const isOwnerOrAdmin = currentUser && (currentUser.id === user.id || currentUser.userType === 'Admin');
 
         const { password, email, ...safeUser } = user;
-        
-        const responseUser = isOwnerOrAdmin 
-            ? { ...safeUser, email: user.email }
-            : safeUser;
-            
+        const responseUser = isOwnerOrAdmin ? { ...safeUser, email: user.email } : safeUser;
+
         res.status(200).json(responseUser);
-    } catch (error) {
-        res.status(404).json({ error: "Invalid User ID" });
+    } catch (error: any) {
+        error.status = 404;
+        next(error);
     }
 };
 
-export const updateUserController = async (req: Request, res: Response) => {
+export const updateUserController = async (req: Request, res: Response, next: NextFunction) => {
     const idResult = userIdSchema.safeParse({ id: req.params.id });
     if (!idResult.success) {
-        return res.status(400).json({
-            error: "ID inválido",
-            errors: idResult.error.issues.map((issue) => issue.message)
-        });
+        const err: any = new Error('ID inválido');
+        err.status = 400;
+        err.zodErrors = idResult.error.issues;
+        return next(err);
     }
 
     const dataResult = updateUserSchema.safeParse(req.body);
     if (!dataResult.success) {
-        return res.status(400).json({
-            error: "Dados inválidos",
-            errors: dataResult.error.issues.map((issue) => ({
-                field: issue.path.join('.'),
-                message: issue.message
-            }))
-        });
+        const err: any = new Error('Dados inválidos');
+        err.status = 400;
+        err.zodErrors = dataResult.error.issues;
+        return next(err);
     }
 
     try {
@@ -104,17 +96,17 @@ export const updateUserController = async (req: Request, res: Response) => {
         const { password, ...safeUser } = updatedUser;
         res.status(200).json(safeUser);
     } catch (error: any) {
-        res.status(400).json({ error: error.message || "Erro ao atualizar utilizador" });
+        next(error);
     }
 };
 
-export const deleteUserController = async (req: Request, res: Response) => {
+export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
     const result = userIdSchema.safeParse({ id: req.params.id });
     if (!result.success) {
-        return res.status(400).json({
-            error: "ID inválido",
-            errors: result.error.issues.map((issue) => issue.message)
-        });
+        const err: any = new Error('ID inválido');
+        err.status = 400;
+        err.zodErrors = result.error.issues;
+        return next(err);
     }
 
     try {
@@ -129,6 +121,6 @@ export const deleteUserController = async (req: Request, res: Response) => {
         await userService.deleteUser(userId);
         res.status(204).send();
     } catch (error: any) {
-        res.status(400).json({ error: error.message || "Erro ao remover utilizador" });
+        next(error);
     }
 };

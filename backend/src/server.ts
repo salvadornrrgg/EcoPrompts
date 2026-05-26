@@ -22,6 +22,7 @@ import ratingRoutes from './routes/ratingRoutes';
 import authRoutes from './routes/authRoutes';
 import translateRoutes from './routes/translateRoutes';
 import ecoRoutes from './routes/ecoRoutes';
+import { errorHandler } from './middlewares/errorHandler';
 
 // Criação da aplicação Express
 const app = express();
@@ -60,6 +61,16 @@ app.use('/api', ecoRoutes);
 
 // Documentação da API com Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+// Catch-all 404: garante que rotas não encontradas devolvem JSON em vez de HTML
+app.use((_req, _res, next) => {
+  const err: any = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// Deve ser sempre o último middleware a ser registado
+app.use(errorHandler);
 
 export default app;
 

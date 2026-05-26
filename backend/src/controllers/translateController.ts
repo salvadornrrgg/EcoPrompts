@@ -1,17 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { translateSchema } from '../schemas/translateSchema';
 import * as translateService from '../services/translateService';
 
-export const translateController = async (req: Request, res: Response) => {
+export const translateController = async (req: Request, res: Response, next: NextFunction) => {
     const result = translateSchema.safeParse(req.body);
     if (!result.success) {
-        return res.status(400).json({
-            error: 'Dados inválidos',
-            errors: result.error.issues.map(issue => ({
-                field: issue.path.join('.'),
-                message: issue.message,
-            })),
-        });
+        const err: any = new Error('Dados inválidos');
+        err.status = 400;
+        err.zodErrors = result.error.issues;
+        return next(err);
     }
 
     try {
@@ -19,7 +16,7 @@ export const translateController = async (req: Request, res: Response) => {
         const translatedText = await translateService.translateText(text, source, target);
         res.json({ translatedText });
     } catch (error: any) {
-        console.error(error);
-        res.status(502).json({ error: error.message || 'Erro ao traduzir texto' });
+        error.status = 502;
+        next(error);
     }
 };
