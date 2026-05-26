@@ -23,6 +23,8 @@ import authRoutes from './routes/authRoutes';
 import translateRoutes from './routes/translateRoutes';
 import ecoRoutes from './routes/ecoRoutes';
 import { errorHandler } from './middlewares/errorHandler';
+import { requestLogger } from './middlewares/logger';
+import { logger } from './utils/logger';
 
 // Criação da aplicação Express
 const app = express();
@@ -47,6 +49,8 @@ app.use(limiter);
 
 // Middleware para processar JSON no corpo das requisições
 app.use(express.json());
+
+app.use(requestLogger);
 
 // ========== ROTAS DA API ==========
 app.use('/api/users', userRoutes);
@@ -74,4 +78,4 @@ app.use(errorHandler);
 
 export default app;
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+app.listen(3000, () => logger.info("Server running on http://localhost:3000"));

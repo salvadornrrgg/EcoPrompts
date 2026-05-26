@@ -1,89 +1,67 @@
 import { prisma } from '../lib/prisma';
+import { logger } from '../utils/logger';
 
-// GET versions by prompt ID
 export const findVersionsByPromptId = async (promptId: number) => {
-    const promptExists = await prisma.prompt.findUnique({
-        where: { id: promptId }
-    });
+    const promptExists = await prisma.prompt.findUnique({ where: { id: promptId } });
 
     if (!promptExists) {
+        logger.warn(`Prompt não encontrado ao buscar versões: id=${promptId}`);
         throw new Error('Prompt not found');
     }
 
     return await prisma.version.findMany({
         where: { promptId },
         include: {
-            user: {
-                select: { id: true, username: true }
-            },
-            prompt: {
-                select: { id: true, title: true }
-            }
+            user: { select: { id: true, username: true } },
+            prompt: { select: { id: true, title: true } }
         },
         orderBy: { versionNumber: 'asc' }
     });
 };
 
-// GET version by ID
 export const findVersionById = async (id: number) => {
-    const versionExists = await prisma.version.findUnique({
-        where: { id }
-    });
-
-    if (!versionExists) {
-        throw new Error('Version not found');
-    }
-
-    return await prisma.version.findUnique({
+    const version = await prisma.version.findUnique({
         where: { id },
         include: {
-            user: {
-                select: { id: true, username: true }
-            },
+            user: { select: { id: true, username: true } },
             prompt: {
                 include: {
-                    user: {
-                        select: { id: true, username: true }
-                    },
+                    user: { select: { id: true, username: true } },
                     category: true
                 }
             }
         }
     });
+
+    if (!version) {
+        logger.warn(`Versão não encontrada: id=${id}`);
+        throw new Error('Version not found');
+    }
+
+    return version;
 };
 
-// CREATE version - COM VALIDAÇÃO PRÉVIA
 export const createVersion = async (promptId: number, userId: number, data: {
     promptText: string;
     improvements?: string;
     rating?: number;
 }) => {
-    // Validar se o prompt original existe
-    const promptExists = await prisma.prompt.findUnique({
-        where: { id: promptId }
-    });
-
+    const promptExists = await prisma.prompt.findUnique({ where: { id: promptId } });
     if (!promptExists) {
+        logger.warn(`Prompt não encontrado ao criar versão: id=${promptId}`);
         throw new Error('Prompt not found');
     }
-    
-    // Validar se o utilizador existe
-    const userExists = await prisma.user.findUnique({
-        where: { id: userId }
-    });
-    
+
+    const userExists = await prisma.user.findUnique({ where: { id: userId } });
     if (!userExists) {
+        logger.warn(`Utilizador não encontrado ao criar versão: id=${userId}`);
         throw new Error('User not found');
     }
 
-    // Calcular próximo número de versão
-    const versionsCount = await prisma.version.count({
-        where: { promptId }
-    });
-
+    const versionsCount = await prisma.version.count({ where: { promptId } });
     const nextVersionNumber = versionsCount + 1;
 
-    return await prisma.version.create({
+    const version = await prisma.version.create({
         data: {
             versionNumber: nextVersionNumber,
             promptText: data.promptText,
@@ -93,27 +71,24 @@ export const createVersion = async (promptId: number, userId: number, data: {
             userId
         },
         include: {
-            user: {
-                select: { id: true, username: true }
-            },
-            prompt: {
-                select: { id: true, title: true }
-            }
+            user: { select: { id: true, username: true } },
+            prompt: { select: { id: true, title: true } }
         }
     });
+
+    logger.info(`Versão criada: v${nextVersionNumber} para prompt=${promptId} por user=${userId}`);
+    return version;
 };
 
-// DELETE version
 export const deleteVersion = async (id: number) => {
-    const versionExists = await prisma.version.findUnique({
-        where: { id }
-    });
+    const versionExists = await prisma.version.findUnique({ where: { id } });
 
     if (!versionExists) {
+        logger.warn(`Versão não encontrada ao apagar: id=${id}`);
         throw new Error('Version not found');
     }
 
-    return await prisma.version.delete({
-        where: { id }
-    });
+    const deleted = await prisma.version.delete({ where: { id } });
+    logger.info(`Versão apagada: id=${id}`);
+    return deleted;
 };

@@ -1,5 +1,6 @@
 import { getVectorStore } from "../lib/vectorStore";
 import { Document } from "@langchain/core/documents";
+import { logger } from "../utils/logger";
 
 
 // é preciso chamar o getVectorStore dentro de cada funcao pelo mesmo erro de top-level await!
@@ -22,7 +23,7 @@ export const searchEmbeddedPrompts = async (conteudo: string) => {
     const resultados = await vectorStore.similaritySearchWithScore(conteudo, 100);  //100 é o numero de resultados que esta pesquisa retorna
 
     resultados.forEach(([doc, score]: [Document, number]) => {
-        console.log(score, doc.pageContent);
+        logger.info(`score: ${score} | ${doc.pageContent}`);
     });
 
     const filtrados = resultados.filter(([doc, score]: [Document, number]) => score < 0.5); //score pode ser afinado para melhor precisao

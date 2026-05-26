@@ -1,44 +1,26 @@
 import { prisma } from '../lib/prisma';
+import { logger } from '../utils/logger';
 import { indexPrompt, searchEmbeddedPrompts } from "./embeddingService";
 
-// GET searched prompts by string
 export const searchPrompts = async (search: string) => {
     const promptIds = await searchEmbeddedPrompts(search);
-
-    const prompts = await prisma.prompt.findMany({
-        where: {
-            id: { in: promptIds }
-        }
-    });
-    
-    return prompts;
+    return await prisma.prompt.findMany({ where: { id: { in: promptIds } } });
 };
 
-
-// GET ALL prompts
 export const findAllPrompts = async () => {
     return await prisma.prompt.findMany({
         include: {
-            user: {
-                select: { id: true, username: true }
-            },
+            user: { select: { id: true, username: true } },
             category: true,
             versions: {
                 orderBy: { versionNumber: 'asc' },
-                include: {
-                    user: {
-                        select: { id: true, username: true }
-                    }
-                }
+                include: { user: { select: { id: true, username: true } } }
             }
         },
-        orderBy: {
-            createdAt: 'desc'
-        }
+        orderBy: { createdAt: 'desc' }
     });
 };
 
-// GET prompt by ID
 export const findPromptById = async (id: number) => {
     const prompt = await prisma.prompt.findUnique({
         where: { id },
@@ -52,13 +34,13 @@ export const findPromptById = async (id: number) => {
     });
 
     if (!prompt) {
+        logger.warn(`Prompt não encontrado: id=${id}`);
         throw new Error('Prompt not found');
     }
 
     return prompt;
 };
 
-// CREATE prompt - com validação prévia
 export const createPrompt = async (data: {
     title: string;
     description: string;
@@ -68,21 +50,15 @@ export const createPrompt = async (data: {
     categoryId: number;
     userId: number;
 }) => {
-    // Validar se a categoria existe
-    const categoryExists = await prisma.category.findUnique({
-        where: { id: data.categoryId }
-    });
-    
+    const categoryExists = await prisma.category.findUnique({ where: { id: data.categoryId } });
     if (!categoryExists) {
+        logger.warn(`Categoria não encontrada ao criar prompt: id=${data.categoryId}`);
         throw new Error('Category not found');
     }
-    
-    // Validar se o utilizador existe
-    const userExists = await prisma.user.findUnique({
-        where: { id: data.userId }
-    });
-    
+
+    const userExists = await prisma.user.findUnique({ where: { id: data.userId } });
     if (!userExists) {
+        logger.warn(`Utilizador não encontrado ao criar prompt: id=${data.userId}`);
         throw new Error('User not found');
     }
 
@@ -97,19 +73,16 @@ export const createPrompt = async (data: {
             userId: data.userId
         },
         include: {
-            user: {
-                select: { id: true, username: true }
-            },
+            user: { select: { id: true, username: true } },
             category: true
         }
     });
 
-    await indexPrompt(data.title+" "+data.description, prompt.id);
-
+    logger.info(`Prompt criado: id=${prompt.id} por user=${data.userId}`);
+    await indexPrompt(data.title + " " + data.description, prompt.id);
     return prompt;
 };
 
-// UPDATE prompt
 export const updatePrompt = async (id: number, data: {
     title?: string;
     description?: string;
@@ -118,48 +91,41 @@ export const updatePrompt = async (id: number, data: {
     result?: string;
     categoryId?: number;
 }) => {
-    const promptExists = await prisma.prompt.findUnique({
-        where: { id }
-    });
-
+    const promptExists = await prisma.prompt.findUnique({ where: { id } });
     if (!promptExists) {
+        logger.warn(`Prompt não encontrado ao atualizar: id=${id}`);
         throw new Error('Prompt not found');
     }
-    
-    // Se for atualizar a categoria, validar se existe
+
     if (data.categoryId) {
-        const categoryExists = await prisma.category.findUnique({
-            where: { id: data.categoryId }
-        });
-        
+        const categoryExists = await prisma.category.findUnique({ where: { id: data.categoryId } });
         if (!categoryExists) {
+            logger.warn(`Categoria não encontrada ao atualizar prompt: id=${data.categoryId}`);
             throw new Error('Category not found');
         }
     }
 
-    return await prisma.prompt.update({
+    const updated = await prisma.prompt.update({
         where: { id },
         data,
         include: {
-            user: {
-                select: { id: true, username: true }
-            },
+            user: { select: { id: true, username: true } },
             category: true
         }
     });
+
+    logger.info(`Prompt atualizado: id=${id}`);
+    return updated;
 };
 
-// DELETE prompt
 export const deletePrompt = async (id: number) => {
-    const promptExists = await prisma.prompt.findUnique({
-        where: { id }
-    });
-
+    const promptExists = await prisma.prompt.findUnique({ where: { id } });
     if (!promptExists) {
+        logger.warn(`Prompt não encontrado ao apagar: id=${id}`);
         throw new Error('Prompt not found');
     }
 
-    return await prisma.prompt.delete({
-        where: { id }
-    });
+    const deleted = await prisma.prompt.delete({ where: { id } });
+    logger.info(`Prompt apagado: id=${id}`);
+    return deleted;
 };

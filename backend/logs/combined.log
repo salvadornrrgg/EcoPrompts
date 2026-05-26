@@ -1,0 +1,74 @@
+{"level":"info","message":"GET /api/categories | Status: 200 | 91ms","timestamp":"2026-05-26T23:45:53.405Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 101ms","timestamp":"2026-05-26T23:45:53.415Z"}
+{"level":"info","message":"GET /api/categories/2 | Status: 200 | 12ms","timestamp":"2026-05-26T23:45:53.424Z"}
+{"level":"error","message":"GET /api/categories/999999 | Status: 404 | 2ms","timestamp":"2026-05-26T23:45:53.429Z"}
+{"level":"info","message":"GET /api/prompts/5 | Status: 200 | 14ms","timestamp":"2026-05-26T23:45:53.436Z"}
+{"level":"info","message":"GET /api/categories/search?q=code | Status: 200 | 6ms","timestamp":"2026-05-26T23:45:53.437Z"}
+{"level":"error","message":"GET /api/prompts/999999 | Status: 404 | 2ms","timestamp":"2026-05-26T23:45:53.440Z"}
+{"level":"error","message":"POST /api/categories | Status: 401 | 0ms","timestamp":"2026-05-26T23:45:53.444Z"}
+{"level":"error","message":"POST /api/prompts | Status: 401 | 1ms","timestamp":"2026-05-26T23:45:53.449Z"}
+{"level":"info","message":"GET /api/prompts/5/versions | Status: 200 | 5ms","timestamp":"2026-05-26T23:45:53.456Z"}
+{"level":"info","message":"GET /api/prompts/5/comments | Status: 200 | 3ms","timestamp":"2026-05-26T23:45:53.461Z"}
+{"level":"info","message":"GET /api/prompts/5/eco | Status: 200 | 3ms","timestamp":"2026-05-26T23:45:53.467Z"}
+{"level":"info","message":"POST /api/users | Status: 201 | 193ms","timestamp":"2026-05-26T23:45:53.515Z"}
+{"level":"error","message":"POST /api/users | Status: 400 | 2ms","timestamp":"2026-05-26T23:45:53.523Z"}
+{"level":"info","message":"GET /api/users/7 | Status: 200 | 4ms","timestamp":"2026-05-26T23:45:53.529Z"}
+{"level":"error","message":"GET /api/users/999999 | Status: 404 | 2ms","timestamp":"2026-05-26T23:45:53.532Z"}
+{"level":"error","message":"GET /api/users | Status: 401 | 0ms","timestamp":"2026-05-26T23:45:53.534Z"}
+{"level":"info","message":"POST /api/translate | Status: 200 | 1894ms","timestamp":"2026-05-26T23:45:55.214Z"}
+{"level":"error","message":"POST /api/translate | Status: 400 | 1ms","timestamp":"2026-05-26T23:45:55.221Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:46:57.532Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:46:57.533Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:46:57.533Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:46:57.533Z"}
+{"level":"info","message":"GET /api/categories | Status: 200 | 86ms","timestamp":"2026-05-26T23:46:57.634Z"}
+{"level":"info","message":"GET /api/categories/2 | Status: 200 | 12ms","timestamp":"2026-05-26T23:46:57.652Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 106ms","timestamp":"2026-05-26T23:46:57.654Z"}
+{"level":"error","message":"GET /api/categories/999999 | Status: 404 | 2ms","timestamp":"2026-05-26T23:46:57.656Z"}
+{"level":"info","message":"GET /api/categories/search?q=code | Status: 200 | 6ms","timestamp":"2026-05-26T23:46:57.664Z"}
+{"level":"error","message":"POST /api/categories | Status: 401 | 0ms","timestamp":"2026-05-26T23:46:57.671Z"}
+{"level":"info","message":"GET /api/prompts/5 | Status: 200 | 15ms","timestamp":"2026-05-26T23:46:57.675Z"}
+{"level":"error","message":"GET /api/prompts/999999 | Status: 404 | 2ms","timestamp":"2026-05-26T23:46:57.679Z"}
+{"level":"error","message":"POST /api/prompts | Status: 401 | 0ms","timestamp":"2026-05-26T23:46:57.686Z"}
+{"level":"info","message":"GET /api/prompts/5/versions | Status: 200 | 5ms","timestamp":"2026-05-26T23:46:57.693Z"}
+{"level":"info","message":"GET /api/prompts/5/comments | Status: 200 | 3ms","timestamp":"2026-05-26T23:46:57.698Z"}
+{"level":"info","message":"GET /api/prompts/5/eco | Status: 200 | 3ms","timestamp":"2026-05-26T23:46:57.703Z"}
+{"level":"info","message":"POST /api/users | Status: 201 | 193ms","timestamp":"2026-05-26T23:46:57.746Z"}
+{"level":"error","message":"POST /api/users | Status: 400 | 1ms","timestamp":"2026-05-26T23:46:57.752Z"}
+{"level":"info","message":"GET /api/users/7 | Status: 200 | 4ms","timestamp":"2026-05-26T23:46:57.758Z"}
+{"level":"error","message":"GET /api/users/999999 | Status: 404 | 1ms","timestamp":"2026-05-26T23:46:57.761Z"}
+{"level":"error","message":"GET /api/users | Status: 401 | 0ms","timestamp":"2026-05-26T23:46:57.763Z"}
+{"level":"info","message":"POST /api/translate | Status: 200 | 241ms","timestamp":"2026-05-26T23:46:57.794Z"}
+{"level":"error","message":"POST /api/translate | Status: 400 | 1ms","timestamp":"2026-05-26T23:46:57.801Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:49:47.592Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:49:47.592Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:49:47.592Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-26T23:49:47.592Z"}
+{"level":"info","message":"GET /api/categories | Status: 200 | 89ms","timestamp":"2026-05-26T23:49:47.697Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 106ms","timestamp":"2026-05-26T23:49:47.714Z"}
+{"level":"info","message":"GET /api/categories/2 | Status: 200 | 12ms","timestamp":"2026-05-26T23:49:47.715Z"}
+{"level":"warn","message":"Categoria não encontrada: id=999999","timestamp":"2026-05-26T23:49:47.719Z"}
+{"level":"warn","message":"GET /api/categories/999999 | Category not found","timestamp":"2026-05-26T23:49:47.719Z"}
+{"level":"error","message":"GET /api/categories/999999 | Status: 404 | 3ms","timestamp":"2026-05-26T23:49:47.720Z"}
+{"level":"info","message":"GET /api/categories/search?q=code | Status: 200 | 5ms","timestamp":"2026-05-26T23:49:47.728Z"}
+{"level":"info","message":"GET /api/prompts/5 | Status: 200 | 14ms","timestamp":"2026-05-26T23:49:47.734Z"}
+{"level":"error","message":"POST /api/categories | Status: 401 | 1ms","timestamp":"2026-05-26T23:49:47.736Z"}
+{"level":"warn","message":"Prompt não encontrado: id=999999","timestamp":"2026-05-26T23:49:47.738Z"}
+{"level":"warn","message":"GET /api/prompts/999999 | Prompt not found","timestamp":"2026-05-26T23:49:47.738Z"}
+{"level":"error","message":"GET /api/prompts/999999 | Status: 404 | 3ms","timestamp":"2026-05-26T23:49:47.739Z"}
+{"level":"error","message":"POST /api/prompts | Status: 401 | 0ms","timestamp":"2026-05-26T23:49:47.747Z"}
+{"level":"info","message":"GET /api/prompts/5/versions | Status: 200 | 5ms","timestamp":"2026-05-26T23:49:47.754Z"}
+{"level":"info","message":"GET /api/prompts/5/comments | Status: 200 | 3ms","timestamp":"2026-05-26T23:49:47.759Z"}
+{"level":"info","message":"GET /api/prompts/5/eco | Status: 200 | 3ms","timestamp":"2026-05-26T23:49:47.764Z"}
+{"level":"info","message":"Utilizador criado: id=22 username=testuser_1779839387596","timestamp":"2026-05-26T23:49:47.804Z"}
+{"level":"info","message":"POST /api/users | Status: 201 | 194ms","timestamp":"2026-05-26T23:49:47.806Z"}
+{"level":"warn","message":"POST /api/users | Dados inválidos","timestamp":"2026-05-26T23:49:47.812Z"}
+{"level":"error","message":"POST /api/users | Status: 400 | 2ms","timestamp":"2026-05-26T23:49:47.813Z"}
+{"level":"info","message":"GET /api/users/7 | Status: 200 | 2ms","timestamp":"2026-05-26T23:49:47.817Z"}
+{"level":"warn","message":"Utilizador não encontrado: id=999999","timestamp":"2026-05-26T23:49:47.820Z"}
+{"level":"warn","message":"GET /api/users/999999 | User not found","timestamp":"2026-05-26T23:49:47.820Z"}
+{"level":"error","message":"GET /api/users/999999 | Status: 404 | 2ms","timestamp":"2026-05-26T23:49:47.821Z"}
+{"level":"error","message":"GET /api/users | Status: 401 | 1ms","timestamp":"2026-05-26T23:49:47.824Z"}
+{"level":"info","message":"POST /api/translate | Status: 200 | 1026ms","timestamp":"2026-05-26T23:49:48.638Z"}
+{"level":"warn","message":"POST /api/translate | Dados inválidos","timestamp":"2026-05-26T23:49:48.644Z"}
+{"level":"error","message":"POST /api/translate | Status: 400 | 2ms","timestamp":"2026-05-26T23:49:48.645Z"}
