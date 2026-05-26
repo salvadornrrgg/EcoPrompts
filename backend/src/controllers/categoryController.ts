@@ -67,14 +67,12 @@ export const getCategoryById = async (req: Request, res: Response) => {
 
     try {
         const category = await categoryService.findCategoryById(parseInt(result.data.id));
-        
-        if (!category) {
-            return res.status(404).json({ error: "Categoria não encontrada" });
-        }
-        
         res.json(category);
     } catch (error: any) {
         console.error(error);
+        if (error.message === 'Category not found') {
+            return res.status(404).json({ error: "Categoria não encontrada" });
+        }
         res.status(500).json({ error: error.message || "Erro ao procurar a categoria" });
     }
 };

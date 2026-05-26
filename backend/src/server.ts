@@ -61,5 +61,6 @@ app.use('/api', ecoRoutes);
 // Documentação da API com Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// Inicialização do servidor na porta 3000
+export default app;
+
 app.listen(3000, () => console.log("Server running on http://localhost:3000"));
