@@ -72,3 +72,30 @@
 {"level":"info","message":"POST /api/translate | Status: 200 | 1026ms","timestamp":"2026-05-26T23:49:48.638Z"}
 {"level":"warn","message":"POST /api/translate | Dados inválidos","timestamp":"2026-05-26T23:49:48.644Z"}
 {"level":"error","message":"POST /api/translate | Status: 400 | 2ms","timestamp":"2026-05-26T23:49:48.645Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T15:42:47.550Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 199ms","timestamp":"2026-05-27T15:42:57.056Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 5ms","timestamp":"2026-05-27T15:42:57.063Z"}
+{"level":"info","message":"GET /api/prompts/10/versions | Status: 304 | 7ms","timestamp":"2026-05-27T15:42:58.062Z"}
+{"level":"info","message":"GET /api/prompts/10/comments | Status: 304 | 11ms","timestamp":"2026-05-27T15:42:58.063Z"}
+{"level":"info","message":"GET /api/prompts/10/versions | Status: 304 | 4ms","timestamp":"2026-05-27T15:42:58.070Z"}
+{"level":"info","message":"GET /api/prompts/10/comments | Status: 304 | 5ms","timestamp":"2026-05-27T15:42:58.071Z"}
+{"level":"info","message":"GET /api/prompts/10 | Status: 304 | 28ms","timestamp":"2026-05-27T15:42:58.073Z"}
+{"level":"info","message":"GET /api/prompts/10 | Status: 304 | 3ms","timestamp":"2026-05-27T15:42:58.077Z"}
+{"level":"info","message":"GET /api/prompts/10/eco | Status: 200 | 4ms","timestamp":"2026-05-27T15:42:58.699Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T15:43:03.886Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T15:43:03.890Z"}
+{"level":"info","message":"GET /api/prompts/9/comments | Status: 304 | 8ms","timestamp":"2026-05-27T15:43:05.115Z"}
+{"level":"info","message":"GET /api/prompts/9/versions | Status: 304 | 6ms","timestamp":"2026-05-27T15:43:05.115Z"}
+{"level":"info","message":"GET /api/prompts/9/versions | Status: 304 | 7ms","timestamp":"2026-05-27T15:43:05.127Z"}
+{"level":"info","message":"GET /api/prompts/9/comments | Status: 304 | 8ms","timestamp":"2026-05-27T15:43:05.128Z"}
+{"level":"info","message":"GET /api/prompts/9 | Status: 304 | 22ms","timestamp":"2026-05-27T15:43:05.131Z"}
+{"level":"info","message":"GET /api/prompts/9 | Status: 304 | 3ms","timestamp":"2026-05-27T15:43:05.136Z"}
+{"level":"info","message":"GET /api/prompts/9/eco | Status: 200 | 3ms","timestamp":"2026-05-27T15:43:06.169Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 14ms","timestamp":"2026-05-27T15:43:53.199Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T15:43:53.203Z"}
+{"level":"info","message":"GET /api/prompts/9/comments | Status: 304 | 4ms","timestamp":"2026-05-27T15:43:54.307Z"}
+{"level":"info","message":"GET /api/prompts/9/versions | Status: 304 | 5ms","timestamp":"2026-05-27T15:43:54.310Z"}
+{"level":"info","message":"GET /api/prompts/9/comments | Status: 304 | 4ms","timestamp":"2026-05-27T15:43:54.313Z"}
+{"level":"info","message":"GET /api/prompts/9/versions | Status: 304 | 4ms","timestamp":"2026-05-27T15:43:54.316Z"}
+{"level":"info","message":"GET /api/prompts/9 | Status: 304 | 16ms","timestamp":"2026-05-27T15:43:54.318Z"}
+{"level":"info","message":"GET /api/prompts/9 | Status: 304 | 4ms","timestamp":"2026-05-27T15:43:54.323Z"}

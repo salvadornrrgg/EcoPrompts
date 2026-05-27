@@ -232,11 +232,21 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
             onClick={async () => {
               setActiveTab(tab);
               if (tab === 'eco' && !ecoStats && !ecoLoading) {
+                const TTL = 24 * 60 * 60 * 1000; // 24h em ms (horas * minutos * segundos * ms)
+                const raw = localStorage.getItem(`eco_cache_${promptId}`);
+                if (raw) {
+                  const { data, ts } = JSON.parse(raw);
+                  if (Date.now() - ts < TTL) {
+                    setEcoStats(data);
+                    return;
+                  }
+                }
                 setEcoLoading(true);
                 setEcoError(null);
                 try {
                   const data = await api.getEcoStats(promptId);
                   setEcoStats(data);
+                  localStorage.setItem(`eco_cache_${promptId}`, JSON.stringify({ data, ts: Date.now() }));
                 } catch (err: any) {
                   setEcoError(err.message);
                 } finally {
