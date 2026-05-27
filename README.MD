@@ -227,3 +227,11 @@ Swagger: http://localhost:3000/api-docs
 - `POST /api/translate`
   Traduzir texto usando a MyMemory API (serviço externo gratuito)
   Body: `{ text: string, source: string, target: string }`
+
+---
+
+### Impacto Ecológico (ECO)
+
+- `GET /api/prompts/:id/eco`
+  Calcular o impacto ecológico estimado de um prompt — inclui consumo de CO₂, água e energia com base nos tokens do prompt e do resultado, equivalências (km de carro, emails, copos de água), custo estimado em USD, e impacto acumulado de todas as versões do prompt.
+  O frontend guarda o resultado em cache no `localStorage` durante 24h para evitar recálculos desnecessários.
