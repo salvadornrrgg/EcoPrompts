@@ -43,9 +43,9 @@ model Prompt {
   category Category @relation(fields:[categoryId], references: [id])
   categoryId Int
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
-  
+
   createdAt DateTime @default(now())
 
   comments Comment[]
@@ -66,8 +66,8 @@ model Version {
   
   // Autor da versão (igual ao teu modelo User)
   userId Int
-  user User @relation(fields: [userId], references: [id])
-  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Avaliações específicas da versão (opcional)
   rating Float @default(0)
   
@@ -79,21 +79,21 @@ model Comment {
   comment String
   createdAt DateTime @default(now()) //Acho que fica bacano adicionar data do comentário
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
-  prompt Prompt @relation(fields: [promptId], references: [id])
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
   promptId Int
 }
 
 model Eval {
   id Int @id @default(autoincrement())
-  
+
   score Int // acho que devia haver aqui uma cena de score para registar
   createdAt DateTime @default(now()) // Aqui tbm Acho que fica bacano adicionar data do comentário
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
-  prompt Prompt @relation(fields: [promptId], references: [id])
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
   promptId Int
   @@unique([userId, promptId]) //adicionei isto pq assim um user so pode avaliar um mesmo prompt uma vez e nao ter varias avaliaçao no mesmo prompt
 }

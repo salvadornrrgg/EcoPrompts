@@ -6,3 +6,8 @@ node_modules
 
 .vscode/
 *.session.sql
+
+# Ficheiros especificos do projeto
+CHANGES.md
+TESTES.md
+material/
