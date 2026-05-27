@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import * as api from '../api/api';
+import { ConfirmModal } from '../components/ConfirmModal';
 import type { User } from '../App';
 
 interface ProfileViewProps {
@@ -15,6 +16,7 @@ export const ProfileView = ({ user, onLogout }: ProfileViewProps) => {
   const [editData, setEditData] = useState({ username: '', email: '' });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const fetchProfile = useCallback(async () => {
     if (!user) return;
@@ -45,7 +47,6 @@ export const ProfileView = ({ user, onLogout }: ProfileViewProps) => {
   };
 
   const handleDelete = async () => {
-    if (!confirm('Tens a certeza que queres apagar a tua conta? Esta ação é irreversível.')) return;
     await api.deleteUser(user!.id);
     onLogout();
   };
@@ -60,6 +61,15 @@ export const ProfileView = ({ user, onLogout }: ProfileViewProps) => {
 
   return (
     <div>
+      {showConfirm && (
+        <ConfirmModal
+          message="Apagar a tua conta é irreversível. Todos os teus dados serão eliminados."
+          confirmLabel="Apagar conta"
+          onConfirm={() => { setShowConfirm(false); handleDelete(); }}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">O meu perfil</h1>
       </div>
@@ -130,7 +140,7 @@ export const ProfileView = ({ user, onLogout }: ProfileViewProps) => {
           </button>
           <button
             className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700"
-            onClick={handleDelete}
+            onClick={() => setShowConfirm(true)}
           >
             Apagar conta
           </button>

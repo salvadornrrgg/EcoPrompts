@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import * as api from '../api/api';
+import { ConfirmModal } from '../components/ConfirmModal';
 
 interface AdminViewProps {
   token: string | null;
@@ -10,6 +11,7 @@ export const AdminView = ({ isAdmin }: AdminViewProps) => {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<number | null>(null);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -27,7 +29,6 @@ export const AdminView = ({ isAdmin }: AdminViewProps) => {
   useEffect(() => { fetchUsers(); }, [fetchUsers]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Apagar este utilizador?')) return;
     try {
       await api.deleteUser(id);
       fetchUsers();
@@ -42,6 +43,15 @@ export const AdminView = ({ isAdmin }: AdminViewProps) => {
 
   return (
     <div>
+      {pendingDelete !== null && (
+        <ConfirmModal
+          message="Apagar este utilizador irá remover todos os seus dados permanentemente."
+          confirmLabel="Apagar utilizador"
+          onConfirm={() => { handleDelete(pendingDelete); setPendingDelete(null); }}
+          onCancel={() => setPendingDelete(null)}
+        />
+      )}
+
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Painel Admin</h1>
       </div>
@@ -81,7 +91,7 @@ export const AdminView = ({ isAdmin }: AdminViewProps) => {
                     <td className="px-4 py-3">
                       <button
                         className="bg-red-600 text-white px-3 py-1 rounded text-xs font-medium hover:bg-red-700"
-                        onClick={() => handleDelete(u.id)}
+                        onClick={() => setPendingDelete(u.id)}
                       >
                         Apagar
                       </button>

@@ -214,3 +214,271 @@
 {"level":"info","message":"Prompt apagado: id=2","timestamp":"2026-05-27T21:04:44.367Z"}
 {"level":"info","message":"DELETE /api/prompts/2 | Status: 204 | 11ms","timestamp":"2026-05-27T21:04:44.367Z"}
 {"level":"info","message":"GET /api/prompts | Status: 200 | 3ms","timestamp":"2026-05-27T21:04:44.377Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T21:11:56.565Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 131ms","timestamp":"2026-05-27T21:11:59.160Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 4ms","timestamp":"2026-05-27T21:11:59.167Z"}
+{"level":"info","message":"GET /api/prompts/4/versions | Status: 200 | 6ms","timestamp":"2026-05-27T21:12:00.253Z"}
+{"level":"info","message":"GET /api/prompts/4/comments | Status: 200 | 10ms","timestamp":"2026-05-27T21:12:00.256Z"}
+{"level":"info","message":"GET /api/prompts/4/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:12:00.262Z"}
+{"level":"info","message":"GET /api/prompts/4/versions | Status: 304 | 5ms","timestamp":"2026-05-27T21:12:00.263Z"}
+{"level":"info","message":"GET /api/prompts/4 | Status: 200 | 29ms","timestamp":"2026-05-27T21:12:00.266Z"}
+{"level":"info","message":"GET /api/prompts/4 | Status: 304 | 3ms","timestamp":"2026-05-27T21:12:00.270Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 2ms","timestamp":"2026-05-27T21:12:02.287Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T21:12:02.292Z"}
+{"level":"info","message":"GET /api/prompts/3/comments | Status: 200 | 4ms","timestamp":"2026-05-27T21:12:02.862Z"}
+{"level":"info","message":"GET /api/prompts/3/versions | Status: 200 | 5ms","timestamp":"2026-05-27T21:12:02.864Z"}
+{"level":"info","message":"GET /api/prompts/3/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:12:02.868Z"}
+{"level":"info","message":"GET /api/prompts/3/versions | Status: 304 | 3ms","timestamp":"2026-05-27T21:12:02.869Z"}
+{"level":"info","message":"GET /api/prompts/3 | Status: 200 | 16ms","timestamp":"2026-05-27T21:12:02.873Z"}
+{"level":"info","message":"GET /api/prompts/3 | Status: 304 | 2ms","timestamp":"2026-05-27T21:12:02.877Z"}
+{"level":"error","message":"DELETE /api/versions/3 | Status: 403 | 4ms","timestamp":"2026-05-27T21:12:04.377Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T21:12:46.294Z"}
+{"level":"info","message":"Versão apagada: id=3","timestamp":"2026-05-27T21:12:48.349Z"}
+{"level":"info","message":"DELETE /api/versions/3 | Status: 204 | 140ms","timestamp":"2026-05-27T21:12:48.350Z"}
+{"level":"info","message":"GET /api/prompts/3/comments | Status: 304 | 12ms","timestamp":"2026-05-27T21:12:48.377Z"}
+{"level":"info","message":"GET /api/prompts/3 | Status: 200 | 28ms","timestamp":"2026-05-27T21:12:48.386Z"}
+{"level":"info","message":"GET /api/prompts/3/versions | Status: 200 | 18ms","timestamp":"2026-05-27T21:12:48.387Z"}
+{"level":"info","message":"Versão apagada: id=4","timestamp":"2026-05-27T21:12:50.879Z"}
+{"level":"info","message":"DELETE /api/versions/4 | Status: 204 | 12ms","timestamp":"2026-05-27T21:12:50.880Z"}
+{"level":"info","message":"GET /api/prompts/3 | Status: 200 | 5ms","timestamp":"2026-05-27T21:12:50.890Z"}
+{"level":"info","message":"GET /api/prompts/3/versions | Status: 200 | 4ms","timestamp":"2026-05-27T21:12:50.890Z"}
+{"level":"info","message":"GET /api/prompts/3/comments | Status: 304 | 6ms","timestamp":"2026-05-27T21:12:50.891Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T21:14:57.019Z"}
+{"level":"warn","message":"Utilizador não encontrado: id=36","timestamp":"2026-05-27T21:14:59.512Z"}
+{"level":"warn","message":"GET /api/users/36 | User not found","timestamp":"2026-05-27T21:14:59.513Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 122ms","timestamp":"2026-05-27T21:14:59.515Z"}
+{"level":"warn","message":"Utilizador não encontrado: id=36","timestamp":"2026-05-27T21:14:59.519Z"}
+{"level":"warn","message":"GET /api/users/36 | User not found","timestamp":"2026-05-27T21:14:59.519Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 3ms","timestamp":"2026-05-27T21:14:59.520Z"}
+{"level":"warn","message":"Utilizador não encontrado: id=36","timestamp":"2026-05-27T21:15:06.079Z"}
+{"level":"warn","message":"GET /api/users/36 | User not found","timestamp":"2026-05-27T21:15:06.079Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 4ms","timestamp":"2026-05-27T21:15:06.080Z"}
+{"level":"warn","message":"Utilizador não encontrado: id=36","timestamp":"2026-05-27T21:15:06.086Z"}
+{"level":"warn","message":"GET /api/users/36 | User not found","timestamp":"2026-05-27T21:15:06.087Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 9ms","timestamp":"2026-05-27T21:15:06.087Z"}
+{"level":"info","message":"GET /api/users | Status: 304 | 4ms","timestamp":"2026-05-27T21:15:07.312Z"}
+{"level":"info","message":"GET /api/users | Status: 304 | 3ms","timestamp":"2026-05-27T21:15:07.313Z"}
+{"level":"info","message":"Utilizador apagado: id=7","timestamp":"2026-05-27T21:17:06.011Z"}
+{"level":"info","message":"DELETE /api/users/7 | Status: 204 | 22ms","timestamp":"2026-05-27T21:17:06.011Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 2ms","timestamp":"2026-05-27T21:17:06.020Z"}
+{"level":"warn","message":"Utilizador não encontrado: id=36","timestamp":"2026-05-27T21:17:06.837Z"}
+{"level":"warn","message":"GET /api/users/36 | User not found","timestamp":"2026-05-27T21:17:06.837Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 4ms","timestamp":"2026-05-27T21:17:06.838Z"}
+{"level":"warn","message":"Utilizador não encontrado: id=36","timestamp":"2026-05-27T21:17:06.844Z"}
+{"level":"warn","message":"GET /api/users/36 | User not found","timestamp":"2026-05-27T21:17:06.844Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 10ms","timestamp":"2026-05-27T21:17:06.845Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T21:18:36.644Z"}
+{"level":"info","message":"POST /api/auth/login | Status: 200 | 215ms","timestamp":"2026-05-27T21:18:49.964Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 5ms","timestamp":"2026-05-27T21:18:51.566Z"}
+{"level":"info","message":"GET /api/users | Status: 304 | 2ms","timestamp":"2026-05-27T21:18:51.570Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 200 | 3ms","timestamp":"2026-05-27T21:18:52.016Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 2ms","timestamp":"2026-05-27T21:18:52.020Z"}
+{"level":"info","message":"GET /api/users | Status: 304 | 7ms","timestamp":"2026-05-27T21:19:08.721Z"}
+{"level":"info","message":"GET /api/users | Status: 304 | 2ms","timestamp":"2026-05-27T21:19:08.725Z"}
+{"level":"info","message":"Utilizador apagado: id=15","timestamp":"2026-05-27T21:19:11.062Z"}
+{"level":"info","message":"DELETE /api/users/15 | Status: 204 | 15ms","timestamp":"2026-05-27T21:19:11.062Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 2ms","timestamp":"2026-05-27T21:19:11.068Z"}
+{"level":"info","message":"Utilizador apagado: id=14","timestamp":"2026-05-27T21:19:13.372Z"}
+{"level":"info","message":"DELETE /api/users/14 | Status: 204 | 11ms","timestamp":"2026-05-27T21:19:13.373Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 1ms","timestamp":"2026-05-27T21:19:13.377Z"}
+{"level":"info","message":"Utilizador apagado: id=13","timestamp":"2026-05-27T21:19:15.048Z"}
+{"level":"info","message":"DELETE /api/users/13 | Status: 204 | 11ms","timestamp":"2026-05-27T21:19:15.049Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 1ms","timestamp":"2026-05-27T21:19:15.056Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 1ms","timestamp":"2026-05-27T21:19:15.756Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 2ms","timestamp":"2026-05-27T21:19:15.760Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 15ms","timestamp":"2026-05-27T21:19:17.723Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 10ms","timestamp":"2026-05-27T21:19:17.724Z"}
+{"level":"info","message":"GET /api/prompts/10/comments | Status: 304 | 8ms","timestamp":"2026-05-27T21:19:19.922Z"}
+{"level":"info","message":"GET /api/prompts/10/versions | Status: 304 | 7ms","timestamp":"2026-05-27T21:19:19.923Z"}
+{"level":"info","message":"GET /api/prompts/10/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:19:19.928Z"}
+{"level":"info","message":"GET /api/prompts/10/versions | Status: 304 | 6ms","timestamp":"2026-05-27T21:19:19.931Z"}
+{"level":"info","message":"GET /api/prompts/10 | Status: 200 | 23ms","timestamp":"2026-05-27T21:19:19.934Z"}
+{"level":"info","message":"GET /api/prompts/10 | Status: 304 | 3ms","timestamp":"2026-05-27T21:19:19.939Z"}
+{"level":"info","message":"Prompt apagado: id=10","timestamp":"2026-05-27T21:19:21.747Z"}
+{"level":"info","message":"DELETE /api/prompts/10 | Status: 204 | 11ms","timestamp":"2026-05-27T21:19:21.747Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 4ms","timestamp":"2026-05-27T21:19:21.755Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 1ms","timestamp":"2026-05-27T21:19:26.181Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 2ms","timestamp":"2026-05-27T21:19:26.185Z"}
+{"level":"info","message":"GET /api/categories | Status: 200 | 1ms","timestamp":"2026-05-27T21:19:28.800Z"}
+{"level":"info","message":"GET /api/categories | Status: 304 | 2ms","timestamp":"2026-05-27T21:19:28.804Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 1ms","timestamp":"2026-05-27T21:19:29.481Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 2ms","timestamp":"2026-05-27T21:19:29.485Z"}
+{"level":"info","message":"Utilizador atualizado: id=11","timestamp":"2026-05-27T21:19:38.489Z"}
+{"level":"info","message":"PUT /api/users/11 | Status: 200 | 11ms","timestamp":"2026-05-27T21:19:38.489Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 200 | 1ms","timestamp":"2026-05-27T21:19:38.495Z"}
+{"level":"info","message":"POST /api/auth/login | Status: 200 | 83ms","timestamp":"2026-05-27T21:19:50.792Z"}
+{"level":"info","message":"GET /api/users/11 | Status: 304 | 1ms","timestamp":"2026-05-27T21:19:50.806Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T21:20:07.499Z"}
+{"level":"info","message":"GET /api/categories | Status: 200 | 19ms","timestamp":"2026-05-27T21:20:09.831Z"}
+{"level":"info","message":"GET /api/categories | Status: 200 | 127ms","timestamp":"2026-05-27T21:20:09.833Z"}
+{"level":"info","message":"POST /api/auth/login | Status: 200 | 108ms","timestamp":"2026-05-27T21:20:37.719Z"}
+{"level":"info","message":"GET /api/users/18 | Status: 200 | 3ms","timestamp":"2026-05-27T21:20:40.426Z"}
+{"level":"info","message":"GET /api/users/18 | Status: 304 | 2ms","timestamp":"2026-05-27T21:20:40.431Z"}
+{"level":"info","message":"GET /api/categories | Status: 304 | 1ms","timestamp":"2026-05-27T21:20:46.265Z"}
+{"level":"info","message":"GET /api/categories | Status: 304 | 2ms","timestamp":"2026-05-27T21:20:46.269Z"}
+{"level":"info","message":"GET /api/categories/29/prompts | Status: 200 | 15ms","timestamp":"2026-05-27T21:20:47.358Z"}
+{"level":"info","message":"GET /api/categories/28/prompts | Status: 200 | 3ms","timestamp":"2026-05-27T21:20:50.183Z"}
+{"level":"info","message":"GET /api/categories/26/prompts | Status: 200 | 3ms","timestamp":"2026-05-27T21:20:50.732Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 9ms","timestamp":"2026-05-27T21:20:51.462Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 13ms","timestamp":"2026-05-27T21:20:51.464Z"}
+{"level":"info","message":"GET /api/prompts/19/comments | Status: 200 | 8ms","timestamp":"2026-05-27T21:20:52.866Z"}
+{"level":"info","message":"GET /api/prompts/19/versions | Status: 200 | 6ms","timestamp":"2026-05-27T21:20:52.866Z"}
+{"level":"info","message":"GET /api/prompts/19/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:20:52.871Z"}
+{"level":"info","message":"GET /api/prompts/19/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:20:52.873Z"}
+{"level":"info","message":"GET /api/prompts/19 | Status: 200 | 22ms","timestamp":"2026-05-27T21:20:52.877Z"}
+{"level":"info","message":"GET /api/prompts/19 | Status: 304 | 4ms","timestamp":"2026-05-27T21:20:52.883Z"}
+{"level":"info","message":"Comentário criado: id=22 no prompt=19 por user=18","timestamp":"2026-05-27T21:21:00.997Z"}
+{"level":"info","message":"POST /api/prompts/19/comments | Status: 201 | 21ms","timestamp":"2026-05-27T21:21:00.997Z"}
+{"level":"info","message":"GET /api/prompts/19/comments | Status: 200 | 3ms","timestamp":"2026-05-27T21:21:01.007Z"}
+{"level":"info","message":"GET /api/prompts/19/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:21:01.014Z"}
+{"level":"info","message":"GET /api/prompts/19 | Status: 200 | 5ms","timestamp":"2026-05-27T21:21:01.014Z"}
+{"level":"info","message":"Comentário apagado: id=22","timestamp":"2026-05-27T21:21:02.154Z"}
+{"level":"info","message":"DELETE /api/comments/22 | Status: 204 | 14ms","timestamp":"2026-05-27T21:21:02.154Z"}
+{"level":"info","message":"GET /api/prompts/19/comments | Status: 200 | 3ms","timestamp":"2026-05-27T21:21:02.163Z"}
+{"level":"info","message":"GET /api/prompts/19 | Status: 200 | 7ms","timestamp":"2026-05-27T21:21:02.165Z"}
+{"level":"info","message":"GET /api/prompts/19/versions | Status: 304 | 5ms","timestamp":"2026-05-27T21:21:02.166Z"}
+{"level":"info","message":"Versão criada: v1 para prompt=19 por user=18","timestamp":"2026-05-27T21:21:07.399Z"}
+{"level":"info","message":"POST /api/prompts/19/versions | Status: 201 | 19ms","timestamp":"2026-05-27T21:21:07.399Z"}
+{"level":"info","message":"GET /api/prompts/19/versions | Status: 200 | 3ms","timestamp":"2026-05-27T21:21:07.408Z"}
+{"level":"info","message":"GET /api/prompts/19 | Status: 200 | 4ms","timestamp":"2026-05-27T21:21:07.413Z"}
+{"level":"info","message":"GET /api/prompts/19/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:21:07.413Z"}
+{"level":"info","message":"Versão apagada: id=13","timestamp":"2026-05-27T21:21:08.595Z"}
+{"level":"info","message":"DELETE /api/versions/13 | Status: 204 | 14ms","timestamp":"2026-05-27T21:21:08.595Z"}
+{"level":"info","message":"GET /api/prompts/19/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:21:08.604Z"}
+{"level":"info","message":"GET /api/prompts/19 | Status: 200 | 6ms","timestamp":"2026-05-27T21:21:08.605Z"}
+{"level":"info","message":"GET /api/prompts/19/versions | Status: 200 | 5ms","timestamp":"2026-05-27T21:21:08.605Z"}
+{"level":"info","message":"GET /api/prompts/19/eco | Status: 200 | 4ms","timestamp":"2026-05-27T21:21:11.887Z"}
+{"level":"info","message":"Prompt apagado: id=19","timestamp":"2026-05-27T21:21:31.005Z"}
+{"level":"info","message":"DELETE /api/prompts/19 | Status: 204 | 25ms","timestamp":"2026-05-27T21:21:31.005Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 4ms","timestamp":"2026-05-27T21:21:31.015Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 200 | 4ms","timestamp":"2026-05-27T21:21:34.113Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 200 | 4ms","timestamp":"2026-05-27T21:21:34.114Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:21:34.119Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 3ms","timestamp":"2026-05-27T21:21:34.120Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 200 | 15ms","timestamp":"2026-05-27T21:21:34.123Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 304 | 3ms","timestamp":"2026-05-27T21:21:34.128Z"}
+{"level":"info","message":"GET /api/prompts/16/eco | Status: 200 | 2ms","timestamp":"2026-05-27T21:21:34.960Z"}
+{"level":"warn","message":"Avaliação não encontrada ao apagar: user=18 prompt=16","timestamp":"2026-05-27T21:21:41.466Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Rating not found","timestamp":"2026-05-27T21:21:41.466Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Status: 500 | 2ms","timestamp":"2026-05-27T21:21:41.466Z"}
+{"level":"warn","message":"Avaliação não encontrada ao apagar: user=18 prompt=16","timestamp":"2026-05-27T21:21:43.463Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Rating not found","timestamp":"2026-05-27T21:21:43.464Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Status: 500 | 2ms","timestamp":"2026-05-27T21:21:43.464Z"}
+{"level":"info","message":"Avaliação criada: prompt=16 por user=18 score=2","timestamp":"2026-05-27T21:21:45.328Z"}
+{"level":"info","message":"POST /api/prompts/16/rating | Status: 201 | 14ms","timestamp":"2026-05-27T21:21:45.328Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:21:45.343Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 200 | 15ms","timestamp":"2026-05-27T21:21:45.352Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 13ms","timestamp":"2026-05-27T21:21:45.353Z"}
+{"level":"info","message":"Avaliação apagada: prompt=16 por user=18","timestamp":"2026-05-27T21:21:47.563Z"}
+{"level":"info","message":"DELETE /api/prompts/16/rating | Status: 204 | 10ms","timestamp":"2026-05-27T21:21:47.563Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:21:47.572Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:21:47.573Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 200 | 11ms","timestamp":"2026-05-27T21:21:47.578Z"}
+{"level":"info","message":"GET /api/users/18 | Status: 304 | 1ms","timestamp":"2026-05-27T21:21:49.740Z"}
+{"level":"info","message":"GET /api/users/18 | Status: 304 | 2ms","timestamp":"2026-05-27T21:21:49.744Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 2ms","timestamp":"2026-05-27T21:21:51.776Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T21:21:51.781Z"}
+{"level":"info","message":"GET /api/prompts/17/comments | Status: 200 | 4ms","timestamp":"2026-05-27T21:21:53.767Z"}
+{"level":"info","message":"GET /api/prompts/17 | Status: 200 | 8ms","timestamp":"2026-05-27T21:21:53.770Z"}
+{"level":"info","message":"GET /api/prompts/17/versions | Status: 200 | 7ms","timestamp":"2026-05-27T21:21:53.771Z"}
+{"level":"info","message":"GET /api/prompts/17/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:21:53.775Z"}
+{"level":"info","message":"GET /api/prompts/17 | Status: 304 | 6ms","timestamp":"2026-05-27T21:21:53.778Z"}
+{"level":"info","message":"GET /api/prompts/17/versions | Status: 304 | 5ms","timestamp":"2026-05-27T21:21:53.779Z"}
+{"level":"info","message":"GET /api/prompts/17/eco | Status: 200 | 2ms","timestamp":"2026-05-27T21:21:54.628Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 12ms","timestamp":"2026-05-27T21:22:06.899Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:22:07.880Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:22:07.881Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 5ms","timestamp":"2026-05-27T21:22:07.889Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:22:07.890Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 304 | 18ms","timestamp":"2026-05-27T21:22:07.893Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 304 | 4ms","timestamp":"2026-05-27T21:22:07.898Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T21:22:09.457Z"}
+{"level":"info","message":"GET /api/prompts/18 | Status: 200 | 3ms","timestamp":"2026-05-27T21:22:09.899Z"}
+{"level":"info","message":"GET /api/prompts/18/versions | Status: 200 | 3ms","timestamp":"2026-05-27T21:22:09.900Z"}
+{"level":"info","message":"GET /api/prompts/18/comments | Status: 200 | 4ms","timestamp":"2026-05-27T21:22:09.900Z"}
+{"level":"info","message":"GET /api/prompts/18/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:22:09.908Z"}
+{"level":"info","message":"GET /api/prompts/18 | Status: 304 | 6ms","timestamp":"2026-05-27T21:22:09.909Z"}
+{"level":"info","message":"GET /api/prompts/18/versions | Status: 304 | 5ms","timestamp":"2026-05-27T21:22:09.909Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T21:22:10.825Z"}
+{"level":"info","message":"GET /api/prompts/17 | Status: 304 | 4ms","timestamp":"2026-05-27T21:22:11.183Z"}
+{"level":"info","message":"GET /api/prompts/17/versions | Status: 304 | 3ms","timestamp":"2026-05-27T21:22:11.184Z"}
+{"level":"info","message":"GET /api/prompts/17/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:22:11.184Z"}
+{"level":"info","message":"GET /api/prompts/17/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:22:11.191Z"}
+{"level":"info","message":"GET /api/prompts/17 | Status: 304 | 7ms","timestamp":"2026-05-27T21:22:11.192Z"}
+{"level":"info","message":"GET /api/prompts/17/versions | Status: 304 | 6ms","timestamp":"2026-05-27T21:22:11.192Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T21:22:12.413Z"}
+{"level":"info","message":"GET /api/prompts/15 | Status: 200 | 5ms","timestamp":"2026-05-27T21:22:12.986Z"}
+{"level":"info","message":"GET /api/prompts/15/versions | Status: 200 | 5ms","timestamp":"2026-05-27T21:22:12.987Z"}
+{"level":"info","message":"GET /api/prompts/15/comments | Status: 200 | 5ms","timestamp":"2026-05-27T21:22:12.987Z"}
+{"level":"info","message":"GET /api/prompts/15/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:22:12.995Z"}
+{"level":"info","message":"GET /api/prompts/15 | Status: 304 | 6ms","timestamp":"2026-05-27T21:22:12.995Z"}
+{"level":"info","message":"GET /api/prompts/15/versions | Status: 304 | 6ms","timestamp":"2026-05-27T21:22:12.996Z"}
+{"level":"info","message":"GET /api/prompts/15/eco | Status: 200 | 2ms","timestamp":"2026-05-27T21:22:14.864Z"}
+{"level":"info","message":"GET /api/prompts/15/comments | Status: 304 | 9ms","timestamp":"2026-05-27T21:25:58.013Z"}
+{"level":"info","message":"GET /api/prompts/15/versions | Status: 304 | 10ms","timestamp":"2026-05-27T21:25:58.014Z"}
+{"level":"info","message":"GET /api/prompts/15 | Status: 304 | 21ms","timestamp":"2026-05-27T21:25:58.023Z"}
+{"level":"info","message":"GET /api/prompts/15/comments | Status: 304 | 4ms","timestamp":"2026-05-27T21:26:01.160Z"}
+{"level":"info","message":"GET /api/prompts/15 | Status: 304 | 7ms","timestamp":"2026-05-27T21:26:01.162Z"}
+{"level":"info","message":"GET /api/prompts/15/versions | Status: 304 | 6ms","timestamp":"2026-05-27T21:26:01.163Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T21:29:03.629Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 140ms","timestamp":"2026-05-27T21:29:06.274Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 36ms","timestamp":"2026-05-27T21:29:06.276Z"}
+{"level":"info","message":"GET /api/categories | Status: 304 | 2ms","timestamp":"2026-05-27T21:29:08.663Z"}
+{"level":"info","message":"GET /api/categories | Status: 304 | 1ms","timestamp":"2026-05-27T21:29:08.668Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 8ms","timestamp":"2026-05-27T21:29:10.228Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 6ms","timestamp":"2026-05-27T21:29:10.229Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 5ms","timestamp":"2026-05-27T21:29:10.235Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:29:10.236Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 304 | 25ms","timestamp":"2026-05-27T21:29:10.239Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 304 | 2ms","timestamp":"2026-05-27T21:29:10.243Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T21:29:13.785Z"}
+{"level":"info","message":"GET /api/prompts/15 | Status: 200 | 5ms","timestamp":"2026-05-27T21:29:15.307Z"}
+{"level":"info","message":"GET /api/prompts/15/comments | Status: 304 | 6ms","timestamp":"2026-05-27T21:29:15.312Z"}
+{"level":"info","message":"GET /api/prompts/15/versions | Status: 304 | 7ms","timestamp":"2026-05-27T21:29:15.315Z"}
+{"level":"info","message":"GET /api/prompts/15/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:29:15.319Z"}
+{"level":"info","message":"GET /api/prompts/15/versions | Status: 304 | 3ms","timestamp":"2026-05-27T21:29:15.321Z"}
+{"level":"info","message":"GET /api/prompts/15 | Status: 304 | 14ms","timestamp":"2026-05-27T21:29:15.325Z"}
+{"level":"info","message":"Prompt apagado: id=15","timestamp":"2026-05-27T21:35:50.474Z"}
+{"level":"info","message":"DELETE /api/prompts/15 | Status: 204 | 30ms","timestamp":"2026-05-27T21:35:50.474Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 3ms","timestamp":"2026-05-27T21:35:50.484Z"}
+{"level":"warn","message":"POST /api/auth/login | User não encontrado","timestamp":"2026-05-27T21:36:09.214Z"}
+{"level":"error","message":"POST /api/auth/login | Status: 401 | 8ms","timestamp":"2026-05-27T21:36:09.214Z"}
+{"level":"info","message":"POST /api/auth/login | Status: 200 | 89ms","timestamp":"2026-05-27T21:36:12.207Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 1ms","timestamp":"2026-05-27T21:36:14.021Z"}
+{"level":"info","message":"GET /api/users | Status: 304 | 1ms","timestamp":"2026-05-27T21:36:14.025Z"}
+{"level":"info","message":"Utilizador apagado: id=18","timestamp":"2026-05-27T21:36:19.133Z"}
+{"level":"info","message":"DELETE /api/users/18 | Status: 204 | 10ms","timestamp":"2026-05-27T21:36:19.133Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 2ms","timestamp":"2026-05-27T21:36:19.140Z"}
+{"level":"info","message":"Utilizador apagado: id=19","timestamp":"2026-05-27T21:36:21.533Z"}
+{"level":"info","message":"DELETE /api/users/19 | Status: 204 | 10ms","timestamp":"2026-05-27T21:36:21.533Z"}
+{"level":"info","message":"GET /api/users | Status: 200 | 1ms","timestamp":"2026-05-27T21:36:21.537Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 8ms","timestamp":"2026-05-27T21:36:22.201Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 2ms","timestamp":"2026-05-27T21:36:22.205Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 5ms","timestamp":"2026-05-27T21:36:22.834Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:36:22.835Z"}
+{"level":"info","message":"GET /api/prompts/16/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:36:22.840Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 304 | 14ms","timestamp":"2026-05-27T21:36:22.842Z"}
+{"level":"info","message":"GET /api/prompts/16/versions | Status: 304 | 3ms","timestamp":"2026-05-27T21:36:22.843Z"}
+{"level":"info","message":"GET /api/prompts/16 | Status: 304 | 3ms","timestamp":"2026-05-27T21:36:22.847Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 2ms","timestamp":"2026-05-27T21:36:25.409Z"}
+{"level":"info","message":"GET /api/prompts/14/comments | Status: 200 | 5ms","timestamp":"2026-05-27T21:36:27.721Z"}
+{"level":"info","message":"GET /api/prompts/14/versions | Status: 200 | 5ms","timestamp":"2026-05-27T21:36:27.722Z"}
+{"level":"info","message":"GET /api/prompts/14/comments | Status: 304 | 3ms","timestamp":"2026-05-27T21:36:27.727Z"}
+{"level":"info","message":"GET /api/prompts/14/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:36:27.728Z"}
+{"level":"info","message":"GET /api/prompts/14 | Status: 200 | 16ms","timestamp":"2026-05-27T21:36:27.731Z"}
+{"level":"info","message":"GET /api/prompts/14 | Status: 304 | 4ms","timestamp":"2026-05-27T21:36:27.736Z"}
+{"level":"info","message":"Versão apagada: id=9","timestamp":"2026-05-27T21:36:30.811Z"}
+{"level":"info","message":"DELETE /api/versions/9 | Status: 204 | 14ms","timestamp":"2026-05-27T21:36:30.812Z"}
+{"level":"info","message":"GET /api/prompts/14 | Status: 200 | 5ms","timestamp":"2026-05-27T21:36:30.820Z"}
+{"level":"info","message":"GET /api/prompts/14/versions | Status: 200 | 3ms","timestamp":"2026-05-27T21:36:30.820Z"}
+{"level":"info","message":"GET /api/prompts/14/comments | Status: 304 | 6ms","timestamp":"2026-05-27T21:36:30.822Z"}
+{"level":"info","message":"Versão apagada: id=10","timestamp":"2026-05-27T21:36:32.296Z"}
+{"level":"info","message":"DELETE /api/versions/10 | Status: 204 | 12ms","timestamp":"2026-05-27T21:36:32.296Z"}
+{"level":"info","message":"GET /api/prompts/14 | Status: 200 | 5ms","timestamp":"2026-05-27T21:36:32.305Z"}
+{"level":"info","message":"GET /api/prompts/14/versions | Status: 200 | 4ms","timestamp":"2026-05-27T21:36:32.305Z"}
+{"level":"info","message":"GET /api/prompts/14/comments | Status: 304 | 5ms","timestamp":"2026-05-27T21:36:32.306Z"}
+{"level":"info","message":"Comentário apagado: id=17","timestamp":"2026-05-27T21:36:35.198Z"}
+{"level":"info","message":"DELETE /api/comments/17 | Status: 204 | 12ms","timestamp":"2026-05-27T21:36:35.198Z"}
+{"level":"info","message":"GET /api/prompts/14/comments | Status: 200 | 3ms","timestamp":"2026-05-27T21:36:35.210Z"}
+{"level":"info","message":"GET /api/prompts/14 | Status: 200 | 4ms","timestamp":"2026-05-27T21:36:35.210Z"}
+{"level":"info","message":"GET /api/prompts/14/versions | Status: 304 | 4ms","timestamp":"2026-05-27T21:36:35.211Z"}

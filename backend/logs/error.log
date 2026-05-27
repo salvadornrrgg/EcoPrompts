@@ -38,3 +38,15 @@
 {"level":"error","message":"DELETE /api/prompts/24 | Status: 403 | 2ms","timestamp":"2026-05-27T20:54:09.909Z"}
 {"level":"error","message":"DELETE /api/versions/12 | Status: 403 | 4ms","timestamp":"2026-05-27T20:54:36.168Z"}
 {"level":"error","message":"DELETE /api/prompts/7 | Status: 403 | 3ms","timestamp":"2026-05-27T21:00:56.854Z"}
+{"level":"error","message":"DELETE /api/versions/3 | Status: 403 | 4ms","timestamp":"2026-05-27T21:12:04.377Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 122ms","timestamp":"2026-05-27T21:14:59.515Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 3ms","timestamp":"2026-05-27T21:14:59.520Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 4ms","timestamp":"2026-05-27T21:15:06.080Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 9ms","timestamp":"2026-05-27T21:15:06.087Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 4ms","timestamp":"2026-05-27T21:17:06.838Z"}
+{"level":"error","message":"GET /api/users/36 | Status: 404 | 10ms","timestamp":"2026-05-27T21:17:06.845Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Rating not found","timestamp":"2026-05-27T21:21:41.466Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Status: 500 | 2ms","timestamp":"2026-05-27T21:21:41.466Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Rating not found","timestamp":"2026-05-27T21:21:43.464Z"}
+{"level":"error","message":"DELETE /api/prompts/16/rating | Status: 500 | 2ms","timestamp":"2026-05-27T21:21:43.464Z"}
+{"level":"error","message":"POST /api/auth/login | Status: 401 | 8ms","timestamp":"2026-05-27T21:36:09.214Z"}

@@ -38,8 +38,8 @@ export const deleteVersionController = async (req: Request, res: Response, next:
         const currentUser = (req as AuthenticatedRequest).user;
         if (!currentUser) return res.status(401).json({ error: "Não autenticado" });
 
-        if (version.userId !== currentUser.id) {
-            return res.status(403).json({ error: "Apenas o autor pode apagar esta versão" });
+        if (version.userId !== currentUser.id && currentUser.userType !== 'Admin') {
+            return res.status(403).json({ error: "Apenas o autor ou Admin podem apagar esta versão" });
         }
 
         await versionService.deleteVersion(versionId);

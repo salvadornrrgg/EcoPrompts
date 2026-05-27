@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import * as api from '../api/api';
 import { TranslateModal } from './TranslateModal';
+import { ConfirmModal } from './ConfirmModal';
 import type { User } from '../App';
 
 interface PromptDetailProps {
@@ -25,6 +26,7 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
   const [showEditForm, setShowEditForm] = useState(false);
   const [editData, setEditData] = useState<any>({});
   const [showTranslate, setShowTranslate] = useState(false);
+  const [pendingAction, setPendingAction] = useState<{ message: string; action: () => void } | null>(null);
   const [ecoStats, setEcoStats] = useState<any>(null);
   const [ecoLoading, setEcoLoading] = useState(false);
   const [ecoError, setEcoError] = useState<string | null>(null);
@@ -50,10 +52,11 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
 
-  const handleDelete = async () => {
-    if (!confirm('Tens a certeza que queres apagar este prompt?')) return;
-    await api.deletePrompt(promptId);
-    onBack();
+  const handleDelete = () => {
+    setPendingAction({
+      message: 'Esta ação é irreversível. O prompt e todo o seu conteúdo serão apagados.',
+      action: async () => { await api.deletePrompt(promptId); onBack(); },
+    });
   };
 
   const handleEdit = async () => {
@@ -69,9 +72,11 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
     fetchAll();
   };
 
-  const handleDeleteComment = async (commentId: number) => {
-    await api.deleteComment(commentId);
-    fetchAll();
+  const handleDeleteComment = (commentId: number) => {
+    setPendingAction({
+      message: 'Apagar este comentário?',
+      action: async () => { await api.deleteComment(commentId); fetchAll(); },
+    });
   };
 
   const handleRate = async () => {
@@ -84,9 +89,11 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
     fetchAll();
   };
 
-  const handleDeleteRating = async () => {
-    await api.deleteRating(promptId);
-    fetchAll();
+  const handleDeleteRating = () => {
+    setPendingAction({
+      message: 'Remover a tua avaliação deste prompt?',
+      action: async () => { await api.deleteRating(promptId); fetchAll(); },
+    });
   };
 
   const handleCreateVersion = async () => {
@@ -98,9 +105,11 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
     fetchAll();
   };
 
-  const handleDeleteVersion = async (versionId: number) => {
-    await api.deleteVersion(versionId);
-    fetchAll();
+  const handleDeleteVersion = (versionId: number) => {
+    setPendingAction({
+      message: 'Apagar esta versão do prompt?',
+      action: async () => { await api.deleteVersion(versionId); fetchAll(); },
+    });
   };
 
   const avgRating = () => {
@@ -117,6 +126,13 @@ export const PromptDetail = ({ promptId, user, isAdmin, onBack }: PromptDetailPr
     <div>
       {showTranslate && (
         <TranslateModal initialText={prompt.prompt} onClose={() => setShowTranslate(false)} />
+      )}
+      {pendingAction && (
+        <ConfirmModal
+          message={pendingAction.message}
+          onConfirm={() => { pendingAction.action(); setPendingAction(null); }}
+          onCancel={() => setPendingAction(null)}
+        />
       )}
 
       <button className="text-gray-400 hover:text-gray-600 text-sm mb-4" onClick={onBack}>
