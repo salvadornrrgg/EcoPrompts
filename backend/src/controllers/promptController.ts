@@ -116,8 +116,8 @@ export const deletePromptController = async (req: Request, res: Response, next: 
         if (!prompt) return res.status(404).json({ error: "Prompt não encontrado" });
 
         const currentUser = (req as AuthenticatedRequest).user!;
-        if (prompt.userId !== currentUser.id) {
-            return res.status(403).json({ error: "Apenas o autor pode apagar este prompt" });
+        if (prompt.userId !== currentUser.id && currentUser.userType !== 'Admin') {
+            return res.status(403).json({ error: "Apenas o autor ou Admin podem apagar este prompt" });
         }
 
         await promptService.deletePrompt(promptId);

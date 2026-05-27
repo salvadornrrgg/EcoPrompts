@@ -193,3 +193,24 @@
 {"level":"info","message":"GET /api/users | Status: 200 | 2ms","timestamp":"2026-05-27T21:01:11.818Z"}
 {"level":"info","message":"GET /api/prompts | Status: 200 | 2ms","timestamp":"2026-05-27T21:01:15.136Z"}
 {"level":"info","message":"GET /api/prompts | Status: 304 | 3ms","timestamp":"2026-05-27T21:01:15.141Z"}
+{"level":"info","message":"Server running on http://localhost:3000","timestamp":"2026-05-27T21:04:33.192Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 133ms","timestamp":"2026-05-27T21:04:35.320Z"}
+{"level":"info","message":"GET /api/prompts | Status: 304 | 4ms","timestamp":"2026-05-27T21:04:35.326Z"}
+{"level":"info","message":"GET /api/prompts/6/versions | Status: 304 | 9ms","timestamp":"2026-05-27T21:04:37.350Z"}
+{"level":"info","message":"GET /api/prompts/6/comments | Status: 304 | 6ms","timestamp":"2026-05-27T21:04:37.350Z"}
+{"level":"info","message":"GET /api/prompts/6/versions | Status: 304 | 5ms","timestamp":"2026-05-27T21:04:37.357Z"}
+{"level":"info","message":"GET /api/prompts/6/comments | Status: 304 | 5ms","timestamp":"2026-05-27T21:04:37.358Z"}
+{"level":"info","message":"GET /api/prompts/6 | Status: 200 | 27ms","timestamp":"2026-05-27T21:04:37.361Z"}
+{"level":"info","message":"GET /api/prompts/6 | Status: 304 | 3ms","timestamp":"2026-05-27T21:04:37.366Z"}
+{"level":"info","message":"Prompt apagado: id=6","timestamp":"2026-05-27T21:04:40.075Z"}
+{"level":"info","message":"DELETE /api/prompts/6 | Status: 204 | 16ms","timestamp":"2026-05-27T21:04:40.075Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 3ms","timestamp":"2026-05-27T21:04:40.082Z"}
+{"level":"info","message":"GET /api/prompts/2/comments | Status: 200 | 4ms","timestamp":"2026-05-27T21:04:42.359Z"}
+{"level":"info","message":"GET /api/prompts/2/versions | Status: 200 | 4ms","timestamp":"2026-05-27T21:04:42.360Z"}
+{"level":"info","message":"GET /api/prompts/2/comments | Status: 304 | 2ms","timestamp":"2026-05-27T21:04:42.365Z"}
+{"level":"info","message":"GET /api/prompts/2/versions | Status: 304 | 3ms","timestamp":"2026-05-27T21:04:42.366Z"}
+{"level":"info","message":"GET /api/prompts/2 | Status: 200 | 15ms","timestamp":"2026-05-27T21:04:42.369Z"}
+{"level":"info","message":"GET /api/prompts/2 | Status: 304 | 3ms","timestamp":"2026-05-27T21:04:42.374Z"}
+{"level":"info","message":"Prompt apagado: id=2","timestamp":"2026-05-27T21:04:44.367Z"}
+{"level":"info","message":"DELETE /api/prompts/2 | Status: 204 | 11ms","timestamp":"2026-05-27T21:04:44.367Z"}
+{"level":"info","message":"GET /api/prompts | Status: 200 | 3ms","timestamp":"2026-05-27T21:04:44.377Z"}
